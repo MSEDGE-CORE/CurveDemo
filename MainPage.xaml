@@ -1,0 +1,683 @@
+﻿<Page
+    x:Class="CurveDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CurveDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"      
+    xmlns:ani="using:CommunityToolkit.WinUI.Animations"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    SizeChanged="Page_SizeChanged"
+    Loaded="Page_Loaded">
+
+    <Grid Name="PageOutline" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Image Name="Wallpaper" Source="/Assets//IconRes/home_wallpaper03.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill">
+            <Image.Resources>
+                <Storyboard x:Name="WpStoryBoard">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="WpScaleT" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame x:Name="WpKeyFrameX" Value="0" KeyTime="{x:Bind TrDur07}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="WpScaleT" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame x:Name="WpKeyFrameY" Value="0" KeyTime="{x:Bind TrDur07}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </Image.Resources>
+            <Image.RenderTransform>
+                <ScaleTransform x:Name="WpScaleT" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
+            </Image.RenderTransform>
+        </Image>
+        <Grid>
+            <Grid>
+                <Grid.Resources>
+                    <Storyboard x:Name="dskIconGridStoryBoard">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dskIconScaleT" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="dskIconKeyFrameX" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" Power="5"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dskIconScaleT" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="dskIconKeyFrameY" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" Power="5"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <ScaleTransform x:Name="dskIconScaleT" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
+                </Grid.RenderTransform>
+                <VariableSizedWrapGrid  Orientation="Horizontal" MaximumRowsOrColumns="4" Name="vDesktop" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Grid Name="iconSc1" BorderBrush="Transparent" BorderThickness="0.5" CornerRadius="8" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1" Tag="com.android.settings">
+                        <Image x:Name="iconBg1" Source="/Assets/IconRes/com.android.settings/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="iconBg1ScaleT" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image x:Name="iconFg1" Source="/Assets/IconRes/com.android.settings/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="iconFg1ScaleT" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.android.email/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.android.email/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+
+
+                    
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.example.android.notepad/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.example.android.notepad/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.filemanager/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.filemanager/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="1.0" VariableSizedWrapGrid.ColumnSpan="2" VariableSizedWrapGrid.RowSpan="2">
+
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"></Grid>
+                        <Image Source="/Assets/CardRes/230620-Wide.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.1" ScaleY="1.1"/>
+                            </Image.RenderTransform>
+                        </Image>
+
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.himovie/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.himovie/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.music/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.music/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="1.0" VariableSizedWrapGrid.ColumnSpan="2" VariableSizedWrapGrid.RowSpan="1">
+
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"></Grid>
+                        <Image Source="/Assets/CardRes/img35.jpg" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.1" ScaleY="1.1"/>
+                            </Image.RenderTransform>
+                        </Image>
+
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+
+
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.android.calculator2/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.android.calculator2/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.appmarket/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.appmarket/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.health/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.health/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.smarthome/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.smarthome/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+
+
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="1.0" VariableSizedWrapGrid.ColumnSpan="4" VariableSizedWrapGrid.RowSpan="2">
+
+                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"></Grid>
+                        <Image Source="/Assets/CardRes/03_gettyimages-591774121_super_resized.jpg" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0" ScaleX="1.1" ScaleY="1.1"/>
+                            </Image.RenderTransform>
+                        </Image>
+
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.huawei.meetime/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.huawei.meetime/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1" Tag="com.android.camera">
+                        <Image Source="/Assets/IconRes/com.android.camera/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.android.camera/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.android.gallery3d/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.android.gallery3d/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+                    <Grid CornerRadius="8" BorderBrush="Transparent" BorderThickness="0.5" VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1">
+                        <Image Source="/Assets/IconRes/com.android.browser/background.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Source="/Assets/IconRes/com.android.browser/foreground.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.RenderTransform>
+                                <ScaleTransform CenterX="0" CenterY="0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" BorderThickness="0" Margin="-4" Click="Sc_Click">
+                        </Button>
+                    </Grid>
+
+                </VariableSizedWrapGrid>
+            </Grid>
+
+            
+            
+            
+            
+            
+            
+            
+            <Border x:Name="BlurBorder">
+                <media:UIElementExtensions.VisualFactory >
+                    <media:PipelineVisualFactory>
+                        <media:BlurEffect x:Name="ImageBlurEffect" IsAnimatable="True" />
+                    </media:PipelineVisualFactory>
+                </media:UIElementExtensions.VisualFactory>
+                <ani:Explicit.Animations>
+                    <ani:AnimationSet x:Name="BlurAnimation" IsSequential="True">
+                        <ani:BlurEffectAnimation x:Name="BlurAnSet" EasingMode="EaseOut" EasingType="Cubic" Target="{x:Bind ImageBlurEffect}" From="0" To="0" Duration="0:0:0.3" />
+                    </ani:AnimationSet>
+                </ani:Explicit.Animations>
+            </Border>
+            <Grid Name="BlurPointer">
+                <Grid.Resources>
+                    <Storyboard x:Name="BlurPointerStBo">
+                        <DoubleAnimation x:Name="BlurPointerDA" Storyboard.TargetName="BlurPointerTransform" Storyboard.TargetProperty="X" From="0" To="20" >
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="BlurPointerTransform" X="0" Y="0"/>
+                </Grid.RenderTransform>
+            </Grid>
+            <Grid Name="RoundCornerPointer">
+                <Grid.Resources>
+                    <Storyboard x:Name="RoundCornerPointerStBo">
+                        <DoubleAnimation x:Name="RoundCornerPointerDA" Duration="{x:Bind TrDur05}" Storyboard.TargetName="RoundCornerPointerTransform" Storyboard.TargetProperty="X" From="0" To="20" >
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="RoundCornerPointerTransform" X="0" Y="0"/>
+                </Grid.RenderTransform>
+            </Grid>
+
+            
+            
+            
+            
+            
+            
+            
+
+            <Grid x:Name="AppRectGrid1" VerticalAlignment="Top" HorizontalAlignment="Stretch" BorderBrush="Red" BorderThickness="0">
+                <Grid.Resources>
+                    <Storyboard x:Name="AppRectGrid1StoryBoard">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid1Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="AppRectGrid1TransformSplineX" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid1Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="AppRectGrid1TransformSplineY" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="AppRectGrid1Back">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid1Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="AppRectGrid1BackTransformSplineX" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <PowerEase x:Name="PowerEase1" EasingMode="EaseOut" Power="5.0"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid1Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="AppRectGrid1BackTransformSplineY" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <PowerEase x:Name="PowerEase2" EasingMode="EaseOut" Power="5.0"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Name="AppRectGrid1BackCurveBounce">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid1Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="AppRectGrid1Back2TransformSplineX" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <BackEase x:Name="BackEase1" EasingMode="EaseOut" Amplitude="0.05"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid1Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                            <EasingDoubleKeyFrame x:Name="AppRectGrid1Back2TransformSplineY" Value="0"  KeyTime="{x:Bind TrDur075}" >
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <BackEase x:Name="BackEase2" EasingMode="EaseOut" Amplitude="0.05"/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="AppRectGrid1Transform" X="0" Y="0"/>
+                </Grid.RenderTransform>
+                <Grid>
+                    <Grid x:Name="AppRectGrid2" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Orange" BorderThickness="0">
+                        <Grid.Resources>
+                            <Storyboard x:Name="AppRectGrid2StoryBoard">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                    <SplineDoubleKeyFrame x:Name="AppRectGrid2TransformSplineX" KeySpline="0.0, 1, 0.0, 1.00" Value="0" KeyTime="0:0:0.6" />
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                    <SplineDoubleKeyFrame x:Name="AppRectGrid2TransformSplineY" KeySpline="0.0, 1, 0.0, 1.00" Value="0" KeyTime="0:0:0.6" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Name="AppRectGrid2StoryBoard2">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2Transform2SplineX" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <PowerEase EasingMode="EaseOut" Power="4"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2Transform2SplineY" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <BackEase EasingMode="EaseOut" Amplitude="0.08"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+
+                            <Storyboard x:Name="AppRectGrid2Fill">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur05}" EnableDependentAnimation="True">
+                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2FillSplineX" Value="0"  KeyTime="{x:Bind TrDur05}" >
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <BackEase x:Name="BackEase5" EasingMode="EaseOut" Amplitude="0.05"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur05}" EnableDependentAnimation="True">
+                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2FillSplineY" Value="0"  KeyTime="{x:Bind TrDur05}" >
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <BackEase x:Name="BackEase6" EasingMode="EaseOut" Amplitude="0.05"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </Grid.Resources>
+                        <Grid.RenderTransform>
+                            <TranslateTransform x:Name="AppRectGrid2Transform" X="0" Y="0"/>
+                        </Grid.RenderTransform>
+                        <Grid x:Name="AppRectGrid3" VerticalAlignment="Top" HorizontalAlignment="Stretch" BorderBrush="Blue" BorderThickness="0">
+                            <Grid.Resources>
+                                <Storyboard x:Name="AppRectGrid3StoryBoardC1">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid3Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSplineX" KeySpline="0.2, 0.00, 0.2, 1.00" Value="1" KeyTime="0:0:0.1" />
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSpline2X" KeySpline="0.4, 0.00, 0.4, 1.00" Value="1" KeyTime="{x:Bind TrDur075}" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid3Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSplineY" KeySpline="0.2, 0.00, 0.2, 1.00" Value="1" KeyTime="0:0:0.1" />
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSpline2Y" KeySpline="0.4, 0.00, 0.4, 1.00" Value="1" KeyTime="{x:Bind TrDur075}" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+
+                                <Storyboard x:Name="AppRectGrid3StoryBoardFill" Completed="AppRectGrid3StoryBoardFill_Completed">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid3Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur05}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame x:Name="AppRectGrid3StoryBoardFillSplineX" Value="1"  KeyTime="{x:Bind TrDur05}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <BackEase x:Name="BackEase3" EasingMode="EaseOut" Amplitude="0.05"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid3Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur05}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame x:Name="AppRectGrid3StoryBoardFillSplineY" Value="1"  KeyTime="{x:Bind TrDur05}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <BackEase x:Name="BackEase4" EasingMode="EaseOut" Amplitude="0.05"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+
+
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="frameTopScaleT" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="frameTopScaleT" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </Grid.Resources>
+                            <Grid.RenderTransform>
+                                <ScaleTransform x:Name="AppRectGrid3Scale" ScaleX="1" ScaleY="1"/>
+                            </Grid.RenderTransform>
+                            
+                            <Grid x:Name="AppWindowGrid0" VerticalAlignment="Top" HorizontalAlignment="Stretch" CornerRadius="40" Background="Transparent"  BorderBrush="Green" BorderThickness="0">
+                                <Grid.Resources>
+                                    <Storyboard x:Name="AppWindowGrid0StoryBoard" Completed="AppWindowGrid0StoryBoard_Completed">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppWindowGrid0Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True" Completed="AppWindowGrid0Scale_Completed">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0ScaleSplineX" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.0"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppWindowGrid0Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0ScaleSplineY" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.0"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppWindowGrid0" Storyboard.TargetProperty="Height" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0HeightSpline" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.0"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ApFrTranslate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0OfYSpline" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="frameTopScaleT" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="frameTopScaleT" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwBarScale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwBarScale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwipeBar" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame Value="1" KeyTime="{x:Bind TrDur075}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                    <Storyboard x:Name="AppWindowGrid0Back" Completed="AppWindowGrid0Back_Completed">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppWindowGrid0Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True" Completed="AppWindowGrid0Scale_Completed">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0BackScaleSplineX" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase x:Name="PowerEase3" EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppWindowGrid0Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0BackScaleSplineY" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase x:Name="PowerEase4" EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppWindowGrid0" Storyboard.TargetProperty="Height" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0BackHeightSpline" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase x:Name="PowerEase5" EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ApFrTranslate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame x:Name="AppWindowGrid0BackOfYSpline" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase x:Name="PowerEase6" EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+
+
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SwipeBar" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur05}" EnableDependentAnimation="True">
+                                            <EasingDoubleKeyFrame Value="0" KeyTime="{x:Bind TrDur05}"  >
+                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                    <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                                </EasingDoubleKeyFrame.EasingFunction>
+                                            </EasingDoubleKeyFrame>
+                                        </DoubleAnimationUsingKeyFrames>
+
+                                    </Storyboard>
+
+                                    <Storyboard x:Name="TopLayerOpacityStBo" Completed="TopLayerOpacityStBo_Completed">
+                                        <DoubleAnimation x:Name="TopLayerOpacityDA1" Duration="0:0:0.3" BeginTime="0:0:0" Storyboard.TargetName="AppFrame" Storyboard.TargetProperty="Opacity" From="0" To="0" >
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </Grid.Resources>
+                                <Grid.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform x:Name="ApFrTranslate"/>
+                                        <ScaleTransform x:Name="AppWindowGrid0Scale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
+                                    </TransformGroup>
+                                </Grid.RenderTransform>
+                                <Grid>
+                                    <Image x:Name="iconBgTop" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill" Opacity="1">
+                                        <Image.RenderTransform>
+                                            <ScaleTransform x:Name="iconBgTopScaleT" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                    <Image x:Name="iconFgTop" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="UniformToFill" Opacity="1">
+                                        <Image.RenderTransform>
+                                            <ScaleTransform x:Name="iconFgTopScaleT" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                    <Frame x:Name="AppFrame" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0" Margin="-1">
+                                        <Frame.RenderTransform>
+                                            <ScaleTransform x:Name="frameTopScaleT" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
+                                        </Frame.RenderTransform>
+                                    </Frame>
+                                    <Button Opacity="0" Name="RetToApp" Click="RetToApp_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Button>
+                                    <Grid x:Name="SwipeBar" VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="1" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
+                                        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.6" Background="{ThemeResource TextFillColorPrimaryBrush}"/>
+                                        <Grid.RenderTransform>
+                                            <ScaleTransform x:Name="SwBarScale" ScaleX="1" ScaleY="1"></ScaleTransform>
+                                        </Grid.RenderTransform>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" PointerMoved="GstBut_PointerMoved" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click">
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Escape"></KeyboardAccelerator>
+                </Button.KeyboardAccelerators>
+            </Button>
+        </Grid>
+
+    </Grid>
+</Page>

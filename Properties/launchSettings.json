@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "CurveDemo": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
