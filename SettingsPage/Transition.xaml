@@ -32,6 +32,20 @@
                             <x:String>时长 10x</x:String>
                         </ComboBox>
                     </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "惯性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "FlyFarSelection" SelectionChanged="FlyFarSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" ToolTipService.ToolTip="系数越大，图标惯性后移的距离越大" >
+                            <x:String>惯性 0（关闭）</x:String>
+                            <x:String>惯性 1</x:String>
+                            <x:String>惯性 3</x:String>
+                            <x:String>惯性 5（默认）</x:String>
+                            <x:String>惯性 6</x:String>
+                            <x:String>惯性 8</x:String>
+                            <x:String>惯性 10</x:String>
+                        </ComboBox>
+                    </Grid>
                     <Grid Name="GridBgBlur" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "背景模糊" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />

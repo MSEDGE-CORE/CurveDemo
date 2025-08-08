@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -68,6 +69,41 @@ namespace CurveDemo.SettingsPage
             {
                 TimeDurSelection.SelectedIndex = -1;
             }
+
+            Trace.WriteLine((Application.Current as App).FlyFar);
+            if ((Application.Current as App).FlyFar == 0)
+            {
+                FlyFarSelection.SelectedIndex = 0;
+            }
+            else if ((Application.Current as App).FlyFar == 1)
+            {
+                FlyFarSelection.SelectedIndex = 1;
+            }
+            else if ((Application.Current as App).FlyFar == 3)
+            {
+                FlyFarSelection.SelectedIndex = 2;
+            }
+            else if ((Application.Current as App).FlyFar == 5)
+            {
+                FlyFarSelection.SelectedIndex = 3;
+            }
+            else if ((Application.Current as App).FlyFar == 6)
+            {
+                FlyFarSelection.SelectedIndex = 4;
+            }
+            else if ((Application.Current as App).FlyFar == 8)
+            {
+                FlyFarSelection.SelectedIndex = 5;
+            }
+            else if ((Application.Current as App).FlyFar == 10)
+            {
+                FlyFarSelection.SelectedIndex = 6;
+            }
+            else
+            {
+                FlyFarSelection.SelectedIndex = -1;
+            }
+
             isLoaded = true;
         }
 
@@ -143,6 +179,40 @@ namespace CurveDemo.SettingsPage
         {
             (Application.Current as App).ScreenCornerRadius = (bool)((sender as ToggleSwitch).IsOn) ? 100.0 / 1920 : 0.000000001;
             (Application.Current as App).LocalSettings.Values["EnableCornerRadius"] = (bool)((sender as ToggleSwitch).IsOn);
+        }
+
+        private void FlyFarSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (FlyFarSelection.SelectedIndex == 0)
+            {
+                (Application.Current as App).FlyFar = 0;
+            }
+            else if (FlyFarSelection.SelectedIndex == 1)
+            {
+                (Application.Current as App).FlyFar = 1;
+            }
+            else if (FlyFarSelection.SelectedIndex == 2)
+            {
+                (Application.Current as App).FlyFar = 3;
+            }
+            else if (FlyFarSelection.SelectedIndex == 3)
+            {
+                (Application.Current as App).FlyFar = 5;
+            }
+            else if (FlyFarSelection.SelectedIndex == 4)
+            {
+                (Application.Current as App).FlyFar = 6;
+            }
+            else if (FlyFarSelection.SelectedIndex == 5)
+            {
+                (Application.Current as App).FlyFar = 8;
+            }
+            else if (FlyFarSelection.SelectedIndex == 6)
+            {
+                (Application.Current as App).FlyFar = 10;
+            }
+
+            (Application.Current as App).LocalSettings.Values["FlyFar"] = (Application.Current as App).FlyFar;
         }
     }
 }

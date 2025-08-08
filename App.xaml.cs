@@ -23,6 +23,7 @@ namespace CurveDemo
         public int EnableBgBlur = 1;
         public double ScreenCornerRadius = 100.0 / 1920;
         public double TransitionDurationTime = 1.0;
+        public double FlyFar = 1.0;
 
 
         public App()
@@ -42,6 +43,11 @@ namespace CurveDemo
             if(LocalSettings.Values["TransitionDurationTime"] != null && ((double)LocalSettings.Values["TransitionDurationTime"] >= 0.01))
             {
                 TransitionDurationTime = (double)LocalSettings.Values["TransitionDurationTime"];
+            }
+
+            if (LocalSettings.Values["FlyFar"] != null && ((double)LocalSettings.Values["FlyFar"] >= 0))
+            {
+                FlyFar = (double)LocalSettings.Values["FlyFar"];
             }
         }
 
