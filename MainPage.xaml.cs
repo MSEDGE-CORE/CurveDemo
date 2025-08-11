@@ -801,13 +801,13 @@ namespace CurveDemo
                     }
                     //Trace.WriteLine((e.Velocities.Linear.Y,dH, mH));
                     AppRectGrid3ScaleSplineX.Value = AppRectGrid3ScaleSplineY.Value = AppRectGrid3Scale.ScaleX * (dH / mH) * (dH / mH) * (dH / mH) * (dH / mH) * (dH / mH);
-                    if (AppRectGrid3ScaleSplineX.Value < 0.01)
+                    if (AppRectGrid3ScaleSplineX.Value < 0.01 && AppRect_Target != -1)
                     {
                         AppRectGrid3ScaleSplineX.Value = AppRectGrid3ScaleSplineY.Value = 0.01;
                     }
                     if (ty <= -ActualHeight * 1 / 6 && AppRectGrid3ScaleSplineX.Value < 0.2)
                     {
-                        AppRectGrid3ScaleSplineX.Value = AppRectGrid3ScaleSplineY.Value = 0.2;
+                        //AppRectGrid3ScaleSplineX.Value = AppRectGrid3ScaleSplineY.Value = 0.2;
                     }
                 }
                 catch 
@@ -831,7 +831,7 @@ namespace CurveDemo
 
                 if (AppRect_Target == -1)
                 {
-                    AppRectGrid2TransformSplineY.Value = 0 - ActualHeight * (0.5 - FarPoint) + 0*ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint);
+                    //AppRectGrid2TransformSplineY.Value = 0;// 0 - ActualHeight * (0.5 - FarPoint) + 0*ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint);
                 }
 
                 StartRectAnimation(0, AppRect_Target);
@@ -844,8 +844,8 @@ namespace CurveDemo
                 AppWindowGrid0BackScaleSplineY.KeyTime = TimeSpan.FromSeconds(0.8 * (Application.Current as App).TransitionDurationTime);
                 AppWindowGrid0BackHeightSpline.KeyTime = TimeSpan.FromSeconds(0.8 * (Application.Current as App).TransitionDurationTime);
                 AppRectGrid2TransformSplineY.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
-                AppRectGrid3ScaleSplineY.KeyTime = TimeSpan.FromSeconds(0.1 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
-                AppRectGrid3ScaleSplineX.KeyTime = TimeSpan.FromSeconds(0.1 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
+                AppRectGrid3ScaleSplineY.KeyTime = TimeSpan.FromSeconds(0.12 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
+                AppRectGrid3ScaleSplineX.KeyTime = TimeSpan.FromSeconds(0.12 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
 
                 if (AppRectGrid1BackTransformSplineY.Value >= ActualHeight * 1 / 6)
                 {
@@ -856,15 +856,15 @@ namespace CurveDemo
                     PowerEase4.Power = 4.0;
                     PowerEase5.Power = 4.0;
                 }
-                else if (AppRectGrid1BackTransformSplineY.Value <= -ActualHeight * 1 / 6)
-                {
-                    AppRectGrid3ScaleSplineY.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
-                    AppRectGrid3ScaleSplineX.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
-                    AppRectGrid2Transform2SplineX.Value = AppRectGrid2TransformSplineX.Value * 2.0;// - ActualHeight * (0.5 - FarPoint * 1.0) + ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint * 1.0);
-
-                    AppRectGrid2TransformSplineY.Value = 0 + (FarPoint - 0.5) * ActualHeight; 
-                    BackEase1.Amplitude = 0.12; 
-                    BackEase2.Amplitude = 0.15;
+                else if (AppRectGrid1BackTransformSplineY.Value <= -ActualHeight * 1 / 6 && AppRect_Target != -1)
+                {/*
+                    AppRectGrid3ScaleSplineY.KeyTime = TimeSpan.FromSeconds(0.1 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
+                    AppRectGrid3ScaleSplineX.KeyTime = TimeSpan.FromSeconds(0.1 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 4));
+                    //AppRectGrid2Transform2SplineX.Value = AppRectGrid2TransformSplineX.Value * 1.0;// - ActualHeight * (0.5 - FarPoint * 1.0) + ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint * 1.0);
+                    
+                    //AppRectGrid2Transform2SplineY.Value = AppRectGrid2TransformSplineY.Value;// 0 + (FarPoint - 0.5) * (0) * ActualHeight; */
+                    BackEase1.Amplitude = 0.13; 
+                    BackEase2.Amplitude = 0.2;
                     PowerEase3.Power = 3.8;
                     PowerEase4.Power = 3.8;
                     PowerEase5.Power = 4.0;
@@ -879,8 +879,8 @@ namespace CurveDemo
                 }
                 if (AppWindowGrid0BackScaleSplineX.Value > 0.2)
                 {
-                    AppRectGrid3ScaleSplineX.Value = AppRectGrid3ScaleSplineY.Value = (AppRectGrid3Scale.ScaleX * 0.7 + AppRectGrid3ScaleSplineY.Value * 0.3);
-                    AppRectGrid2TransformSplineY.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint);
+                    //AppRectGrid3ScaleSplineX.Value = AppRectGrid3ScaleSplineY.Value = (AppRectGrid3Scale.ScaleX * 0 + AppRectGrid3ScaleSplineY.Value * 1);
+                    //AppRectGrid2TransformSplineY.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint);
 
                     AppRectGrid3ScaleSplineY.KeyTime = TimeSpan.FromSeconds(0.07 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1/4));
                     AppRectGrid3ScaleSplineX.KeyTime = TimeSpan.FromSeconds(0.07 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1/4));
@@ -890,8 +890,8 @@ namespace CurveDemo
                     PowerEase4.Power = 3.6;
                     PowerEase5.Power = 3.6;
                 }
-
-                if (AppRectGrid1BackTransformSplineY.Value <= -ActualHeight * 1 / 6 && AppRectGrid1BackTransformSplineY.Value != ActualHeight * FarPoint - ActualHeight * 0.5)
+                /*
+                if (AppRectGrid1BackTransformSplineY.Value <= -ActualHeight * 1 / 6 && AppRect_Target != -1 && false)
                 {
                     AppRectGrid2StoryBoard2.Begin();
                     AppRectGrid1Back2TransformSplineX.Value = AppRectGrid1BackTransformSplineX.Value - AppRectGrid2Transform2SplineX.Value;
@@ -901,14 +901,20 @@ namespace CurveDemo
                     AppRectGrid2TransformSplineY.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AppRectGrid3ScaleSplineY.Value * (0.5 - FarPoint) - 0.5 * ActualHeight * e.Velocities.Linear.Y * -0.2;
                     AppRectGrid2StoryBoard.Begin();
                     AppRectGrid1Back2TransformSplineX.Value = AppRectGrid1BackTransformSplineX.Value - AppRectGrid2TransformSplineX.Value;
-                    AppRectGrid1Back2TransformSplineY.Value = AppRectGrid1BackTransformSplineY.Value - AppRectGrid2TransformSplineY.Value;*/
+                    AppRectGrid1Back2TransformSplineY.Value = AppRectGrid1BackTransformSplineY.Value - AppRectGrid2TransformSplineY.Value;
                 }
                 else
                 {
                     AppRectGrid2StoryBoard.Begin();
                     AppRectGrid1Back2TransformSplineX.Value = AppRectGrid1BackTransformSplineX.Value - AppRectGrid2TransformSplineX.Value;
                     AppRectGrid1Back2TransformSplineY.Value = AppRectGrid1BackTransformSplineY.Value - AppRectGrid2TransformSplineY.Value;
-                }
+                }*/
+
+
+                AppRectGrid2StoryBoard.Begin();
+                AppRectGrid1Back2TransformSplineX.Value = AppRectGrid1BackTransformSplineX.Value - AppRectGrid2TransformSplineX.Value;
+                AppRectGrid1Back2TransformSplineY.Value = AppRectGrid1BackTransformSplineY.Value - AppRectGrid2TransformSplineY.Value;
+
                 AppRectGrid3StoryBoardC1.Begin();
                 AppWindowGrid0Back.Begin();
                 AppRectGrid1BackCurveBounce.Begin();

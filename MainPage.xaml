@@ -422,24 +422,32 @@
                         <Grid.Resources>
                             <Storyboard x:Name="AppRectGrid2StoryBoard">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
-                                    <SplineDoubleKeyFrame x:Name="AppRectGrid2TransformSplineX" KeySpline="0.0, 1, 0.0, 1.00" Value="0" KeyTime="0:0:0.6" />
-                                </DoubleAnimationUsingKeyFrames>
+                                        <EasingDoubleKeyFrame x:Name="AppRectGrid2TransformSplineX" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <BackEase EasingMode="EaseOut" Amplitude="0.2"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
-                                    <SplineDoubleKeyFrame x:Name="AppRectGrid2TransformSplineY" KeySpline="0.0, 1, 0.0, 1.00" Value="0" KeyTime="0:0:0.6" />
+                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2TransformSplineY" Value="0" KeyTime="{x:Bind TrDur07}" >
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Name="AppRectGrid2StoryBoard2">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
                                     <EasingDoubleKeyFrame x:Name="AppRectGrid2Transform2SplineX" Value="0" KeyTime="{x:Bind TrDur075}" >
                                         <EasingDoubleKeyFrame.EasingFunction>
-                                            <PowerEase EasingMode="EaseOut" Power="4"/>
+                                            <BackEase EasingMode="EaseOut" Amplitude="0.2"/>
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid2Transform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
-                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2Transform2SplineY" Value="0" KeyTime="{x:Bind TrDur075}" >
+                                    <EasingDoubleKeyFrame x:Name="AppRectGrid2Transform2SplineY" Value="0" KeyTime="{x:Bind TrDur07}" >
                                         <EasingDoubleKeyFrame.EasingFunction>
-                                            <BackEase EasingMode="EaseOut" Amplitude="0.08"/>
+                                            <BackEase EasingMode="EaseOut" Amplitude="0.5"/>
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
@@ -469,12 +477,12 @@
                             <Grid.Resources>
                                 <Storyboard x:Name="AppRectGrid3StoryBoardC1">
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid3Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
-                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSplineX" KeySpline="0.2, 0.00, 0.2, 1.00" Value="1" KeyTime="0:0:0.1" />
-                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSpline2X" KeySpline="0.4, 0.00, 0.4, 1.00" Value="1" KeyTime="{x:Bind TrDur075}" />
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSplineX" KeySpline="0.2, 0.50, 0.2, 1.00" Value="1" KeyTime="0:0:0.1" />
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSpline2X" KeySpline="0.45, 0.00, 0.45, 1.00" Value="1" KeyTime="{x:Bind TrDur075}" />
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppRectGrid3Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
-                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSplineY" KeySpline="0.2, 0.00, 0.2, 1.00" Value="1" KeyTime="0:0:0.1" />
-                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSpline2Y" KeySpline="0.4, 0.00, 0.4, 1.00" Value="1" KeyTime="{x:Bind TrDur075}" />
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSplineY" KeySpline="0.2, 0.50, 0.2, 1.00" Value="1" KeyTime="0:0:0.1" />
+                                        <SplineDoubleKeyFrame x:Name="AppRectGrid3ScaleSpline2Y" KeySpline="0.45, 0.00, 0.45, 1.00" Value="1" KeyTime="{x:Bind TrDur075}" />
                                     </DoubleAnimationUsingKeyFrames>
                                 </Storyboard>
 

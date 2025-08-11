@@ -70,7 +70,7 @@ namespace CurveDemo.SettingsPage
                 TimeDurSelection.SelectedIndex = -1;
             }
 
-            Trace.WriteLine((Application.Current as App).FlyFar);
+            //Trace.WriteLine((Application.Current as App).FlyFar);
             if ((Application.Current as App).FlyFar == 0)
             {
                 FlyFarSelection.SelectedIndex = 0;
