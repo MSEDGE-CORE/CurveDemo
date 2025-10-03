@@ -13,7 +13,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
-        <Grid Name="PageOutline" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Grid Name="PageOutline" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform x:Name="PageScale" ScaleX="1" ScaleY="1" />

@@ -30,7 +30,7 @@ namespace CurveDemo
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+        {/*
             if (ActualWidth >= ActualHeight * 9 / 16)
             {
                 DesktopFrame.Width = DesktopFrame.MaxWidth = ActualHeight * 9 / 16;
@@ -41,7 +41,7 @@ namespace CurveDemo
                 DesktopFrame.Width = DesktopFrame.MaxWidth = ActualWidth;
                 DesktopFrame.Height = DesktopFrame.MaxHeight = ActualWidth * 16 / 9;
             }
-            DesktopFrame.CornerRadius = new CornerRadius(1);
+            DesktopFrame.CornerRadius = new CornerRadius(1);*/
         }
     }
 }

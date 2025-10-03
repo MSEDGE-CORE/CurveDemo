@@ -32,11 +32,11 @@ namespace CurveDemo
 
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
+        {/*
             PageOutline.Width = 420;
             PageOutline.Height = 420.0 * (ActualHeight / ActualWidth);
             PageScale.ScaleX = PageScale.ScaleY = ActualWidth / 420.0;
-            PageScale.CenterX = PageScale.CenterY = 0;
+            PageScale.CenterX = PageScale.CenterY = 0;*/
         }
     }
 }

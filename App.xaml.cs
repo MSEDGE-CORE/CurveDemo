@@ -2,6 +2,7 @@
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -54,6 +55,7 @@ namespace CurveDemo
         /// <inheritdoc/>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active.
             if (Window.Current.Content is not Frame rootFrame)

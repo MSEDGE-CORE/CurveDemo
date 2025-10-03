@@ -30,7 +30,12 @@ namespace CurveDemo
         public CameraApp()
         {
             this.InitializeComponent();
-            (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).SetSwBarBk(2);
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Frame.RequestedTheme = ElementTheme.Dark;
+            (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).SetSwipeBarColor(2);
         }
     }
 }
