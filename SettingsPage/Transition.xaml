@@ -46,6 +46,20 @@
                             <x:String>惯性 10</x:String>
                         </ComboBox>
                     </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "回弹幅度" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "BounceRadiusSelection" SelectionChanged="BounceRadiusSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" ToolTipService.ToolTip="系数越大，图标惯性后移的距离越大" >
+                            <x:String>回弹 0（关闭）</x:String>
+                            <x:String>回弹 2</x:String>
+                            <x:String>回弹 4</x:String>
+                            <x:String>回弹 6（默认）</x:String>
+                            <x:String>回弹 8</x:String>
+                            <x:String>回弹 10</x:String>
+                            <x:String>回弹 12</x:String>
+                        </ComboBox>
+                    </Grid>
                     <Grid Name="GridBgBlur" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "背景模糊" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
@@ -58,6 +72,13 @@
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ToggleSwitch Name="ScrCornerRadius_Switch" Toggled="ScrCornerRadius_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
                     </Grid>
+                    <Grid Name="GridSideAn" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "并行打断" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ToggleSwitch Name="SideWindowAnimation_Switch" Toggled="SideWindowAnimation_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
+                    </Grid>
+
                 </StackPanel>
             </Grid>
         </ScrollViewer>

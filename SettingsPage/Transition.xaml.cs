@@ -37,7 +37,8 @@ namespace CurveDemo.SettingsPage
 
             BgBlur_Switch.IsOn = (Application.Current as App).EnableBgBlur == 1 ? true : false;
             ScrCornerRadius_Switch.IsOn = (Application.Current as App).ScreenCornerRadius == 100.0 / 1920 ? true : false;
-            if((Application.Current as App).TransitionDurationTime < 0.1)
+            SideWindowAnimation_Switch.IsOn = (Application.Current as App).EnableSideWindowAnimation == 1 ? true : false;
+            if ((Application.Current as App).TransitionDurationTime < 0.1)
             {
                 TimeDurSelection.SelectedIndex = 0;
             }
@@ -102,6 +103,39 @@ namespace CurveDemo.SettingsPage
             else
             {
                 FlyFarSelection.SelectedIndex = -1;
+            }
+
+            if ((Application.Current as App).BounceRadius == 0)
+            {
+                BounceRadiusSelection.SelectedIndex = 0;
+            }
+            else if ((Application.Current as App).BounceRadius == 2)
+            {
+                BounceRadiusSelection.SelectedIndex = 1;
+            }
+            else if ((Application.Current as App).BounceRadius == 4)
+            {
+                BounceRadiusSelection.SelectedIndex = 2;
+            }
+            else if ((Application.Current as App).BounceRadius == 6)
+            {
+                BounceRadiusSelection.SelectedIndex = 3;
+            }
+            else if ((Application.Current as App).BounceRadius == 8)
+            {
+                BounceRadiusSelection.SelectedIndex = 4;
+            }
+            else if ((Application.Current as App).BounceRadius == 10)
+            {
+                BounceRadiusSelection.SelectedIndex = 5;
+            }
+            else if ((Application.Current as App).BounceRadius == 12)
+            {
+                BounceRadiusSelection.SelectedIndex = 6;
+            }
+            else
+            {
+                BounceRadiusSelection.SelectedIndex = -1;
             }
 
             isLoaded = true;
@@ -213,6 +247,46 @@ namespace CurveDemo.SettingsPage
             }
 
             (Application.Current as App).LocalSettings.Values["FlyFar"] = (Application.Current as App).FlyFar;
+        }
+
+        private void BounceRadiusSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (BounceRadiusSelection.SelectedIndex == 0)
+            {
+                (Application.Current as App).BounceRadius = 0;
+            }
+            else if (BounceRadiusSelection.SelectedIndex == 1)
+            {
+                (Application.Current as App).BounceRadius = 2;
+            }
+            else if (BounceRadiusSelection.SelectedIndex == 2)
+            {
+                (Application.Current as App).BounceRadius = 4;
+            }
+            else if (BounceRadiusSelection.SelectedIndex == 3)
+            {
+                (Application.Current as App).BounceRadius = 6;
+            }
+            else if (BounceRadiusSelection.SelectedIndex == 4)
+            {
+                (Application.Current as App).BounceRadius = 8;
+            }
+            else if (BounceRadiusSelection.SelectedIndex == 5)
+            {
+                (Application.Current as App).BounceRadius = 10;
+            }
+            else if (BounceRadiusSelection.SelectedIndex == 6)
+            {
+                (Application.Current as App).BounceRadius = 12;
+            }
+
+            (Application.Current as App).LocalSettings.Values["BounceRadius"] = (Application.Current as App).BounceRadius;
+        }
+
+        private void SideWindowAnimation_Switch_Toggled(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).EnableSideWindowAnimation = (bool)((sender as ToggleSwitch).IsOn) ? 1:0;
+            (Application.Current as App).LocalSettings.Values["EnableSideWindowAnimation"] = (bool)((sender as ToggleSwitch).IsOn) ? 1 : 0;
         }
     }
 }

@@ -24,7 +24,10 @@ namespace CurveDemo
         public int EnableBgBlur = 1;
         public double ScreenCornerRadius = 100.0 / 1920;
         public double TransitionDurationTime = 1.0;
-        public double FlyFar = 1.0;
+        public double FlyFar = 5.0;
+        public double BounceRadius = 6;
+        public int EnableSideWindowAnimation = 1;
+        public bool iUseCustomBackground = false;
 
 
         public App()
@@ -49,6 +52,22 @@ namespace CurveDemo
             if (LocalSettings.Values["FlyFar"] != null && ((double)LocalSettings.Values["FlyFar"] >= 0))
             {
                 FlyFar = (double)LocalSettings.Values["FlyFar"];
+            }
+            if (LocalSettings.Values["EnableSideWindowAnimation"] != null && ((int)LocalSettings.Values["EnableSideWindowAnimation"] == 1 || (int)LocalSettings.Values["EnableSideWindowAnimation"] == 0))
+            {
+                EnableSideWindowAnimation = (int)LocalSettings.Values["EnableSideWindowAnimation"];
+            }
+            if (LocalSettings.Values["BounceRadius"] != null && ((double)LocalSettings.Values["BounceRadius"] >= 0))
+            {
+                BounceRadius = (double)LocalSettings.Values["BounceRadius"];
+            }
+            if (LocalSettings.Values["iUseCustomBackground"] == null)
+            {
+                LocalSettings.Values["iUseCustomBackground"] = false;
+            }
+            else
+            {
+                iUseCustomBackground = (bool)LocalSettings.Values["iUseCustomBackground"];
             }
         }
 

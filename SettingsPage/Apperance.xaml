@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    SizeChanged="Page_SizeChanged">
+    SizeChanged="Page_SizeChanged"
+    Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
         <Grid HorizontalAlignment="Stretch" Margin="40,32,40,0" MaxWidth="720">
@@ -18,7 +19,24 @@
         <ScrollViewer Name="ScrollViewer" IsTabStop="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="0,116,0,0">
             <Grid>
                 <StackPanel Name="SPanel" MaxWidth="720" Margin="40,0,40,32">
-
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "288" MaxHeight = "288" Height = "288" CornerRadius="6">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <Image Name="BgPreview" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill">
+                            <Image.Resources>
+                                <Storyboard x:Name="OStoryBoard">
+                                    <DoubleAnimation x:Name="OStoryBoardDoubleAnimation" From="0" To="1" Storyboard.TargetName="BgPreview" Storyboard.TargetProperty="Opacity" Duration="0:0:0.5" />
+                                </Storyboard>
+                            </Image.Resources>
+                        </Image>
+                    </Grid>
+                    <Grid Name="GridSetBgFile" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "图片" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <Button Name="ResetBg" Click="ResetBg_Click" Content="恢复" Width="60" FontFamily="HarmonyOS Sans SC" Margin="0,0,90,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <Button Name="SetBgFile" Click="SetBgFile_Click" Content="浏览" Width="60" FontFamily="HarmonyOS Sans SC" Margin="0,0,26,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </ScrollViewer>
