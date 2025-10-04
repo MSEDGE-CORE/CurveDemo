@@ -870,12 +870,9 @@ namespace CurveDemo
             if ((e.Velocities.Linear.Y <= -0.1) && true)
             {
                 SetSwipeBarColor(0);
-                GstBut.Visibility = Visibility.Collapsed;/*
-                AppRect_AnState = 8;
-                AppRect_AnState = 8;*/
+                //GstBut.Visibility = Visibility.Collapsed;
                 MouseX = e.Position.X;
                 MouseY = e.Position.Y;
-                //AppRectGrid2TransformSplineX.Value = AppRectGrid2Transform.X + e.Velocities.Linear.X * 20 * Math.Pow((Application.Current as App).FlyFar, 1 / 2);
                 try
                 {
                     double dH = ((ActualHeight + (MouseY - MouseDownY) + e.Velocities.Linear.Y * (Application.Current as App).FlyFar - ActualHeight * FarPoint) * (ActualHeight / (ActualHeight - ActualHeight * FarPoint)));
