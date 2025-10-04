@@ -103,15 +103,28 @@ namespace CurveDemo
                     //进入并行
                     //(DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;
 
-                    AppWindow2Gesture.Opacity = 1;
-                    AppWindow2Gesture.Visibility = Visibility.Visible;
+                    if((Application.Current as App).EnableSideWindowAnimation == 1)
+                    {
+                        AppWindow2Gesture.Opacity = 1;
+                        AppWindow2Gesture.Visibility = Visibility.Visible;
 
-                    AW2GScaleFallBehind.CenterX = ActualWidth * 0.5;
-                    AW2GScaleFallBehind.CenterY = ActualHeight * 0.5;
-                    AW2GScaleFallBehind.ScaleX = AW2GScaleFallBehind.ScaleY = 1.0;
-                    AW2BlurBorder2.CornerRadius = new CornerRadius(500 * (Application.Current as App).ScreenCornerRadius);
-                    AW2GFallBehindStoryBoard.Begin();
-                    AW2BlurAnimation2.Start();
+                        AW2GScaleFallBehind.CenterX = ActualWidth * 0.5;
+                        AW2GScaleFallBehind.CenterY = ActualHeight * 0.5;
+                        AW2GScaleFallBehind.ScaleX = AW2GScaleFallBehind.ScaleY = 1.0;
+                        AW2BlurBorder2.CornerRadius = new CornerRadius(500 * (Application.Current as App).ScreenCornerRadius);
+                        AW2GFallBehindStoryBoard.Begin();
+                        AW2BlurAnimation2.Start();
+                    }
+                    else
+                    {
+                        Trace.WriteLine(1);
+                        AppWindow2Gesture.Opacity = 0.01;
+                        AppWindow2Gesture.Visibility = Visibility.Collapsed;
+                        if (AppWindow2_Target >= 0)
+                            (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
+                        if (AppWindowMain_Target >= 0)
+                            (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;
+                    }
                 }
 
                 if (AppTarget != -2 && AppTarget != -1)
@@ -124,7 +137,7 @@ namespace CurveDemo
                     AWAScale.CenterX = ActualWidth * 0.5;
                     AWAScale.CenterY = ActualHeight * 0.5;
 
-                    if(AppTarget != AppWindowMain_Target || AppWindowState == 0)
+                    if (AppTarget != AppWindowMain_Target || AppWindowState == 0)
                     {
                         AWGGestureFlyStoryBoard.Stop();
                         AWAGestureBackStoryBoard.Stop();
@@ -151,29 +164,29 @@ namespace CurveDemo
                                 (AWCardFrame.Content as DesktopCard).GetImage = (((DesktopGrid.Children[AppTarget] as Grid).Children[0] as Frame).Content as DesktopCard).GetImage;
                             }
                             AWBackgIcon.Source = null;
-                            AWFrontIcon.Source = null ;
+                            AWFrontIcon.Source = null;
                         }
 
-                        AWFrontIcon.Opacity = 1; 
+                        AWFrontIcon.Opacity = 1;
                         AWBackgIcon.Opacity = 1;
-                        if (DesktopGrid.Children[AppTarget].GetType() == typeof(Grid) && ((DesktopGrid.Children[AppTarget] as Grid).ActualWidth/(DesktopGrid.Children[AppTarget] as Grid).ActualHeight) <= (ActualWidth / ActualHeight))
+                        if (DesktopGrid.Children[AppTarget].GetType() == typeof(Grid) && ((DesktopGrid.Children[AppTarget] as Grid).ActualWidth / (DesktopGrid.Children[AppTarget] as Grid).ActualHeight) <= (ActualWidth / ActualHeight))
                         {
                             AWBackIconScale.ScaleX = AWBackIconScale.ScaleY = AWFrontIconScale.ScaleX = AWFrontIconScale.ScaleY = 1.5;
                             AWBackIconScale.CenterX = AWFrontIconScale.CenterX = ActualHeight * 0.5;
                             AWBackIconScale.CenterY = AWFrontIconScale.CenterY = ActualHeight * 0.5;
                             AppHeightAnimation.Height = ActualHeight;
                             AppHeightAnimation.Width = (DesktopGrid.Children[AppTarget] as Grid).ActualWidth / (DesktopGrid.Children[AppTarget] as Grid).ActualHeight * AppHeightAnimation.Height;
-                            
+
                             AWAScale.ScaleX = AWAScale.ScaleY = (DesktopGrid.Children[AppTarget] as Grid).ActualHeight / ActualHeight;
                         }
                         else
                         {
                             AWBackIconScale.ScaleX = AWBackIconScale.ScaleY = AWFrontIconScale.ScaleX = AWFrontIconScale.ScaleY = 1.5;
                             AWBackIconScale.CenterX = AWFrontIconScale.CenterX = ActualWidth * 0.5;
-                            AWBackIconScale.CenterY = AWFrontIconScale.CenterY = ActualWidth * 0.5; 
+                            AWBackIconScale.CenterY = AWFrontIconScale.CenterY = ActualWidth * 0.5;
                             AppHeightAnimation.Width = ActualWidth;
                             AppHeightAnimation.Height = (DesktopGrid.Children[AppTarget] as Grid).ActualHeight / (DesktopGrid.Children[AppTarget] as Grid).ActualWidth * AppHeightAnimation.Width;
-                            
+
                             AWAScale.ScaleX = AWAScale.ScaleY = (DesktopGrid.Children[AppTarget] as Grid).ActualWidth / ActualWidth;
                         }
 
@@ -256,7 +269,7 @@ namespace CurveDemo
                     (DesktopGrid.Children[AppTarget] as Grid).Opacity = 0.01;
 
                 }
-                else if(AppTarget == -1)
+                else if (AppTarget == -1)
                 {
 
                     AWABackStoryBoard.Stop();
@@ -405,6 +418,11 @@ namespace CurveDemo
                             (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
 
                         StartSideAnimation();
+                    }
+                    else
+                    {
+                        AppWindow2Gesture.Opacity = 0.01;
+                        AppWindow2Gesture.Visibility = Visibility.Collapsed;
                     }
 
 

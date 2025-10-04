@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <Nullable>enable</Nullable>
     <UseUwp>true</UseUwp>
@@ -21,11 +21,20 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="AppPackages\**" />
+    <Compile Remove="BundleArtifacts\**" />
     <Compile Remove="IconRes\**" />
+    <EmbeddedResource Remove="AppPackages\**" />
+    <EmbeddedResource Remove="BundleArtifacts\**" />
     <EmbeddedResource Remove="IconRes\**" />
+    <None Remove="AppPackages\**" />
+    <None Remove="BundleArtifacts\**" />
     <None Remove="IconRes\**" />
+    <Page Remove="AppPackages\**" />
+    <Page Remove="BundleArtifacts\**" />
     <Page Remove="IconRes\**" />
   </ItemGroup>
   <ItemGroup>
@@ -36,5 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Remove="IconRes\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="AppPackages\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="BundleArtifacts\**" />
   </ItemGroup>
 </Project>
