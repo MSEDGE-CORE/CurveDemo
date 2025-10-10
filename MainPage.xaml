@@ -65,62 +65,6 @@
                 </VariableSizedWrapGrid>
             </Grid>
 
-            <Border x:Name="BlurBorder" Margin="0">
-                <media:UIElementExtensions.VisualFactory >
-                    <media:PipelineVisualFactory>
-                        <media:BlurEffect x:Name="ImageBlurEffect" IsAnimatable="True" />
-                    </media:PipelineVisualFactory>
-                </media:UIElementExtensions.VisualFactory>
-                <ani:Explicit.Animations>
-                    <ani:AnimationSet x:Name="BlurAnimation" IsSequential="True">
-                        <ani:BlurEffectAnimation x:Name="BlurAnSet" EasingMode="EaseOut" EasingType="Cubic" Target="{x:Bind ImageBlurEffect}" From="0" To="0" Duration="0:0:0.3" />
-                    </ani:AnimationSet>
-                </ani:Explicit.Animations>
-            </Border>
-            <Grid Name="BlurPointer">
-                <Grid.Resources>
-                    <Storyboard x:Name="BlurPointerStoryBoard">
-                        <DoubleAnimation x:Name="BlurPointerAnimation" Storyboard.TargetName="BlurPointerTransform" Storyboard.TargetProperty="X" From="0" To="20" >
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </Grid.Resources>
-                <Grid.RenderTransform>
-                    <TranslateTransform x:Name="BlurPointerTransform" X="0" Y="0"/>
-                </Grid.RenderTransform>
-            </Grid>
-            <Grid Name="RoundCornerPointer">
-                <Grid.Resources>
-                    <Storyboard x:Name="RoundCornerPointerStBo">
-                        <DoubleAnimation x:Name="RoundCornerPointerAnimation" Duration="{x:Bind TrDur05}" Storyboard.TargetName="RoundCornerPointerTransform" Storyboard.TargetProperty="X" From="0" To="20" >
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </Grid.Resources>
-                <Grid.RenderTransform>
-                    <TranslateTransform x:Name="RoundCornerPointerTransform" X="0" Y="0"/>
-                </Grid.RenderTransform>
-            </Grid>
-
-            <Grid Name="RoundCornerPointer2">
-                <Grid.Resources>
-                    <Storyboard x:Name="RoundCornerPointer2StBo">
-                        <DoubleAnimation x:Name="RoundCornerPointer2Animation" Duration="{x:Bind TrDur05}" Storyboard.TargetName="RoundCornerPointer2Transform" Storyboard.TargetProperty="X" From="0" To="20" >
-                            <DoubleAnimation.EasingFunction>
-                                <CubicEase EasingMode="EaseOut" />
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </Grid.Resources>
-                <Grid.RenderTransform>
-                    <TranslateTransform x:Name="RoundCornerPointer2Transform" X="0" Y="0"/>
-                </Grid.RenderTransform>
-            </Grid>
-
             <!-- 并行 -->
             <Grid x:Name="AppWindow2Gesture" Margin="0" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="0" Visibility="Collapsed">
                 <Grid.Resources>
@@ -144,11 +88,11 @@
                         <!-- Size -->
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2GScale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                             <SplineDoubleKeyFrame x:Name="AW2GBackKeyScaleX1" KeySpline="0.2, 1, 0, 1.00" Value="1" KeyTime="0:0:0.1" />
-                            <SplineDoubleKeyFrame x:Name="AW2GBackKeyScaleX2" KeySpline="0.2, 0.00, 0.4, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
+                            <SplineDoubleKeyFrame x:Name="AW2GBackKeyScaleX2" KeySpline="0.4, 0.00, 0.7, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2GScale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                             <SplineDoubleKeyFrame x:Name="AW2GBackKeyScaleY1" KeySpline="0.2, 1, 0, 1.00" Value="1" KeyTime="0:0:0.1" />
-                            <SplineDoubleKeyFrame x:Name="AW2GBackKeyScaleY2" KeySpline="0.2, 0.00, 0.4, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
+                            <SplineDoubleKeyFrame x:Name="AW2GBackKeyScaleY2" KeySpline="0.4, 0.00, 0.7, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                     <Storyboard x:Name="AW2GFallBehindStoryBoard">
@@ -240,7 +184,12 @@
                             </DoubleAnimationUsingKeyFrames>
                             <!-- Size -->
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2AScale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
-                                <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyScaleX2" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyScaleX1" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyScaleX2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
@@ -248,7 +197,12 @@
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2AScale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <!--<SplineDoubleKeyFrame x:Name="AW2AGstBackKeyScaleY2" KeySpline="0.2, 0.0, 0.0, 1.00" Value="0" KeyTime="{x:Bind TrDur05}" />-->
-                                <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyScaleY2" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyScaleY1" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyScaleY2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
@@ -298,19 +252,6 @@
                             </Image>
 
                         </Grid>
-                        <!-- 并行模糊层 -->
-                        <Border x:Name="AW2BlurBorder2" Margin="0">
-                            <media:UIElementExtensions.VisualFactory >
-                                <media:PipelineVisualFactory>
-                                    <media:BlurEffect x:Name="ImageBlurEffect2" IsAnimatable="True" />
-                                </media:PipelineVisualFactory>
-                            </media:UIElementExtensions.VisualFactory>
-                            <ani:Explicit.Animations>
-                                <ani:AnimationSet x:Name="AW2BlurAnimation2" IsSequential="True">
-                                    <ani:BlurEffectAnimation EasingMode="EaseOut" EasingType="Cubic" Target="{x:Bind ImageBlurEffect2}" From="0" To="30" Duration="0:0:0.3" />
-                                </ani:AnimationSet>
-                            </ani:Explicit.Animations>
-                        </Border>
 
 
                     </Grid>
@@ -319,6 +260,64 @@
             </Grid>
 
 
+
+            <Border x:Name="BlurBorder" Margin="0">
+                <media:UIElementExtensions.VisualFactory >
+                    <media:PipelineVisualFactory>
+                        <media:BlurEffect x:Name="ImageBlurEffect" IsAnimatable="True" />
+                    </media:PipelineVisualFactory>
+                </media:UIElementExtensions.VisualFactory>
+                <ani:Explicit.Animations>
+                    <ani:AnimationSet x:Name="BlurAnimation" IsSequential="True">
+                        <ani:BlurEffectAnimation x:Name="BlurAnSet" EasingMode="EaseOut" EasingType="Cubic" Target="{x:Bind ImageBlurEffect}" From="0" To="0" Duration="0:0:0.3" />
+                    </ani:AnimationSet>
+                </ani:Explicit.Animations>
+            </Border>
+            <Grid Name="BlurPointer">
+                <Grid.Resources>
+                    <Storyboard x:Name="BlurPointerStoryBoard">
+                        <DoubleAnimation x:Name="BlurPointerAnimation" Storyboard.TargetName="BlurPointerTransform" Storyboard.TargetProperty="X" From="0" To="20" >
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="BlurPointerTransform" X="0" Y="0"/>
+                </Grid.RenderTransform>
+            </Grid>
+            <Grid Name="RoundCornerPointer">
+                <Grid.Resources>
+                    <Storyboard x:Name="RoundCornerPointerStBo">
+                        <DoubleAnimation x:Name="RoundCornerPointerAnimation" Duration="{x:Bind TrDur05}" Storyboard.TargetName="RoundCornerPointerTransform" Storyboard.TargetProperty="X" From="0" To="20" >
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="RoundCornerPointerTransform" X="0" Y="0"/>
+                </Grid.RenderTransform>
+            </Grid>
+
+            <Grid Name="RoundCornerPointer2">
+                <Grid.Resources>
+                    <Storyboard x:Name="RoundCornerPointer2StBo">
+                        <DoubleAnimation x:Name="RoundCornerPointer2Animation" Duration="{x:Bind TrDur05}" Storyboard.TargetName="RoundCornerPointer2Transform" Storyboard.TargetProperty="X" From="0" To="20" >
+                            <DoubleAnimation.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </Grid.Resources>
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="RoundCornerPointer2Transform" X="0" Y="0"/>
+                </Grid.RenderTransform>
+            </Grid>
+
+          
 
             <!-- 主动画 -->
             <Grid x:Name="AppWindowGesture" Margin="0" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="0" Visibility="Collapsed">
@@ -376,11 +375,11 @@
                         <!-- Size -->
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWGScale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                             <SplineDoubleKeyFrame x:Name="AWGBackKeyScaleX1" KeySpline="0.2, 1, 0, 1.00" Value="1" KeyTime="0:0:0.1" />
-                            <SplineDoubleKeyFrame x:Name="AWGBackKeyScaleX2" KeySpline="0.2, 0.00, 0.4, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
+                            <SplineDoubleKeyFrame x:Name="AWGBackKeyScaleX2" KeySpline="0.4, 0.00, 0.7, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWGScale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                             <SplineDoubleKeyFrame x:Name="AWGBackKeyScaleY1" KeySpline="0.2, 1, 0, 1.00" Value="1" KeyTime="0:0:0.1" />
-                            <SplineDoubleKeyFrame x:Name="AWGBackKeyScaleY2" KeySpline="0.2, 0.00, 0.4, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
+                            <SplineDoubleKeyFrame x:Name="AWGBackKeyScaleY2" KeySpline="0.4, 0.00, 0.7, 1.0" Value="1" KeyTime="{x:Bind TrDur06}" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </Grid.Resources>
@@ -576,7 +575,12 @@
                             </DoubleAnimationUsingKeyFrames>
                             <!-- Size -->
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAScale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
-                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyScaleX2" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyScaleX1" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyScaleX2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
@@ -584,22 +588,29 @@
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAScale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <!--<SplineDoubleKeyFrame x:Name="AWAGstBackKeyScaleY2" KeySpline="0.2, 0.0, 0.0, 1.00" Value="0" KeyTime="{x:Bind TrDur05}" />-->
-                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyScaleY2" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyScaleY1" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyScaleY2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
+
+
                             </DoubleAnimationUsingKeyFrames>
                             <!-- Size -->
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppHeightAnimation" Storyboard.TargetProperty="Height" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
-                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyH2" Value="0" KeyTime="{x:Bind TrDur085}" >
+                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyH2" Value="0" KeyTime="{x:Bind TrDur06}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <PowerEase EasingMode="EaseOut" Power="4.5"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AppHeightAnimation" Storyboard.TargetProperty="Width" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
-                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyW2" Value="0" KeyTime="{x:Bind TrDur085}" >
+                                <EasingDoubleKeyFrame x:Name="AWAGstBackKeyW2" Value="0" KeyTime="{x:Bind TrDur06}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
                                         <PowerEase EasingMode="EaseOut" Power="4.5"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
