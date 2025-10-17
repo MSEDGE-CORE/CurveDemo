@@ -31,11 +31,11 @@ namespace CurveDemo
         DispatcherTimer RoundCornerTimer;
         DispatcherTimer Timer;
 
-        public System.TimeSpan TrDur05 { get { return System.TimeSpan.FromSeconds(0.5 * (Application.Current as App).TransitionDurationTime); } set { } }
-        public System.TimeSpan TrDur06 { get { return System.TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime); } set { } }
-        public System.TimeSpan TrDur07 { get { return System.TimeSpan.FromSeconds(0.7 * (Application.Current as App).TransitionDurationTime); } set { } }
-        public System.TimeSpan TrDur075 { get { return System.TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime); } set { } }
-        public System.TimeSpan TrDur085 { get { return System.TimeSpan.FromSeconds(0.85 * (Application.Current as App).TransitionDurationTime); } set { } }
+        public System.TimeSpan TrDur05 = System.TimeSpan.FromSeconds(0.5 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur06 = System.TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur07 = System.TimeSpan.FromSeconds(0.7 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur075 = System.TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur085 = System.TimeSpan.FromSeconds(0.85 * (Application.Current as App).TransitionDurationTime);
         public Frame GetAppFrame { get { return AWFrame; } }
 
         public class DesktopIconInfo
@@ -201,7 +201,7 @@ namespace CurveDemo
                     else
                     {
                         //AWGGestureFillStoryBoard.Begin();
-                        double tX = (AWATransform.X * AWGScale.ScaleX + AWGTransform.X), tY = (AWATransform.Y * AWGScale.ScaleX + AWGTransform.Y), tS = AWAScale.ScaleX * AWGScale.ScaleX, tH = AppHeightAnimation.Height, tW = AppHeightAnimation.Width;
+                        double tX = (AWATransform.X + AWGTransform.X), tY = (AWATransform.Y + AWGTransform.Y), tS = AWAScale.ScaleX * AWGScale.ScaleX, tH = AppHeightAnimation.Height, tW = AppHeightAnimation.Width;
                         AWGGestureFlyStoryBoard.Stop();
                         AWABackStoryBoard.Stop();
                         AWAGestureBackStoryBoard.Stop();

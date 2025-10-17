@@ -114,8 +114,8 @@
                 </Grid.Resources>
                 <Grid.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform x:Name="AW2GScale" ScaleX="1" ScaleY="1"/>
                         <TranslateTransform x:Name="AW2GTransform" X="0" Y="0"/>
+                        <TranslateTransform x:Name="AW2ATransform" X="0" Y="0"/>
                         <ScaleTransform x:Name="AW2GScaleFallBehind" ScaleX="1" ScaleY="1"/>
                     </TransformGroup>
                 </Grid.RenderTransform>
@@ -229,7 +229,7 @@
                     <Grid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform x:Name="AW2AScale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
-                            <TranslateTransform x:Name="AW2ATransform" X="0" Y="0"/>
+                            <ScaleTransform x:Name="AW2GScale" ScaleX="1" ScaleY="1"/>
                         </TransformGroup>
                     </Grid.RenderTransform>
                     <Grid x:Name="AppHeight2Animation" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -385,8 +385,8 @@
                 </Grid.Resources>
             <Grid.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform x:Name="AWGScale" ScaleX="1" ScaleY="1"/>
                         <TranslateTransform x:Name="AWGTransform" X="0" Y="0"/>
+                        <TranslateTransform x:Name="AWATransform" X="0" Y="0"/>
                     </TransformGroup>
             </Grid.RenderTransform>
 
@@ -666,8 +666,8 @@
                     </Grid.Resources>
                     <Grid.RenderTransform>
                         <TransformGroup>
-                        <ScaleTransform x:Name="AWAScale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
-                        <TranslateTransform x:Name="AWATransform" X="0" Y="0"/>
+                            <ScaleTransform x:Name="AWGScale" ScaleX="1" ScaleY="1"/>
+                            <ScaleTransform x:Name="AWAScale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
                         </TransformGroup>
                     </Grid.RenderTransform>
                     <Grid x:Name="AppHeightAnimation" VerticalAlignment="Center" HorizontalAlignment="Center">

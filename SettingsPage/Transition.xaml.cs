@@ -188,7 +188,7 @@ namespace CurveDemo.SettingsPage
             if ( isLoaded)
             {
                 
-                ((MP.Content as Grid).Children[0] as Frame).Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+               ((MP.Content as Grid).Children[0] as Frame).Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                /* await Task.Delay(100);
                 (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).StartBackgroundAnimation(1);
                 (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).StartRectAnimation(1, -1);
