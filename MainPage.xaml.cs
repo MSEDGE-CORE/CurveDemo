@@ -1159,8 +1159,8 @@ namespace CurveDemo
 
                 AWGBackKeyX2.KeyTime = TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
                 AWGBackKeyY2.KeyTime = TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
-                AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
-                AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+                AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+                AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
                 AWGGestureFlyStoryBoard.Begin();
 
                 

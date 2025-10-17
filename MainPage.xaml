@@ -61,8 +61,11 @@
                     <ScaleTransform x:Name="DskIconScaleT" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
                 </Grid.RenderTransform>
 
-                <VariableSizedWrapGrid  Orientation="Horizontal" MaximumRowsOrColumns="10000" Name="DesktopGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="DesktopGrid_Loaded">
-                </VariableSizedWrapGrid>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="10000">
+                    <VariableSizedWrapGrid  Orientation="Horizontal" MaximumRowsOrColumns="10000" Name="DesktopGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="DesktopGrid_Loaded">
+
+                    </VariableSizedWrapGrid>
+                </Grid>
             </Grid>
 
             <!-- 并行 -->
