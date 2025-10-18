@@ -9,7 +9,7 @@
   <Identity
     Name="3e0347c9-0fa6-4ee4-b872-202799966a42"
     Publisher="CN=MSEDGE"
-    Version="1.2.29.0" />
+    Version="1.2.30.0" />
 
   <mp:PhoneIdentity PhoneProductId="3e0347c9-0fa6-4ee4-b872-202799966a42" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="CurveDemo.App">
       <uap:VisualElements
-        DisplayName="手机动效模拟"
+        DisplayName="CurveDemo"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="CurveDemo"

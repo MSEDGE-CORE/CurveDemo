@@ -36,8 +36,10 @@ namespace CurveDemo.SettingsPage
             this.InitializeComponent();
 
             BgBlur_Switch.IsOn = (Application.Current as App).EnableBgBlur == 1 ? true : false;
+            BgScale_Switch.IsOn = (Application.Current as App).EnableBgScale == 1 ? true : false;
             ScrCornerRadius_Switch.IsOn = (Application.Current as App).ScreenCornerRadius == 100.0 / 1920 ? true : false;
             SideWindowAnimation_Switch.IsOn = (Application.Current as App).EnableSideWindowAnimation == 1 ? true : false;
+            CurveStyleSelection.SelectedIndex = (Application.Current as App).CurveStyle <= 1 ? (Application.Current as App).CurveStyle : 0;
             if ((Application.Current as App).TransitionDurationTime < 0.1)
             {
                 TimeDurSelection.SelectedIndex = 0;
@@ -187,7 +189,6 @@ namespace CurveDemo.SettingsPage
 
             if ( isLoaded)
             {
-                
                ((MP.Content as Grid).Children[0] as Frame).Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                /* await Task.Delay(100);
                 (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).StartBackgroundAnimation(1);
@@ -287,6 +288,26 @@ namespace CurveDemo.SettingsPage
         {
             (Application.Current as App).EnableSideWindowAnimation = (bool)((sender as ToggleSwitch).IsOn) ? 1:0;
             (Application.Current as App).LocalSettings.Values["EnableSideWindowAnimation"] = (bool)((sender as ToggleSwitch).IsOn) ? 1 : 0;
+        }
+
+        private void CurveStyleSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            (Application.Current as App).CurveStyle = (sender as ComboBox).SelectedIndex;
+            (Application.Current as App).LocalSettings.Values["CurveStyle"] = (Application.Current as App).CurveStyle;
+            if ((Application.Current as App).CurveStyle == 0)
+            {
+                GridBounceRadius.Visibility = Visibility.Collapsed;
+            }
+            else if ((Application.Current as App).CurveStyle == 1)
+            {
+                GridBounceRadius.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void BgScale_Switch_Toggled(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).EnableBgScale = (bool)((sender as ToggleSwitch).IsOn) ? 1 : 0;
+            (Application.Current as App).LocalSettings.Values["EnableBgScale"] = (Application.Current as App).EnableBgScale;
         }
     }
 }

@@ -34,6 +34,15 @@
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "路径风格" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "CurveStyleSelection" SelectionChanged="CurveStyleSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" ToolTipService.ToolTip="系数越大，图标惯性后移的距离越大" >
+                            <x:String>轻快</x:String>
+                            <x:String>鸿蒙</x:String>
+                        </ComboBox>
+                    </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "惯性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "FlyFarSelection" SelectionChanged="FlyFarSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" ToolTipService.ToolTip="系数越大，图标惯性后移的距离越大" >
@@ -46,7 +55,7 @@
                             <x:String>惯性 10</x:String>
                         </ComboBox>
                     </Grid>
-                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                    <Grid Name="GridBounceRadius" Visibility="Collapsed" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "回弹幅度" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
@@ -66,6 +75,13 @@
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ToggleSwitch Name="BgBlur_Switch" Toggled="BgBlur_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
                     </Grid>
+                    <Grid Name="GridBgScale" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "背景缩放" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ToggleSwitch Name="BgScale_Switch" Toggled="BgScale_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
+                    </Grid>
+
                     <Grid Name="GridScrRadius" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "屏幕圆角" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />

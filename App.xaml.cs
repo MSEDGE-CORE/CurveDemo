@@ -22,12 +22,14 @@ namespace CurveDemo
 
         public ApplicationDataContainer LocalSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public int EnableBgBlur = 1;
+        public int EnableBgScale = 1;
         public double ScreenCornerRadius = 100.0 / 1920;
         public double TransitionDurationTime = 1.0;
         public double FlyFar = 5.0;
         public double BounceRadius = 6;
         public int EnableSideWindowAnimation = 1;
         public bool iUseCustomBackground = false;
+        public int CurveStyle = 0;
 
 
         public App()
@@ -40,7 +42,11 @@ namespace CurveDemo
             {
                 EnableBgBlur = (int)LocalSettings.Values["EnableBgBlur"];
             }
-            if(LocalSettings.Values["EnableCornerRadius"] != null && ((bool)LocalSettings.Values["EnableCornerRadius"] == false))
+            if (LocalSettings.Values["EnableBgScale"] != null && ((int)LocalSettings.Values["EnableBgScale"] == 1 || (int)LocalSettings.Values["EnableBgScale"] == 0))
+            {
+                EnableBgScale = (int)LocalSettings.Values["EnableBgScale"];
+            }
+            if (LocalSettings.Values["EnableCornerRadius"] != null && ((bool)LocalSettings.Values["EnableCornerRadius"] == false))
             {
                 ScreenCornerRadius = 0.000000001;
             }
@@ -68,6 +74,11 @@ namespace CurveDemo
             else
             {
                 iUseCustomBackground = (bool)LocalSettings.Values["iUseCustomBackground"];
+            }
+
+            if (LocalSettings.Values["CurveStyle"] != null && ((int)LocalSettings.Values["CurveStyle"] <= 1))
+            {
+                CurveStyle = (int)LocalSettings.Values["CurveStyle"];
             }
         }
 
