@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
@@ -19,6 +20,27 @@ namespace CurveDemo
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         /// 
+
+
+        public class DesktopIconInfo
+        {
+            public string Tag { get; set; }
+            public string BgSource { get; set; }
+            public string FgSource { get; set; }
+            public int ColumnSpan { get; set; } = 1;
+            public int RowSpan { get; set; } = 1;
+            public string AppName { get; set; } = "";
+        }
+
+        public class OnRunningAppInfo
+        {
+            public string AppPackageName { get; set; }
+            public int AppIconPos { get; set; }
+            public Frame AppFrame { get; set; }
+        }
+
+        public ObservableCollection<OnRunningAppInfo> MultiAppInfos { get; set; } = new ObservableCollection<OnRunningAppInfo>();
+
 
         public ApplicationDataContainer LocalSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public int EnableBgBlur = 1;
@@ -82,6 +104,7 @@ namespace CurveDemo
             }
         }
 
+        public Frame rootFrame;
         /// <inheritdoc/>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {

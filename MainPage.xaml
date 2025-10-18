@@ -11,7 +11,8 @@
     xmlns:ani="using:CommunityToolkit.WinUI.Animations"
     xmlns:media="using:CommunityToolkit.WinUI.Media"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
-    SizeChanged="Page_SizeChanged">
+    SizeChanged="Page_SizeChanged"
+    Unloaded="Page_Unloaded">
 
     <Grid Name="PageOutline" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" CornerRadius="0.1" Margin="0,1,0,0" >
         <Image Name="Wallpaper" Source="/Assets//IconRes/home_wallpaper03.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill">
@@ -248,14 +249,14 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2AScale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBack2KeyScaleX2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="5"/>
+                                        <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2AScale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBack2KeyScaleY2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="5"/>
+                                        <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
@@ -726,14 +727,14 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAScale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AWAGstBack2KeyScaleX2" Value="0" KeyTime="{x:Bind TrDur075}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="5"/>
+                                        <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAScale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur075}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AWAGstBack2KeyScaleY2" Value="0" KeyTime="{x:Bind TrDur075}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="5"/>
+                                        <PowerEase EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
 

@@ -6,9 +6,401 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"      
+    xmlns:ani="using:CommunityToolkit.WinUI.Animations"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    SizeChanged="Page_SizeChanged">
 
-    <Grid>
+    <Grid Background="Transparent">
+        <Border x:Name="BlurBorder" Margin="0">
+            <media:UIElementExtensions.VisualFactory >
+                <media:PipelineVisualFactory>
+                    <media:BlurEffect x:Name="ImageBlurEffect" IsAnimatable="True" />
+                </media:PipelineVisualFactory>
+            </media:UIElementExtensions.VisualFactory>
+            <ani:Explicit.Animations>
+                <ani:AnimationSet x:Name="BlurAnimation" IsSequential="True">
+                    <ani:BlurEffectAnimation x:Name="BlurAnSet" EasingMode="EaseOut" EasingType="Cubic" Target="{x:Bind ImageBlurEffect}" From="0" To="20" Duration="0:0:0.3" />
+                </ani:AnimationSet>
+            </ani:Explicit.Animations>
+        </Border>
+        <Grid Name="BlurPointer">
+            <Grid.Resources>
+                <Storyboard x:Name="BlurPointerStoryBoard">
+                    <DoubleAnimation x:Name="BlurPointerAnimation" Storyboard.TargetName="BlurPointerTransform" Storyboard.TargetProperty="Y" From="0" To="20" >
+                        <DoubleAnimation.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </Grid.Resources>
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="BlurPointerTransform" X="0" Y="0"/>
+            </Grid.RenderTransform>
+        </Grid>
+
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="500">
+            <Grid.Resources>
+                <Storyboard x:Name="ShowControlsStoryBoard">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG0Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG0Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid0" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="50"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid1" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="50"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG2Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur010}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG2Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur010}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid2" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur010}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="50"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG3Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur015}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG3Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur015}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid3" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur015}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="50"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Name="HideControlsStoryBoard">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG0Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG0Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid0" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid1" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG2Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur010}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG2Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur010}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid2" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur010}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG3Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur015}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG3Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur015}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ControlsGrid3" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur015}" EnableDependentAnimation="True">
+                        <EasingDoubleKeyFrame  Value="0" KeyTime="{x:Bind TrDur03}" >
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+
+            </Grid.Resources>
+            
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Margin="0,64,0,72">
+                    <Grid Name="ControlsGrid0" HorizontalAlignment="Stretch" Width="420" Height="54">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="CG0Scale" />
+                                <TranslateTransform x:Name="CG0Translate" />
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid  Visibility="Collapsed" Height="48" Width="48" CornerRadius="24" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,64,0">
+                            
+                            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                            </Button>
+                        </Grid>
+                        <Grid Height="48" Width="48" CornerRadius="24" VerticalAlignment="Top" HorizontalAlignment="Right">
+                            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <VariableSizedWrapGrid ItemHeight="112" ItemWidth="112" Orientation="Horizontal" MaximumRowsOrColumns="4" Name="ControlsGrid1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
+                        <VariableSizedWrapGrid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="CG1Scale" />
+                                <TranslateTransform x:Name="CG1Translate" />
+                            </TransformGroup>
+                        </VariableSizedWrapGrid.RenderTransform>
+
+                        <Grid VariableSizedWrapGrid.ColumnSpan="2" VariableSizedWrapGrid.RowSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid VariableSizedWrapGrid.ColumnSpan="2" VariableSizedWrapGrid.RowSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </VariableSizedWrapGrid>
+                    <VariableSizedWrapGrid ItemHeight="112" ItemWidth="112" Orientation="Horizontal" MaximumRowsOrColumns="4" Name="ControlsGrid2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
+                        <VariableSizedWrapGrid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="CG2Scale" />
+                                <TranslateTransform x:Name="CG2Translate" />
+                            </TransformGroup>
+                        </VariableSizedWrapGrid.RenderTransform>
+
+                        <Grid VariableSizedWrapGrid.ColumnSpan="2" VariableSizedWrapGrid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </VariableSizedWrapGrid>
+                    <VariableSizedWrapGrid ItemHeight="112" ItemWidth="112" Orientation="Horizontal" MaximumRowsOrColumns="4" Name="ControlsGrid3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
+                        <VariableSizedWrapGrid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="CG3Scale" />
+                                <TranslateTransform x:Name="CG3Translate" />
+                            </TransformGroup>
+                        </VariableSizedWrapGrid.RenderTransform>
+
+                        <Grid VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid VariableSizedWrapGrid.ColumnSpan="1" VariableSizedWrapGrid.RowSpan="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
+                            <Grid Margin="9.6" CornerRadius="32" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </VariableSizedWrapGrid>
+                </StackPanel>
+            </ScrollViewer>
+            
+            <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="48">
+                <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click">
+                    <Button.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Escape"></KeyboardAccelerator>
+                    </Button.KeyboardAccelerators>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Grid Name="StatusBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="48">
+            <TextBlock Name="ClockTime" FontFamily="HarmonyOS Sans SC" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="14,0,0,0">
+                <TextBlock.TranslationTransition>
+                    <Vector3Transition />
+                </TextBlock.TranslationTransition>
+            </TextBlock>
+            <StackPanel Name="StatusArea" HorizontalAlignment="Right" VerticalAlignment="Stretch" Orientation="Horizontal">
+                <StackPanel.TranslationTransition>
+                    <Vector3Transition />
+                </StackPanel.TranslationTransition>
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE701;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="22" />
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE870;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="22" />
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE83F;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,13,0" FontSize="34" />
+
+            </StackPanel>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Opacity="0" Click="NotificationBar_Click" ManipulationMode="TranslateY" Grid.Column="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="NotificationBar" ManipulationStarted="NotificationBar_ManipulationStarted" ManipulationDelta="NotificationBar_ManipulationDelta" ManipulationCompleted="NotificationBar_ManipulationCompleted"/>
+                <Button Opacity="0" Click="ControlBar_Click" ManipulationMode="TranslateY" Grid.Column="1" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ControlBar" ManipulationStarted="ControlBar_ManipulationStarted" ManipulationDelta="ControlBar_ManipulationDelta" ManipulationCompleted="ControlBar_ManipulationCompleted"/>
+            </Grid>
+        </Grid>
+
         
     </Grid>
 </Page>

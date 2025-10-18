@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using static CommunityToolkit.WinUI.Animations.Expressions.ExpressionValues;
+using static CurveDemo.App;
 
 namespace CurveDemo
 {
@@ -36,27 +37,11 @@ namespace CurveDemo
         public System.TimeSpan TrDur07 = System.TimeSpan.FromSeconds(0.7 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur075 = System.TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur085 = System.TimeSpan.FromSeconds(0.85 * (Application.Current as App).TransitionDurationTime);
-        public Frame GetAppFrame { get { return AWFrame; } }
 
-        public class DesktopIconInfo
+        public static SystemUI MP
         {
-            public string Tag { get; set; }
-            public string BgSource { get; set; }
-            public string FgSource { get; set; }
-            public int ColumnSpan { get; set; } = 1;
-            public int RowSpan { get; set; } = 1;
-            public string AppName { get; set; } = "";
+            get { return (Window.Current.Content as Frame)?.Content as SystemUI; }
         }
-
-        public class OnRunningAppInfo
-        {
-            public string AppPackageName { get; set; }
-            public int AppIconPos { get; set; }
-            public Frame AppFrame { get; set; }
-        }
-
-        public ObservableCollection<OnRunningAppInfo> MultiAppInfos { get; set; } = new ObservableCollection<OnRunningAppInfo>();
-
 
         public MainPage()
         {
@@ -668,19 +653,19 @@ namespace CurveDemo
                 var OnBackgroundingApp = (AWMultiTaskGrid.Children[0] as Frame);
                 AWMultiTaskGrid.Children.RemoveAt(0);
             }/*
-            MultiAppInfos[AppWindowMain_mIndex].AppFrame.Content = null;
-            MultiAppInfos[AppWindowMain_mIndex].AppFrame = null;
-            MultiAppInfos.RemoveAt(AppWindowMain_mIndex);
+            (Application.Current as App).MultiAppInfos[AppWindowMain_mIndex].AppFrame.Content = null;
+            (Application.Current as App).MultiAppInfos[AppWindowMain_mIndex].AppFrame = null;
+            (Application.Current as App).MultiAppInfos.RemoveAt(AppWindowMain_mIndex);
             AppWindowMain_mIndex = -1;*/
 
             int target = DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid));
             OnRunningAppInfo ToRunAppInfo = new OnRunningAppInfo { AppFrame = null, AppIconPos = target, AppPackageName = ((DesktopGrid.Children[target] as Grid)).Tag != null ? ((DesktopGrid.Children[target] as Grid)).Tag.ToString() : (DateTime.Now.ToString()) };
             int ToRunAppIndex = -1, AppWindowMain_ToIndex = 0;
-            foreach (var RunningApp in MultiAppInfos)
+            foreach (var RunningApp in (Application.Current as App).MultiAppInfos)
             {
                 if (RunningApp != null && (RunningApp.AppIconPos == ToRunAppInfo.AppIconPos || RunningApp.AppPackageName == ToRunAppInfo.AppPackageName))
                 {
-                    ToRunAppIndex = MultiAppInfos.IndexOf(RunningApp);
+                    ToRunAppIndex = (Application.Current as App).MultiAppInfos.IndexOf(RunningApp);
                     AppWindowMain_ToIndex = ToRunAppIndex;
                     break;
                 }
@@ -700,12 +685,12 @@ namespace CurveDemo
                 {
                     ToRunAppInfo.AppFrame.Navigate(typeof(BlankPage), null, new SuppressNavigationTransitionInfo());
                 }
-                MultiAppInfos.Add(ToRunAppInfo);
-                AppWindowMain_ToIndex = MultiAppInfos.IndexOf(ToRunAppInfo);
+                (Application.Current as App).MultiAppInfos.Add(ToRunAppInfo);
+                AppWindowMain_ToIndex = (Application.Current as App).MultiAppInfos.IndexOf(ToRunAppInfo);
             }
             AppWindowMain_mIndex = AppWindowMain_ToIndex;
 
-            AWMultiTaskGrid.Children.Add(ToRunAppIndex == -1 ? ToRunAppInfo.AppFrame : MultiAppInfos[ToRunAppIndex].AppFrame);
+            AWMultiTaskGrid.Children.Add(ToRunAppIndex == -1 ? ToRunAppInfo.AppFrame : (Application.Current as App).MultiAppInfos[ToRunAppIndex].AppFrame);
 
             if (target == 8)
                 target = -1 ;
@@ -993,7 +978,7 @@ namespace CurveDemo
             return;
         }
 
-        public void SetSwipeBarColor(int i = 0) //0def 1white 2black
+        public async void SetSwipeBarColor(int i = 0) //0def 1white 2black
         {
             if (i == 0)
             {
@@ -1007,7 +992,11 @@ namespace CurveDemo
                     AWSwipeBar.RequestedTheme = (AWMultiTaskGrid.Children[0] as Frame).RequestedTheme;
                 }
             }
+            await Task.Delay(TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5));
+            (((MP.Content as Grid).Children[1] as Frame).Content as QuickControlPanel).SetStatusBarColor(AWSwipeBar.RequestedTheme);
         }
+
+        //public ElementTheme GetSwipeBarColorTheme { get { return AWSwipeBar.RequestedTheme; } }
 
         private void RoundCornerTick(object? sender, object e)
         {
@@ -1078,6 +1067,10 @@ namespace CurveDemo
         double MouseX = -1, MouseY = -1;
         double mH = 0;
 
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            AWMultiTaskGrid.Children.Clear();
+        }
 
         double FarPoint = 0.2;
         private void GstBut_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
@@ -1125,7 +1118,7 @@ namespace CurveDemo
 
         private void GstBut_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
         {
-            if(AppWindowState == 2)
+            if(AppWindowState != 1)
             {
                 return;
             }
