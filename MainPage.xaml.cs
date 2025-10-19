@@ -442,7 +442,7 @@ namespace CurveDemo
 
                     AppWindowMain_Target = AppTarget;
 
-                    AWABackKeyScaleX.Value = AWABackKeyScaleY.Value = 0.01;
+                    AWABackKeyScaleX.Value = AWABackKeyScaleY.Value = 0.001;
                     AWABackKeyH.Value = ActualHeight;
                     AWABackKeyW.Value = ActualWidth;
                     AWABackKeyX.Value = 0;

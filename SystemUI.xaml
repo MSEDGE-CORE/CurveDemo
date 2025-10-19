@@ -14,7 +14,7 @@
         <Frame x:Name="DesktopFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             
         </Frame>
-        <Frame x:Name="StatusBarFrame" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="48">
+        <Frame x:Name="StatusBarFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             
         </Frame>
     </Grid>

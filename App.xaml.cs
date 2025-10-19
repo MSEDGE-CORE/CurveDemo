@@ -52,6 +52,7 @@ namespace CurveDemo
         public int EnableSideWindowAnimation = 1;
         public bool iUseCustomBackground = false;
         public int CurveStyle = 0;
+        public int CtrPnelCurveStyle = 0;
 
 
         public App()

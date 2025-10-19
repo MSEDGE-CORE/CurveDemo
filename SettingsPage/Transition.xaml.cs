@@ -190,17 +190,8 @@ namespace CurveDemo.SettingsPage
             if ( isLoaded)
             {
                ((MP.Content as Grid).Children[0] as Frame).Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-               /* await Task.Delay(100);
-                (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).StartBackgroundAnimation(1);
-                (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).StartRectAnimation(1, -1);
-                (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).AppRect_Target = 1;
-                //(((((((((((MP.Content as Grid).Children[0] as Frame).Content as MainPage).Content as Grid).Children[1] as Grid).Children[4] as Grid).Children[0] as Grid).Children[0] as Grid).Children[0] as Grid).Children[0] as Grid).Children[2] as Frame).Navigate(typeof(SettingsPage.Home), null, new SuppressNavigationTransitionInfo());
-                //(((((((((((MP.Content as Grid).Children[0] as Frame).Content as MainPage).Content as Grid).Children[1] as Grid).Children[4] as Grid).Children[0] as Grid).Children[0] as Grid).Children[0] as Grid).Children[0] as Grid).Children[2] as Frame).Navigate(typeof(SettingsPage.Transition), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-                (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).GetAppFrame.Navigate(typeof(BlankPage), null, new SuppressNavigationTransitionInfo());
-                await Task.Delay((int)(0.7 * (Application.Current as App).TransitionDurationTime * 1100));
-                (((MP.Content as Grid).Children[0] as Frame).Content as MainPage).GetAppFrame.Navigate(typeof(SettingsApp), null, new SuppressNavigationTransitionInfo());
-                (((((((MP.Content as Grid).Children[0] as Frame).Content as MainPage).GetAppFrame.Content as SettingsApp).Content as Grid).Children[0] as Grid).Children[0] as Frame).Navigate(typeof(SettingsPage.Transition), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-                */
+                ((MP.Content as Grid).Children[1] as Frame).Navigate(typeof(QuickControlPanel), null, new SuppressNavigationTransitionInfo());
+
             }
         }
 

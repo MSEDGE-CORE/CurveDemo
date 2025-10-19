@@ -43,25 +43,6 @@ namespace CurveDemo
                 DesktopFrame.Height = DesktopFrame.MaxHeight = ActualWidth * 16 / 9;
             }
             DesktopFrame.CornerRadius = new CornerRadius(1);*/
-
-            if(StatusBarFrame.Height > 48)
-            {
-                StatusBarFrame.Height = ActualHeight;
-            }
-        }
-
-        public void ShowQuickControlFullScreen(int toShow = 0)
-        {
-            if (toShow == 0)
-            {
-                StatusBarFrame.VerticalAlignment = VerticalAlignment.Top;
-                StatusBarFrame.Height = 48;
-            }
-            else if(toShow == 1)
-            {
-                StatusBarFrame.VerticalAlignment = VerticalAlignment.Stretch;
-                StatusBarFrame.Height = ActualHeight;
-            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -35,6 +36,10 @@ namespace CurveDemo
         public System.TimeSpan TrDur010 = System.TimeSpan.FromSeconds(0.10 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur015 = System.TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur03 = System.TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur04 = System.TimeSpan.FromSeconds(0.4 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur05 = System.TimeSpan.FromSeconds(0.5 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur06 = System.TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur07 = System.TimeSpan.FromSeconds(0.7 * (Application.Current as App).TransitionDurationTime);
 
         public QuickControlPanel()
         {
@@ -45,6 +50,9 @@ namespace CurveDemo
             Timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
             Timer.Tick += Timer_Tick;
             Timer.Start();
+
+            CG0Scale.ScaleX = CG0Scale.ScaleY = CG1Scale.ScaleX = CG1Scale.ScaleY = CG2Scale.ScaleX = CG2Scale.ScaleY = CG3Scale.ScaleX = CG3Scale.ScaleY = 0.8;
+            ControlsGrid0.Opacity = ControlsGrid1.Opacity = ControlsGrid2.Opacity = ControlsGrid3.Opacity = 0;
         }
 
         ElementTheme statusBarColor = ElementTheme.Default;
@@ -60,85 +68,171 @@ namespace CurveDemo
         private void Timer_Tick(object? sender, object e)
         {
             ClockTime.Text = DateTime.Now.ToString("H:mm");
+
         }
 
-        private async void StartControlAnimation(int isOpening)
+        private async void StartControlAnimation(int isOpening, int isPointerMoving = 0)
         {
-            if(isOpening == 1)
+            (Application.Current as App).CtrPnelCurveStyle = 0;
+            if ((Application.Current as App).CtrPnelCurveStyle == 0)
             {
+                CG0Scale.CenterX = 210;
+                CG1Scale.CenterX = CG2Scale.CenterX = CG3Scale.CenterX = 250;
+                CGSScaleKeyScaleX.Value = CGSScaleKeyScaleY.Value = 1;
+                if (CGSScale.ScaleX != 1)
+                {
+                    CGSScale.ScaleX = CGSScale.ScaleY = 1;
+                }
+            }
+            else if((Application.Current as App).CtrPnelCurveStyle == 1)
+            {
+                CG0Scale.CenterX = 400;
+                CG1Scale.CenterX = CG2Scale.CenterX = CG3Scale.CenterX = 400;
+                CGSScaleKeyScaleX.Value = CGSScaleKeyScaleY.Value = 0.2;
+                if (CGSScale.ScaleX == 1 && CG0Scale.ScaleX == 0.8)
+                {
+                    CGSScale.ScaleX = CGSScale.ScaleY = 0.2;
+                }
+            }
+
+            if (isOpening == 1)
+            {
+                ControlsScrollViewer.ScrollToVerticalOffset(0);
+                GridControlPanel.Visibility = Visibility.Visible;
+                BackBoard.Visibility = Visibility.Visible;
+                StatusBar.RequestedTheme = ElementTheme.Dark;
+
+                if (isPointerMoving == 0)
+                {
+                    BlurAnSet.To = maxBlur;
+                    BlurPointerAnimation.To = maxBlur;
+
+                    BlurAnSet.From = BlurPointerTransform.Y;
+                    BlurPointerAnimation.From = BlurPointerTransform.Y;
+                    BlurAnSet.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
+                    BlurPointerAnimation.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
+                    BlurAnimation.Start();
+                    BlurPointerStoryBoard.Begin();
+
+                }
+                if(isControlPanelOpen == 0)
+                {
+                    ShowControlsStoryBoard.Begin();
+                }
                 isControlPanelOpen = 1;
-                BlurAnSet.To = maxBlur;
-                BlurPointerAnimation.To = maxBlur;
-
-                BlurAnSet.From = BlurPointerTransform.Y;
-                BlurPointerAnimation.From = BlurPointerTransform.Y;
-                BlurAnSet.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
-                BlurPointerAnimation.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
-                BlurAnimation.Start();
-                BlurPointerStoryBoard.Begin();
-
-                ShowControlsStoryBoard.Begin();
             }
-            else if(isOpening == 0)
+            else if (isOpening == 0)
             {
+                StatusBar.RequestedTheme = statusBarColor;
+
+                if (isPointerMoving == 0)
+                {
+                    BlurAnSet.To = 0;
+                    BlurPointerAnimation.To = 0;
+
+                    BlurAnSet.From = BlurPointerTransform.Y;
+                    BlurPointerAnimation.From = BlurPointerTransform.Y;
+                    BlurAnSet.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.4);
+                    BlurPointerAnimation.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.4);
+                    BlurAnimation.Start();
+                    BlurPointerStoryBoard.Begin();
+                }
+
+                if (isControlPanelOpen == 1)
+                {
+                    HideControlsStoryBoard.Begin();
+                }
                 isControlPanelOpen = 0;
-                BlurAnSet.To = 0;
-                BlurPointerAnimation.To = 0;
 
-                BlurAnSet.From = BlurPointerTransform.Y;
-                BlurPointerAnimation.From = BlurPointerTransform.Y;
-                BlurAnSet.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.4);
-                BlurPointerAnimation.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.4);
-                BlurAnimation.Start();
-                BlurPointerStoryBoard.Begin();
-
-                HideControlsStoryBoard.Begin();
-
-                await Task.Delay(TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.4));
-                SYS.ShowQuickControlFullScreen(0);
             }
+        }
+
+        private double GetSpaceDeltaY(double y, double a)
+        {
+            y = (a * (-1 / (Math.Abs(y) / a + 1) + 1));
+            return y;
         }
 
 
         double MouseDownX = -1, MouseDownY = -1;
         double MouseX = -1, MouseY = -1;
         int maxBlur = 40, maxDY = 100;
+        double firstBlur = 0;
         private void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
-            SYS.ShowQuickControlFullScreen(1);
             MouseDownX = e.Position.X;
             MouseDownY = e.Position.Y;
             BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
+            firstBlur = BlurPointerTransform.Y;
+            BlurPointerStoryBoard.Stop();
+            BlurPointerTransform.Y = firstBlur;
+            MoveBackControlCardsStoryBoard.Stop();
         }
 
         private void ControlBar_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
+            BlurPointerStoryBoard.Stop();
             MouseX = e.Position.X;
             MouseY = e.Position.Y;
 
-            double dY = MouseY - MouseDownY;
+            double dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
             if (dY <= 0)
                 dY = 0;
             else if (dY > maxDY)
                 dY = maxDY;
 
-            if(isControlPanelOpen == 0)
-                BlurPointerTransform.Y = (dY / maxDY) * maxBlur;
+            BlurPointerTransform.Y = (dY / maxDY) * maxBlur;
             BlurAnSet.From = BlurPointerTransform.Y;
             BlurAnSet.To = BlurPointerTransform.Y;
             BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
             BlurAnimation.Start();
+
+            if ((dY >= 0.55 * maxDY && isControlPanelOpen == 0))
+            {
+                StartControlAnimation(1,1);
+            }
+            else if(dY <= 0.45 * maxDY && isControlPanelOpen == 1)
+            {
+                StartControlAnimation(0,1);
+            }
+
+            if(true) //卡片间距
+            {
+                dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
+                if (dY <= 1 * maxDY)
+                {
+                    CG0Translate.Y = dY - maxDY;
+                    CG1Translate.Y = dY - maxDY;
+                    CG2Translate.Y = dY - maxDY;
+                    CG3Translate.Y = dY - maxDY;
+
+                }
+                else if(dY > maxDY * 1)
+                {
+                    double ddY = dY - maxDY;
+                    CG0Translate.Y = GetSpaceDeltaY(ddY, 100);
+                    CG1Translate.Y = GetSpaceDeltaY(ddY, 150);
+                    CG2Translate.Y = GetSpaceDeltaY(ddY, 200);
+                    CG3Translate.Y = GetSpaceDeltaY(ddY, 250);
+                }
+            }
         }
 
         private async void ControlBar_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
         {
-            if((BlurPointerTransform.Y >= 0 * maxBlur && e.Velocities.Linear.Y >= 0))
+            MouseX = -1;
+            MouseY = -1;
+            if ((BlurPointerTransform.Y >= 0 * maxBlur && e.Velocities.Linear.Y >= 0))
             {
                 StartControlAnimation(1);
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
+                MoveBackControlCardsStoryBoard.Begin();
             }
             else
             {
                 StartControlAnimation(0);
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = -100;
+                MoveBackControlCardsStoryBoard.Begin();
             }
 
         }
@@ -165,26 +259,99 @@ namespace CurveDemo
 
         private void GstBut_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
+            BlurPointerStoryBoard.Stop();
+            MouseX = e.Position.X;
+            MouseY = e.Position.Y;
 
+            double dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
+            if (dY <= 0)
+                dY = 0;
+            else if (dY > maxDY)
+                dY = maxDY;
+
+            BlurPointerTransform.Y = (dY / maxDY) * maxBlur;
+            BlurAnSet.From = BlurPointerTransform.Y;
+            BlurAnSet.To = BlurPointerTransform.Y;
+            BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
+            BlurAnimation.Start();
+
+            if ((dY >= 0.55 * maxDY && isControlPanelOpen == 0))
+            {
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
+                StartControlAnimation(1, 1);
+            }
+            else if (dY <= 0.45 * maxDY && isControlPanelOpen == 1)
+            {
+                StartControlAnimation(0, 1);
+            }
+
+            if (true) //卡片间距
+            {
+                dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;if(dY<= 1 * maxDY)
+                {
+                    double ddY = dY - maxDY;
+                    CG0Translate.Y = -GetSpaceDeltaY(ddY, 100);
+                    CG1Translate.Y = -GetSpaceDeltaY(ddY, 150);
+                    CG2Translate.Y = -GetSpaceDeltaY(ddY, 200);
+                    CG3Translate.Y = -GetSpaceDeltaY(ddY, 250);
+                }
+                else if (dY > maxDY * 1)
+                {
+                    double ddY = dY - maxDY;
+                    CG0Translate.Y = GetSpaceDeltaY(ddY, 100);
+                    CG1Translate.Y = GetSpaceDeltaY(ddY, 150);
+                    CG2Translate.Y = GetSpaceDeltaY(ddY, 200);
+                    CG3Translate.Y = GetSpaceDeltaY(ddY, 250);
+                }
+            }
         }
 
         private void GstBut_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            if(e.Velocities.Linear.Y < 0)
+            MouseX = -1;
+            MouseY = -1;
+            if ((BlurPointerTransform.Y >= 0 * maxBlur && e.Velocities.Linear.Y > 0))
             {
-
+                StartControlAnimation(1);
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
+                MoveBackControlCardsStoryBoard.Begin();
+            }
+            else
+            {
                 StartControlAnimation(0);
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y < 0 ? CG0Translate.Y - 100 : -100;
+                MoveBackControlCardsStoryBoard.Begin();
             }
         }
 
         private void GstBut_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-
+            MouseDownX = e.Position.X;
+            MouseDownY = e.Position.Y;
+            BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
+            firstBlur = BlurPointerTransform.Y;
+            BlurPointerStoryBoard.Stop();
+            BlurPointerTransform.Y = firstBlur;
+            MoveBackControlCardsStoryBoard.Stop();
         }
 
         private async void GstBut_Click(object sender, RoutedEventArgs e)
         {
-            StartControlAnimation(0);
+            if (CG0Translate.Y <= 0)
+            {
+                StartControlAnimation(0);
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = -100;
+                MoveBackControlCardsStoryBoard.Begin();
+            }
+        }
+
+        private void HideControlsStoryBoard_Completed(object sender, object e)
+        {
+            if(ControlsGrid0.Opacity == 0 && MouseY == -1)
+            {
+                GridControlPanel.Visibility = Visibility.Collapsed;
+                BackBoard.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ControlBar_Click(object sender, RoutedEventArgs e)
