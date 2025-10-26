@@ -13,7 +13,7 @@
     SizeChanged="Page_SizeChanged">
 
     <Grid>
-        <Grid x:Name="BackBoard" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{ThemeResource SystemColorButtonTextBrush}" Opacity="0">
+        <Grid x:Name="BackBoard" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Background="{ThemeResource TextFillColorPrimaryBrush}" Opacity="0">
             <Button Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click"/>
         </Grid>
         <Border x:Name="BlurBorder" Margin="0">
@@ -202,14 +202,14 @@
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
 
-                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
                         <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <PowerEase EasingMode="EaseOut" Power="5"/>
                             </EasingDoubleKeyFrame.EasingFunction>
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" BeginTime="{x:Bind TrDur005}" EnableDependentAnimation="True">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur03}" EnableDependentAnimation="True">
                         <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur03}" >
                             <EasingDoubleKeyFrame.EasingFunction>
                                 <PowerEase EasingMode="EaseOut" Power="5"/>
@@ -273,28 +273,28 @@
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG0Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur06}" EnableDependentAnimation="True">
                         <EasingDoubleKeyFrame x:Name="MBCC0KeyY" Value="0" KeyTime="{x:Bind TrDur04}" >
                             <EasingDoubleKeyFrame.EasingFunction>
-                                <BackEase EasingMode="EaseOut" Amplitude="0.15"/>
+                                <BackEase EasingMode="EaseOut" Amplitude="0.25"/>
                             </EasingDoubleKeyFrame.EasingFunction>
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur06}" EnableDependentAnimation="True">
                         <EasingDoubleKeyFrame x:Name="MBCC1KeyY" Value="0" KeyTime="{x:Bind TrDur04}" >
                             <EasingDoubleKeyFrame.EasingFunction>
-                                <BackEase EasingMode="EaseOut" Amplitude="0.15"/>
+                                <BackEase EasingMode="EaseOut" Amplitude="0.2"/>
                             </EasingDoubleKeyFrame.EasingFunction>
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG2Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur06}" EnableDependentAnimation="True">
                         <EasingDoubleKeyFrame x:Name="MBCC2KeyY" Value="0" KeyTime="{x:Bind TrDur05}" >
                             <EasingDoubleKeyFrame.EasingFunction>
-                                <BackEase EasingMode="EaseOut" Amplitude="0.2"/>
+                                <BackEase EasingMode="EaseOut" Amplitude="0.15"/>
                             </EasingDoubleKeyFrame.EasingFunction>
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG3Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur06}" EnableDependentAnimation="True">
                         <EasingDoubleKeyFrame x:Name="MBCC3KeyY" Value="0" KeyTime="{x:Bind TrDur06}" >
                             <EasingDoubleKeyFrame.EasingFunction>
-                                <BackEase EasingMode="EaseOut" Amplitude="0.15"/>
+                                <BackEase EasingMode="EaseOut" Amplitude="0.11"/>
                             </EasingDoubleKeyFrame.EasingFunction>
                         </EasingDoubleKeyFrame>
                     </DoubleAnimationUsingKeyFrames>
@@ -303,7 +303,7 @@
 
             </Grid.Resources>
             
-            <ScrollViewer x:Name="ControlsScrollViewer" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+            <ScrollViewer x:Name="ControlsScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" ManipulationStarted="GstBut_ManipulationStarted" ManipulationDelta="GstBut_ManipulationDelta" ManipulationCompleted="GstBut_ManipulationCompleted">
                 <StackPanel Margin="0,64,0,72">
                     <StackPanel.RenderTransform>
                         <TransformGroup>
@@ -554,7 +554,8 @@
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
-            
+
+
             <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="48">
                 <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click">
                     <Button.KeyboardAccelerators>

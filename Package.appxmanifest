@@ -9,7 +9,7 @@
   <Identity
     Name="3e0347c9-0fa6-4ee4-b872-202799966a42"
     Publisher="CN=MSEDGE"
-    Version="1.2.30.0" />
+    Version="1.2.32.0" />
 
   <mp:PhoneIdentity PhoneProductId="3e0347c9-0fa6-4ee4-b872-202799966a42" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

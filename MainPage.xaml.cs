@@ -77,7 +77,27 @@ namespace CurveDemo
         {
             AppWindowGesture.Visibility = Visibility.Visible; 
 
-            if (isOnLaunching == 1)
+            if(isOnLaunching == -1)
+            {
+                if (AppWindowMain_Target >= 0)
+                {
+                    AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;
+                    AppWindowState = 0;
+                    AWGTransform.X = AWGTransform.Y = 0;
+                    AWGScale.ScaleX = AWGScale.ScaleY = 1.0;
+                }
+                else
+                {
+                    AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    AppWindowState = 0;
+                    AWGTransform.X = AWGTransform.Y = 0;
+                    AWGScale.ScaleX = AWGScale.ScaleY = 1.0;
+                }
+            }
+            else if (isOnLaunching == 1)
             {
                 GstBut.Visibility = Visibility.Visible;
                 AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -96,7 +116,10 @@ namespace CurveDemo
                         AW2GScaleFallBehind.CenterX = ActualWidth * 0.5;
                         AW2GScaleFallBehind.CenterY = ActualHeight * 0.5;
                         AW2GScaleFallBehind.ScaleX = AW2GScaleFallBehind.ScaleY = 1.0;
-                        AW2GFallBehindStoryBoard.Begin();
+                        if((Application.Current as App).EnableBgScale == 1)
+                        {
+                            AW2GFallBehindStoryBoard.Begin();
+                        }
                     }
                     else
                     {
@@ -176,8 +199,8 @@ namespace CurveDemo
 
                         AWAScale.CenterX = ActualWidth * 0.5;
                         AWAScale.CenterY = ActualHeight * 0.5;
-                        AWATransform.X = -(ActualWidth - ActualWidth * AWAScale.ScaleX) * 0.5 + DesktopGrid.ActualOffset.X + (DesktopGrid.Children[AppTarget]).ActualOffset.X - 0 + AWAScale.ScaleX * (AppHeightAnimation.Width - ActualWidth) / 2.0;
-                        AWATransform.Y = -(ActualHeight - ActualHeight * AWAScale.ScaleX) * 0.5 + DesktopGrid.ActualOffset.Y + (DesktopGrid.Children[AppTarget]).ActualOffset.Y - 0 + AWAScale.ScaleX * (AppHeightAnimation.Height - ActualHeight) / 2.0;
+                        AWATransform.X = -(ActualWidth - ActualWidth * AWAScale.ScaleX) * 0.5 + DesktopGrid.ActualOffset.X - DesktopGridScrollViewer.HorizontalOffset + (DesktopGrid.Children[AppTarget]).ActualOffset.X - 0 + AWAScale.ScaleX * (AppHeightAnimation.Width - ActualWidth) / 2.0;
+                        AWATransform.Y = -(ActualHeight - ActualHeight * AWAScale.ScaleX) * 0.5 + DesktopGrid.ActualOffset.Y - DesktopGridScrollViewer.VerticalOffset + (DesktopGrid.Children[AppTarget]).ActualOffset.Y - 0 + AWAScale.ScaleX * (AppHeightAnimation.Height - ActualHeight) / 2.0;
                         RoundCornerPointerAnimation.From = 500 * 100 / 1920 * 3 * 0.16 / ((DesktopGrid.Children[AppTarget] as Grid).ActualWidth / ActualWidth);
                         RoundCornerPointerTransform.X = 500 * 100 / 1920 * 3 * 0.16 / ((DesktopGrid.Children[AppTarget] as Grid).ActualWidth / ActualWidth);
 
@@ -377,7 +400,7 @@ namespace CurveDemo
                     //AWABackKeyH.Value = ActualHeight;
                     //AWABackKeyW.Value = ActualWidth;
                     AWABackKeyX.Value = -(ActualWidth - ActualWidth * AWABackKeyScaleX.Value) * 0.5 + DesktopGrid.ActualOffset.X + (DesktopGrid.Children[AppTarget]).ActualOffset.X - 0 + (AWABackKeyW.Value - ActualWidth) * AWABackKeyScaleX.Value / 2.0;
-                    AWABackKeyY.Value = -(ActualHeight - ActualHeight * AWABackKeyScaleX.Value) * 0.5 + DesktopGrid.ActualOffset.Y + (DesktopGrid.Children[AppTarget]).ActualOffset.Y - 0 +  (AWABackKeyH.Value - ActualHeight) * AWABackKeyScaleX.Value / 2.0;
+                    AWABackKeyY.Value = -(ActualHeight - ActualHeight * AWABackKeyScaleX.Value) * 0.5 + DesktopGrid.ActualOffset.Y - DesktopGridScrollViewer.VerticalOffset + (DesktopGrid.Children[AppTarget]).ActualOffset.Y - 0 +  (AWABackKeyH.Value - ActualHeight) * AWABackKeyScaleX.Value / 2.0;
                     RoundCornerPointerAnimation.From = RoundCornerPointerTransform.X;
                     RoundCornerPointerAnimation.To = 500 * 100 / 1920 * 0.8 / AWABackKeyScaleX.Value;
                     AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
@@ -966,7 +989,7 @@ namespace CurveDemo
 
         private void GstBut_Click(object sender, RoutedEventArgs e)
         {
-            if (AppWindowState == 2)
+            if (AppWindowState == 2 || AppWindowState == 0)
             {
                 return;
             }
@@ -1072,6 +1095,13 @@ namespace CurveDemo
             AWMultiTaskGrid.Children.Clear();
         }
 
+        private void DesktopGridScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if(AppWindowState == 2 && AppWindowMain_Target != -1)
+                StartWindowAnimation(-1);
+            AppWindow2Gesture.Visibility = Visibility.Collapsed;
+        }
+
         double FarPoint = 0.2;
         private void GstBut_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
@@ -1080,7 +1110,7 @@ namespace CurveDemo
                 return;
             }
 
-            FarPoint = 0.1;
+            FarPoint = 0.15;
             if (true)
             {
                 AWGScale.CenterX = ActualWidth / 2.0;

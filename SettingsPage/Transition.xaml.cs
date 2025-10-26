@@ -40,6 +40,7 @@ namespace CurveDemo.SettingsPage
             ScrCornerRadius_Switch.IsOn = (Application.Current as App).ScreenCornerRadius == 100.0 / 1920 ? true : false;
             SideWindowAnimation_Switch.IsOn = (Application.Current as App).EnableSideWindowAnimation == 1 ? true : false;
             CurveStyleSelection.SelectedIndex = (Application.Current as App).CurveStyle <= 1 ? (Application.Current as App).CurveStyle : 0;
+            CtrlPnCurveSelection.SelectedIndex = (Application.Current as App).CtrPnelCurveStyle <= 1 ? (Application.Current as App).CtrPnelCurveStyle : 0;
             if ((Application.Current as App).TransitionDurationTime < 0.1)
             {
                 TimeDurSelection.SelectedIndex = 0;
@@ -299,6 +300,14 @@ namespace CurveDemo.SettingsPage
         {
             (Application.Current as App).EnableBgScale = (bool)((sender as ToggleSwitch).IsOn) ? 1 : 0;
             (Application.Current as App).LocalSettings.Values["EnableBgScale"] = (Application.Current as App).EnableBgScale;
+        }
+
+        private void CtrlPnCurveSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            (Application.Current as App).CtrPnelCurveStyle = (sender as ComboBox).SelectedIndex;
+            (Application.Current as App).LocalSettings.Values["CtrPnelCurveStyle"] = (Application.Current as App).CtrPnelCurveStyle;
+            
         }
     }
 }

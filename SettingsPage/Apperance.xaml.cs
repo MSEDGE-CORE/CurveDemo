@@ -9,6 +9,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -36,6 +37,7 @@ namespace CurveDemo.SettingsPage
         public Apperance()
         {
             this.InitializeComponent();
+            Theme_Selection.SelectedIndex = (Application.Current as App).LocalSettings.Values["Theme"] != null ? (int)(Application.Current as App).LocalSettings.Values["Theme"] : 0;
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -161,6 +163,24 @@ namespace CurveDemo.SettingsPage
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             GetCustomBackground();
+        }
+
+        private void Theme_Selection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Theme_Selection.SelectedIndex == 0)
+            {
+                (Application.Current as App).RootFrame.RequestedTheme = ElementTheme.Default;
+            }
+            else if (Theme_Selection.SelectedIndex == 1)
+            {
+                (Application.Current as App).RootFrame.RequestedTheme = ElementTheme.Light;
+            }
+            else if (Theme_Selection.SelectedIndex == 2)
+            {
+                (Application.Current as App).RootFrame.RequestedTheme = ElementTheme.Dark;
+            }
+
+            (Application.Current as App).LocalSettings.Values["Theme"] = Theme_Selection.SelectedIndex;
         }
     }
 }

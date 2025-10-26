@@ -32,13 +32,15 @@
                             <x:String>时长 10x</x:String>
                         </ComboBox>
                     </Grid>
+                    <TextBlock FontSize = "14" FontWeight = "Bold" Text = "桌面应用" Margin = "6,12,0,0" FontFamily="HarmonyOS Sans SC" />
+
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "路径风格" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "CurveStyleSelection" SelectionChanged="CurveStyleSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC"  >
                             <x:String>轻快</x:String>
-                            <x:String>鸿蒙</x:String>
+                            <x:String>自定义回弹</x:String>
                         </ComboBox>
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
@@ -94,7 +96,16 @@
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ToggleSwitch Name="SideWindowAnimation_Switch" Toggled="SideWindowAnimation_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
                     </Grid>
-
+                    <TextBlock FontSize = "14" FontWeight = "Bold" Text = "控制中心" Margin = "6,12,0,0" FontFamily="HarmonyOS Sans SC" />
+                    <Grid Name="GridCtrlPnCurve" Visibility="Visible" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "展开效果" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "CtrlPnCurveSelection" SelectionChanged="CtrlPnCurveSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
+                            <x:String>浮现</x:String>
+                            <x:String>角落缩放</x:String>
+                        </ComboBox>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

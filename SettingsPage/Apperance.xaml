@@ -30,9 +30,19 @@
                             </Image.Resources>
                         </Image>
                     </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "主题颜色" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <ComboBox Name = "Theme_Selection" SelectionChanged="Theme_Selection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" >
+                            <x:String>跟随系统</x:String>
+                            <x:String>浅色</x:String>
+                            <x:String>深色</x:String>
+                        </ComboBox>
+                    </Grid>
                     <Grid Name="GridSetBgFile" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68" Visibility="Visible">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TextBlock FontSize = "16" Text = "图片" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <TextBlock FontSize = "16" Text = "壁纸" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <Button Name="ResetBg" Click="ResetBg_Click" Content="恢复" Width="60" FontFamily="HarmonyOS Sans SC" Margin="0,0,90,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         <Button Name="SetBgFile" Click="SetBgFile_Click" Content="浏览" Width="60" FontFamily="HarmonyOS Sans SC" Margin="0,0,26,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>

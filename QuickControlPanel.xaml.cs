@@ -31,6 +31,7 @@ namespace CurveDemo
 
         DispatcherTimer Timer;
         int isControlPanelOpen = 0;
+        int isControlPanelToOpen = 0;
 
         public System.TimeSpan TrDur005 = System.TimeSpan.FromSeconds(0.05 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur010 = System.TimeSpan.FromSeconds(0.10 * (Application.Current as App).TransitionDurationTime);
@@ -73,7 +74,6 @@ namespace CurveDemo
 
         private async void StartControlAnimation(int isOpening, int isPointerMoving = 0)
         {
-            (Application.Current as App).CtrPnelCurveStyle = 0;
             if ((Application.Current as App).CtrPnelCurveStyle == 0)
             {
                 CG0Scale.CenterX = 210;
@@ -147,35 +147,24 @@ namespace CurveDemo
             }
         }
 
-        private double GetSpaceDeltaY(double y, double a)
-        {
-            y = (a * (-1 / (Math.Abs(y) / a + 1) + 1));
-            return y;
-        }
-
-
         double MouseDownX = -1, MouseDownY = -1;
         double MouseX = -1, MouseY = -1;
         int maxBlur = 40, maxDY = 100;
         double firstBlur = 0;
-        private void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        private void StartDownPull(double eY, int currentPanel = 0)
         {
-            MouseDownX = e.Position.X;
-            MouseDownY = e.Position.Y;
+            MouseDownY = eY;
             BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
             firstBlur = BlurPointerTransform.Y;
             BlurPointerStoryBoard.Stop();
             BlurPointerTransform.Y = firstBlur;
-            MoveBackControlCardsStoryBoard.Stop();
+            if (MoveBackControlCardsStoryBoard.GetCurrentState() == Windows.UI.Xaml.Media.Animation.ClockState.Active)
+                MoveBackControlCardsStoryBoard.Stop();
         }
-
-        private void ControlBar_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        private void StartDownPulling(double dY)
         {
             BlurPointerStoryBoard.Stop();
-            MouseX = e.Position.X;
-            MouseY = e.Position.Y;
 
-            double dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
             if (dY <= 0)
                 dY = 0;
             else if (dY > maxDY)
@@ -189,14 +178,14 @@ namespace CurveDemo
 
             if ((dY >= 0.55 * maxDY && isControlPanelOpen == 0))
             {
-                StartControlAnimation(1,1);
+                StartControlAnimation(1, 1);
             }
-            else if(dY <= 0.45 * maxDY && isControlPanelOpen == 1)
+            else if (dY <= 0.45 * maxDY && isControlPanelOpen == 1)
             {
-                StartControlAnimation(0,1);
+                StartControlAnimation(0, 1);
             }
 
-            if(true) //卡片间距
+            if (true) //卡片间距
             {
                 dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
                 if (dY <= 1 * maxDY)
@@ -207,22 +196,21 @@ namespace CurveDemo
                     CG3Translate.Y = dY - maxDY;
 
                 }
-                else if(dY > maxDY * 1)
+                else if (dY > maxDY * 1)
                 {
                     double ddY = dY - maxDY;
-                    CG0Translate.Y = GetSpaceDeltaY(ddY, 100);
-                    CG1Translate.Y = GetSpaceDeltaY(ddY, 150);
-                    CG2Translate.Y = GetSpaceDeltaY(ddY, 200);
-                    CG3Translate.Y = GetSpaceDeltaY(ddY, 250);
+                    CG0Translate.Y = GetSpaceDeltaY(ddY, 150);
+                    CG1Translate.Y = GetSpaceDeltaY(ddY, 250);
+                    CG2Translate.Y = GetSpaceDeltaY(ddY, 350);
+                    CG3Translate.Y = GetSpaceDeltaY(ddY, 450);
                 }
             }
         }
-
-        private async void ControlBar_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        private void StartDownPulled(double vY)
         {
             MouseX = -1;
             MouseY = -1;
-            if ((BlurPointerTransform.Y >= 0 * maxBlur && e.Velocities.Linear.Y >= 0))
+            if ((BlurPointerTransform.Y >= 0 * maxBlur && vY >= -1))
             {
                 StartControlAnimation(1);
                 MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
@@ -234,7 +222,34 @@ namespace CurveDemo
                 MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = -100;
                 MoveBackControlCardsStoryBoard.Begin();
             }
+        }
 
+        private double GetSpaceDeltaY(double y, double a)
+        {
+            y = (a * (-1 / (Math.Abs(y) / a + 1) + 1));
+            return y;
+        }
+
+
+        private void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        {
+            MouseX = e.Position.X;
+            MouseY = e.Position.Y;
+            isControlPanelToOpen = 1;
+            StartDownPull(e.Position.Y, 1);
+        }
+
+        private void ControlBar_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
+            MouseX = e.Position.X;
+            MouseY = e.Position.Y;
+            double dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
+            StartDownPulling(dY);
+        }
+
+        private async void ControlBar_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+            StartDownPulled(e.Velocities.Linear.Y);
         }
 
         private void NotificationBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
@@ -259,80 +274,23 @@ namespace CurveDemo
 
         private void GstBut_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            BlurPointerStoryBoard.Stop();
             MouseX = e.Position.X;
             MouseY = e.Position.Y;
 
             double dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
-            if (dY <= 0)
-                dY = 0;
-            else if (dY > maxDY)
-                dY = maxDY;
-
-            BlurPointerTransform.Y = (dY / maxDY) * maxBlur;
-            BlurAnSet.From = BlurPointerTransform.Y;
-            BlurAnSet.To = BlurPointerTransform.Y;
-            BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
-            BlurAnimation.Start();
-
-            if ((dY >= 0.55 * maxDY && isControlPanelOpen == 0))
-            {
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
-                StartControlAnimation(1, 1);
-            }
-            else if (dY <= 0.45 * maxDY && isControlPanelOpen == 1)
-            {
-                StartControlAnimation(0, 1);
-            }
-
-            if (true) //卡片间距
-            {
-                dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;if(dY<= 1 * maxDY)
-                {
-                    double ddY = dY - maxDY;
-                    CG0Translate.Y = -GetSpaceDeltaY(ddY, 100);
-                    CG1Translate.Y = -GetSpaceDeltaY(ddY, 150);
-                    CG2Translate.Y = -GetSpaceDeltaY(ddY, 200);
-                    CG3Translate.Y = -GetSpaceDeltaY(ddY, 250);
-                }
-                else if (dY > maxDY * 1)
-                {
-                    double ddY = dY - maxDY;
-                    CG0Translate.Y = GetSpaceDeltaY(ddY, 100);
-                    CG1Translate.Y = GetSpaceDeltaY(ddY, 150);
-                    CG2Translate.Y = GetSpaceDeltaY(ddY, 200);
-                    CG3Translate.Y = GetSpaceDeltaY(ddY, 250);
-                }
-            }
+            StartDownPulling(dY);
         }
 
         private void GstBut_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            MouseX = -1;
-            MouseY = -1;
-            if ((BlurPointerTransform.Y >= 0 * maxBlur && e.Velocities.Linear.Y > 0))
-            {
-                StartControlAnimation(1);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
-                MoveBackControlCardsStoryBoard.Begin();
-            }
-            else
-            {
-                StartControlAnimation(0);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y < 0 ? CG0Translate.Y - 100 : -100;
-                MoveBackControlCardsStoryBoard.Begin();
-            }
+            StartDownPulled(e.Velocities.Linear.Y);
         }
 
         private void GstBut_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             MouseDownX = e.Position.X;
             MouseDownY = e.Position.Y;
-            BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
-            firstBlur = BlurPointerTransform.Y;
-            BlurPointerStoryBoard.Stop();
-            BlurPointerTransform.Y = firstBlur;
-            MoveBackControlCardsStoryBoard.Stop();
+            StartDownPull(MouseDownY);
         }
 
         private async void GstBut_Click(object sender, RoutedEventArgs e)
