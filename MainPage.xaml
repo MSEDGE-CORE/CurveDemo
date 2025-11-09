@@ -883,9 +883,19 @@
                     </Grid>
                 </Grid>
 
-    </Grid>
+            </Grid>
 
-        <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="48">
+            <Grid Name="DesktopIconGridWhenClosingApp" Visibility="Collapsed" Opacity="0.01">
+                <ScrollViewer x:Name="DesktopGridScrollViewer2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" CanContentRenderOutsideBounds="True" ViewChanged="DesktopGridScrollViewer_ViewChanged" >
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <VariableSizedWrapGrid  Orientation="Horizontal" MaximumRowsOrColumns="10000" Name="TouchIconGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+
+                        </VariableSizedWrapGrid>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+
+            <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="48">
             <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" PointerMoved="GstBut_PointerMoved" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape"></KeyboardAccelerator>

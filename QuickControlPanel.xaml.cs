@@ -33,14 +33,14 @@ namespace CurveDemo
         int isControlPanelOpen = 0;
         int isControlPanelToOpen = 0;
 
-        public System.TimeSpan TrDur005 = System.TimeSpan.FromSeconds(0.05 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur010 = System.TimeSpan.FromSeconds(0.10 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur015 = System.TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur03 = System.TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur04 = System.TimeSpan.FromSeconds(0.4 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur05 = System.TimeSpan.FromSeconds(0.5 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur06 = System.TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
-        public System.TimeSpan TrDur07 = System.TimeSpan.FromSeconds(0.7 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur005 = System.TimeSpan.FromSeconds(0.10 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur010 = System.TimeSpan.FromSeconds(0.20 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur015 = System.TimeSpan.FromSeconds(0.30 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur03 = System.TimeSpan.FromSeconds(0.4 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur04 = System.TimeSpan.FromSeconds(0.5 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur05 = System.TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur06 = System.TimeSpan.FromSeconds(0.7 * (Application.Current as App).TransitionDurationTime);
+        public System.TimeSpan TrDur07 = System.TimeSpan.FromSeconds(0.8 * (Application.Current as App).TransitionDurationTime);
 
         public QuickControlPanel()
         {
@@ -190,10 +190,11 @@ namespace CurveDemo
                 dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
                 if (dY <= 1 * maxDY)
                 {
-                    CG0Translate.Y = dY - maxDY;
-                    CG1Translate.Y = dY - maxDY;
-                    CG2Translate.Y = dY - maxDY;
-                    CG3Translate.Y = dY - maxDY;
+                    double ddY = -dY + maxDY;
+                    CG0Translate.Y = -GetSpaceDeltaY(ddY, 100);
+                    CG1Translate.Y = -GetSpaceDeltaY(ddY, 100);
+                    CG2Translate.Y = -GetSpaceDeltaY(ddY, 100);
+                    CG3Translate.Y = -GetSpaceDeltaY(ddY, 100);
 
                 }
                 else if (dY > maxDY * 1)
@@ -206,11 +207,11 @@ namespace CurveDemo
                 }
             }
         }
-        private void StartDownPulled(double vY)
+        private void StartDownPulled(double vY,int sender = 0)
         {
             MouseX = -1;
             MouseY = -1;
-            if ((BlurPointerTransform.Y >= 0 * maxBlur && vY >= -1))
+            if ((BlurPointerTransform.Y >= 0 * maxBlur && vY >= 1 && sender == 0) || (BlurPointerTransform.Y >= 0 * maxBlur && vY >= -1 && sender == 1))
             {
                 StartControlAnimation(1);
                 MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = 0;
@@ -219,7 +220,7 @@ namespace CurveDemo
             else
             {
                 StartControlAnimation(0);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = -100;
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y -100;
                 MoveBackControlCardsStoryBoard.Begin();
             }
         }
@@ -283,7 +284,7 @@ namespace CurveDemo
 
         private void GstBut_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            StartDownPulled(e.Velocities.Linear.Y);
+            StartDownPulled(e.Velocities.Linear.Y,( sender as Button).Name == "GstBut" ? 0:1);
         }
 
         private void GstBut_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -310,6 +311,12 @@ namespace CurveDemo
                 GridControlPanel.Visibility = Visibility.Collapsed;
                 BackBoard.Visibility = Visibility.Collapsed;
             }
+        }
+
+
+        private void ControlHorizontalScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void ControlBar_Click(object sender, RoutedEventArgs e)

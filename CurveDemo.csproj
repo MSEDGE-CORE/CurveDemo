@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <Nullable>enable</Nullable>
     <UseUwp>true</UseUwp>
@@ -14,42 +14,16 @@
     <EnableMsixTooling>true</EnableMsixTooling>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateKeyFile>CurveDemo_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>DA27B9F697AC792A4432D39BF4B304A4996DEFE8</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="AppPackages\**" />
-    <Compile Remove="BundleArtifacts\**" />
-    <Compile Remove="IconRes\**" />
-    <EmbeddedResource Remove="AppPackages\**" />
-    <EmbeddedResource Remove="BundleArtifacts\**" />
-    <EmbeddedResource Remove="IconRes\**" />
-    <None Remove="AppPackages\**" />
-    <None Remove="BundleArtifacts\**" />
-    <None Remove="IconRes\**" />
-    <Page Remove="AppPackages\**" />
-    <Page Remove="BundleArtifacts\**" />
-    <Page Remove="IconRes\**" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Uwp.Animations" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.Uwp.Behaviors" Version="8.2.250402" />
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.Uwp.Media" Version="8.2.250402" />
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Remove="IconRes\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Remove="AppPackages\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Remove="BundleArtifacts\**" />
   </ItemGroup>
 </Project>

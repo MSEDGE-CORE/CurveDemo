@@ -79,6 +79,7 @@ namespace CurveDemo
 
             if(isOnLaunching == -1)
             {
+                DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
                 if (AppWindowMain_Target >= 0)
                 {
                     AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -99,6 +100,7 @@ namespace CurveDemo
             }
             else if (isOnLaunching == 1)
             {
+                DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
                 GstBut.Visibility = Visibility.Visible;
                 AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 AppWindowGesture.Opacity = 1;
@@ -339,6 +341,9 @@ namespace CurveDemo
             }
             else if(isOnLaunching == 0)
             {
+                DesktopIconGridWhenClosingApp.Visibility = Visibility.Visible;
+                DesktopGridScrollViewer2.ScrollToVerticalOffset(DesktopGridScrollViewer.VerticalOffset);
+
                 AW2ABackStoryBoard.Stop();
                 AW2AGestureBackStoryBoard.Stop();
                 AW2AGestureBack2StoryBoard.Stop();
@@ -681,7 +686,7 @@ namespace CurveDemo
             (Application.Current as App).MultiAppInfos.RemoveAt(AppWindowMain_mIndex);
             AppWindowMain_mIndex = -1;*/
 
-            int target = DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid));
+            int target = DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid)) != -1 ? DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid)) : TouchIconGrid.Children.IndexOf(((sender as Button).Parent as Grid));
             OnRunningAppInfo ToRunAppInfo = new OnRunningAppInfo { AppFrame = null, AppIconPos = target, AppPackageName = ((DesktopGrid.Children[target] as Grid)).Tag != null ? ((DesktopGrid.Children[target] as Grid)).Tag.ToString() : (DateTime.Now.ToString()) };
             int ToRunAppIndex = -1, AppWindowMain_ToIndex = 0;
             foreach (var RunningApp in (Application.Current as App).MultiAppInfos)
@@ -720,6 +725,8 @@ namespace CurveDemo
 
             StartWindowAnimation(1, /*-1*/target);
             StartBackgroundAnimation(1);
+
+            DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
         }
 
         private void DesktopGrid_Loaded(object sender, RoutedEventArgs e) // 放置桌面图标
@@ -729,7 +736,12 @@ namespace CurveDemo
             int DskIconSize = 500;
             DesktopGrid.ItemHeight = 0.16 * 1.4 * DskIconSize;
             DesktopGrid.ItemWidth = 0.16 * 1.4 * DskIconSize;
-            DesktopGrid.Margin = new Windows.UI.Xaml.Thickness(0.16 * 0.2 * DskIconSize, 0.16 * 0.8 * DskIconSize, 0.16 * 0.2 * DskIconSize, 0.16 * 0.2 * DskIconSize);
+            DesktopGrid.Margin = new Windows.UI.Xaml.Thickness(0.16 * 0.2 * DskIconSize, 0.16 * 0.8 * DskIconSize, 0.16 * 0.2 * DskIconSize, 0.16 * 0.8 * DskIconSize);
+
+            TouchIconGrid.ItemHeight = 0.16 * 1.4 * DskIconSize;
+            TouchIconGrid.ItemWidth = 0.16 * 1.4 * DskIconSize;
+            TouchIconGrid.Margin = new Windows.UI.Xaml.Thickness(0.16 * 0.2 * DskIconSize, 0.16 * 0.8 * DskIconSize, 0.16 * 0.2 * DskIconSize, 0.16 * 0.8 * DskIconSize);
+
 
             var IconList = new List<DesktopIconInfo>
             {
@@ -851,6 +863,40 @@ namespace CurveDemo
                 grid.Children.Add(button);
 
                 DesktopGrid.Children.Add(grid);
+
+
+                //打断层
+                var grid2 = new Grid
+                {
+                    BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent),
+                    BorderThickness = new Thickness(IconInfo.ColumnSpan + IconInfo.RowSpan > 2 ? 1.0 : 0.5), //0.5是图标 1是卡片
+                    Tag = IconInfo.Tag,
+                    CornerRadius = new Windows.UI.Xaml.CornerRadius(DskIconSize * 100 / 1920 * 0.8),
+                    Margin = new Windows.UI.Xaml.Thickness(0.16 * 0.12 * DskIconSize),
+
+                };
+                VariableSizedWrapGrid.SetColumnSpan(grid2, IconInfo.ColumnSpan);
+                VariableSizedWrapGrid.SetRowSpan(grid2, IconInfo.RowSpan);
+
+                if (IconInfo.ColumnSpan + IconInfo.RowSpan > 2)
+                {
+                }
+                else
+                {
+                }
+
+                var button2 = new Button
+                {
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Background = new SolidColorBrush(Windows.UI.Colors.Transparent),
+                    BorderThickness = new Thickness(0),
+                    Margin = new Thickness(-4),
+                    Opacity = 0.5,
+                };
+                button2.Click += AppIcon_Click;
+                grid2.Children.Add(button2);
+                TouchIconGrid.Children.Add(grid2);
             }
 
             foreach (var AppIconGrid in DesktopGrid.Children)
@@ -1071,6 +1117,7 @@ namespace CurveDemo
             if (AppWindow2_Target >= 0)
             {
                 AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
                 (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
             }
         }
@@ -1097,8 +1144,12 @@ namespace CurveDemo
 
         private void DesktopGridScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if(AppWindowState == 2 && AppWindowMain_Target != -1)
+            if(AppWindowState == 2 && AppWindowMain_Target != -1 && DesktopGridScrollViewer.VerticalOffset != DesktopGridScrollViewer2.VerticalOffset)
                 StartWindowAnimation(-1);
+            if((sender as ScrollViewer).Name == "DesktopGridScrollViewer2" && DesktopGridScrollViewer.VerticalOffset != DesktopGridScrollViewer2.VerticalOffset)
+            {
+                DesktopGridScrollViewer.ScrollToVerticalOffset(DesktopGridScrollViewer2.VerticalOffset);
+            }
             AppWindow2Gesture.Visibility = Visibility.Collapsed;
         }
 
@@ -1140,8 +1191,8 @@ namespace CurveDemo
                     mH = ActualHeight * 1.1;
                 }
                 AWGScale.ScaleX = AWGScale.ScaleY = mH / ActualHeight;
-                AWGTransform.X = MouseX - (AWGScale.ScaleX) * (MouseDownX - 0.5 * ActualWidth) - 0.5 * ActualWidth;
-                AWGTransform.Y = -0.5 * ActualHeight + FarPoint * ActualHeight + (0.5 - FarPoint) * mH;
+                AWGTransform.X = (MouseX - (AWGScale.ScaleX) * (MouseDownX - 0.5 * ActualWidth) - 0.5 * ActualWidth) * AWAScale.ScaleY;
+                AWGTransform.Y = (-0.5 * ActualHeight + FarPoint * ActualHeight + (0.5 - FarPoint) * mH) * AWAScale.ScaleY;
             }
         }
 
@@ -1199,7 +1250,7 @@ namespace CurveDemo
 
                 AWGBackKeyScaleX2.Value = AWGBackKeyScaleY2.Value = 1.0;
 
-                AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint);
+                AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                 try
                 {
                     AWGBackKeyX2.Value = AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 4;
