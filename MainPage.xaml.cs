@@ -321,7 +321,7 @@ namespace CurveDemo
                     AWFrontIcon.Source = null;
                     AWBackgIcon.Source = null;
 
-                    AWAFrameOpacityDoubleAnimation.From = AWMultiTaskGrid.Opacity;
+                    AWAFrameOpacityDoubleAnimation.From = 0;
                     AWAFrameOpacityDoubleAnimation.To = 1;
                     AWAFrameOpacityDoubleAnimation.Duration = TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
                     AWAFrameOpacityDoubleAnimation.BeginTime = TimeSpan.FromSeconds(0.0);
