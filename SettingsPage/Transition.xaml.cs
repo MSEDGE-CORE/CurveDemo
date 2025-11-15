@@ -292,7 +292,7 @@ namespace CurveDemo.SettingsPage
             }
             else if ((Application.Current as App).CurveStyle == 1)
             {
-                GridBounceRadius.Visibility = Visibility.Visible;
+                //GridBounceRadius.Visibility = Visibility.Visible;
             }
         }
 

@@ -40,7 +40,10 @@
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "CurveStyleSelection" SelectionChanged="CurveStyleSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC"  >
                             <x:String>轻快</x:String>
-                            <x:String>自定义回弹</x:String>
+                            <x:String>劲度</x:String>
+                            <x:String>稳定</x:String>
+                            <x:String>平面</x:String>
+                            <x:String>投篮</x:String>
                         </ComboBox>
                     </Grid>
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">

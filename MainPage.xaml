@@ -88,7 +88,7 @@
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2GTransform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                             <EasingDoubleKeyFrame x:Name="AW2GBackKeyY2" Value="0" KeyTime="{x:Bind TrDur06}" >
                                 <EasingDoubleKeyFrame.EasingFunction>
-                                    <PowerEase EasingMode="EaseOut" Power="50"/>
+                                    <PowerEase x:Name="AW2GBackKeyY2PowerEase" EasingMode="EaseOut" Power="50"/>
                                 </EasingDoubleKeyFrame.EasingFunction>
                             </EasingDoubleKeyFrame>
                         </DoubleAnimationUsingKeyFrames>
@@ -184,12 +184,12 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2ATransform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyX1" Value="0" KeyTime="{x:Bind TrDur06}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                        <PowerEase x:Name="AW2AGstBackKeyX1PowerEase"  EasingMode="EaseOut" Power="3"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyX2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="4"/>
+                                        <PowerEase  x:Name="AW2AGstBackKeyY1PowerEase"  EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
@@ -440,7 +440,7 @@
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWGTransform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                             <EasingDoubleKeyFrame x:Name="AWGBackKeyY2" Value="0" KeyTime="{x:Bind TrDur06}" >
                                 <EasingDoubleKeyFrame.EasingFunction>
-                                    <PowerEase EasingMode="EaseOut" Power="50"/>
+                                    <PowerEase x:Name="AWGBackKeyY2PowerEase" EasingMode="EaseOut" Power="50"/>
                                 </EasingDoubleKeyFrame.EasingFunction>
                             </EasingDoubleKeyFrame>
                         </DoubleAnimationUsingKeyFrames>
@@ -640,7 +640,7 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWATransform" Storyboard.TargetProperty="X" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AWAGstBackKeyX1" Value="0" KeyTime="{x:Bind TrDur06}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                        <PowerEase x:Name="AWAGstBackKeyX1PowerEase" EasingMode="EaseOut" Power="3"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame x:Name="AWAGstBackKeyX2" Value="0" KeyTime="{x:Bind TrDur085}" >
@@ -652,7 +652,7 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWATransform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AWAGstBackKeyY1" Value="0" KeyTime="{x:Bind TrDur06}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                        <PowerEase x:Name="AWAGstBackKeyY1PowerEase"  EasingMode="EaseOut" Power="3"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame x:Name="AWAGstBackKeyY2" Value="0" KeyTime="{x:Bind TrDur085}" >

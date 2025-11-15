@@ -31,7 +31,6 @@ namespace CurveDemo
 
         DispatcherTimer Timer;
         int isControlPanelOpen = 0;
-        int isControlPanelToOpen = 0;
 
         public System.TimeSpan TrDur005 = System.TimeSpan.FromSeconds(0.10 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur010 = System.TimeSpan.FromSeconds(0.20 * (Application.Current as App).TransitionDurationTime);
@@ -220,7 +219,7 @@ namespace CurveDemo
             else
             {
                 StartControlAnimation(0);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y -100;
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y -50;
                 MoveBackControlCardsStoryBoard.Begin();
             }
         }
@@ -234,9 +233,12 @@ namespace CurveDemo
 
         private void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
+            if(isControlPanelOpen == 0)
+            {
+                ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ControlHorizontalScrollViewer.ScrollableWidth);
+            }
             MouseX = e.Position.X;
             MouseY = e.Position.Y;
-            isControlPanelToOpen = 1;
             StartDownPull(e.Position.Y, 1);
         }
 
@@ -255,12 +257,21 @@ namespace CurveDemo
 
         private void NotificationBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
-
+            if (isControlPanelOpen == 0)
+            {
+                ControlHorizontalScrollViewer.ScrollToHorizontalOffset(0);
+            }
+            MouseX = e.Position.X;
+            MouseY = e.Position.Y;
+            StartDownPull(e.Position.Y, 1);
         }
 
         private void NotificationBar_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
-
+            MouseX = e.Position.X;
+            MouseY = e.Position.Y;
+            double dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
+            StartDownPulling(dY);
         }
 
         private void NotificationBar_Click(object sender, RoutedEventArgs e)
@@ -326,12 +337,13 @@ namespace CurveDemo
 
         private void NotificationBar_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
         {
-
+            StartDownPulled(e.Velocities.Linear.Y);
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
+            if(ActualWidth > 0)
+                GridCP1.Width = GridCP2.Width = ActualWidth;
         }
     }
 }

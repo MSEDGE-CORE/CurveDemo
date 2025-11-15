@@ -536,6 +536,12 @@ namespace CurveDemo
                 AW2GScale.CenterX = AWGScale.CenterX;
                 AW2GScale.CenterY = AWGScale.CenterY;
 
+                AW2GBackKeyY2PowerEase.Power = AWGBackKeyY2PowerEase.Power;
+                AW2AGstBackKeyX1PowerEase.Power = AWAGstBackKeyX1PowerEase.Power;
+                AW2AGstBackKeyY1PowerEase.Power = AWAGstBackKeyY1PowerEase.Power;
+                AW2AGstBackKeyX1.KeyTime = AWAGstBackKeyX1.KeyTime;
+                AW2AGstBackKeyY1.KeyTime = AWAGstBackKeyY1.KeyTime;
+
                 AppHeight2Animation.Height = AppHeightAnimation.Height;
                 AppHeight2Animation.Width = AppHeightAnimation.Width;
                 AppHeight2Animation.CornerRadius = AppHeightAnimation.CornerRadius;
@@ -609,6 +615,24 @@ namespace CurveDemo
                 {
                     AW2GGestureFlyStoryBoard.Begin();
                     AW2AGestureBackStoryBoard.Begin();
+                    RoundCornerPointer2StBo.Begin();
+                }
+                else if ((Application.Current as App).CurveStyle == 2)
+                {
+                    AW2GGestureFlyStoryBoard.Begin();
+                    AW2AGestureBackStoryBoard.Begin();
+                    RoundCornerPointer2StBo.Begin();
+                }
+                else if ((Application.Current as App).CurveStyle == 3)
+                {
+                    AW2GGestureFlyStoryBoard.Begin();
+                    AW2AGestureBack2StoryBoard.Begin();
+                    RoundCornerPointer2StBo.Begin();
+                }
+                else if ((Application.Current as App).CurveStyle == 4)
+                {
+                    AW2GGestureFlyStoryBoard.Begin();
+                    AW2AGestureBack2StoryBoard.Begin();
                     RoundCornerPointer2StBo.Begin();
                 }
             }
@@ -1210,55 +1234,65 @@ namespace CurveDemo
                 //GstBut.Visibility = Visibility.Collapsed;
                 MouseX = e.Position.X;
                 MouseY = e.Position.Y;
-                try
-                {
-                    double dH = ((ActualHeight + (MouseY - MouseDownY) - Math.Pow(e.Velocities.Linear.Y, 1/5) * 1 * (Application.Current as App).FlyFar - ActualHeight * FarPoint) * (ActualHeight / (ActualHeight - ActualHeight * FarPoint)));
-                    double a = ActualHeight * 0.1;
-                    if (dH < ActualHeight * 0.4)
+                    try
                     {
-                        a = ActualHeight * 0.3;
-                        dH = -(a * (-1 / (Math.Abs(dH - ActualHeight * 0.4) / a + 1) + 1)) + ActualHeight * 0.4;
-                    }
-                    if (dH <= ActualHeight * 0.05)
-                    {
-                        dH = ActualHeight * 0.05;
-                    }
-                    if (dH > ActualHeight * 1.0)
-                    {
-                        a = ActualHeight * 0.1;
-                        dH = (a * (-1 / (Math.Abs(dH - ActualHeight * 1.0) / a + 1) + 1)) + ActualHeight * 1.0;
-                    }
-                    if (dH >= ActualHeight * 1.1)
-                    {
-                        dH = ActualHeight * 1.1;
-                    }
+                        double dH = ((ActualHeight + (MouseY - MouseDownY) - Math.Pow(e.Velocities.Linear.Y, 1 / 5) * 1 * (Application.Current as App).FlyFar - ActualHeight * FarPoint) * (ActualHeight / (ActualHeight - ActualHeight * FarPoint)));
+                        double a = ActualHeight * 0.1;
+                        if (dH < ActualHeight * 0.4)
+                        {
+                            a = ActualHeight * 0.3;
+                            dH = -(a * (-1 / (Math.Abs(dH - ActualHeight * 0.4) / a + 1) + 1)) + ActualHeight * 0.4;
+                        }
+                        if (dH <= ActualHeight * 0.05)
+                        {
+                            dH = ActualHeight * 0.05;
+                        }
+                        if (dH > ActualHeight * 1.0)
+                        {
+                            a = ActualHeight * 0.1;
+                            dH = (a * (-1 / (Math.Abs(dH - ActualHeight * 1.0) / a + 1) + 1)) + ActualHeight * 1.0;
+                        }
+                        if (dH >= ActualHeight * 1.1)
+                        {
+                            dH = ActualHeight * 1.1;
+                        }
                     //FarPoint = -0.2;
+                    if ((Application.Current as App).CurveStyle == 4)
+                    {
+                        FarPoint = -0.1;
+                    }
+                    else
+                    {
+                        FarPoint = 0.1;
+                    }
                     AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = AWGScale.ScaleX * (dH / mH) * (dH / mH) * (dH / mH) * (dH / mH) * (dH / mH);
-                    if (AWGBackKeyScaleX1.Value < 0.01 && AppWindowMain_Target != -1)
-                    {
-                        AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = 0.01;
+                        if (AWGBackKeyScaleX1.Value < 0.01 && AppWindowMain_Target != -1)
+                        {
+                            AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = 0.01;
+                        }
                     }
-                }
-                catch
-                {
-                    AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = AWGScale.ScaleX *1;
-                    if (AWGBackKeyScaleX1.Value < 0.01 && AppWindowMain_Target != -1)
+                    catch
                     {
-                        AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = 0.01;
+                        AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = AWGScale.ScaleX * 1;
+                        if (AWGBackKeyScaleX1.Value < 0.01 && AppWindowMain_Target != -1)
+                        {
+                            AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = 0.01;
+                        }
                     }
-                }
 
                 AWGBackKeyScaleX2.Value = AWGBackKeyScaleY2.Value = 1.0;
 
-                AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
-                try
-                {
-                    AWGBackKeyX2.Value = AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 4;
-                }
-                catch { }
                 
-                if((Application.Current as App).CurveStyle == 0)
+
+                if ((Application.Current as App).CurveStyle == 0)
                 {
+                    AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
+                    try
+                    {
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                    }
+                    catch { }
+                    AWGBackKeyY2PowerEase.Power = 50;
                     AWGBackKeyX2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
                     AWGBackKeyY2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
                     AWGBackKeyScaleX2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
@@ -1266,18 +1300,87 @@ namespace CurveDemo
                     AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
                     AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
                 }
-                else if((Application.Current as App).CurveStyle == 1)
+                else if ((Application.Current as App).CurveStyle == 1)
                 {
+                    AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
+                    try
+                    {
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                    }
+                    catch { }
+
+                    AWGBackKeyY2PowerEase.Power = 50;
                     AWGBackKeyX2.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
                     AWGBackKeyY2.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
                     AWGBackKeyScaleX2.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
                     AWGBackKeyScaleY2.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
                     AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
                     AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+
+                    AWAGstBackKeyX1PowerEase.Power = 3;
+                    AWAGstBackKeyY1PowerEase.Power = 3;
+                    AWAGstBackKeyX1.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
+                    AWAGstBackKeyY1.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
+                }
+                else if ((Application.Current as App).CurveStyle == 2)
+                {
+                    AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
+                    try
+                    {
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                    }
+                    catch { }
+                    AWGBackKeyY2PowerEase.Power = 50;
+                    AWGBackKeyX2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyY2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleX2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleY2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+                    AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+
+                    AWAGstBackKeyX1PowerEase.Power = 4.5;
+                    AWAGstBackKeyY1PowerEase.Power = 4.5;
+                    AWAGstBackKeyX1.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWAGstBackKeyY1.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                }
+                else if ((Application.Current as App).CurveStyle == 3)
+                {
+                    AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = AWGScale.ScaleX * 1;
+                    AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + e.Velocities.Linear.Y * AWAScale.ScaleY;
+                    try
+                    {
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                    }
+                    catch { }
+                    AWGBackKeyY2PowerEase.Power = 10;
+                    AWGBackKeyX2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyY2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleX2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleY2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.00 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+                    AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.00 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+
+                }
+                else if ((Application.Current as App).CurveStyle == 4)
+                {
+                    AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
+                    try
+                    {
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                    }
+                    catch { }
+                    AWGBackKeyY2PowerEase.Power = 20;
+                    AWGBackKeyX2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyY2.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleX2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleY2.KeyTime = TimeSpan.FromSeconds(0.65 * (Application.Current as App).TransitionDurationTime);
+                    AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+                    AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
+
                 }
                 AWGGestureFlyStoryBoard.Begin();
 
-                
+
                 StartWindowAnimation(0, AppWindowMain_Target);
                 StartBackgroundAnimation(0);
 
@@ -1307,7 +1410,7 @@ namespace CurveDemo
                 else if ((Application.Current as App).CurveStyle == 1)
                 {
                     double distance = Math.Sqrt(Math.Pow((AWABackKeyY.Value - AWGBackKeyY2.Value), 2) + Math.Pow((AWABackKeyX.Value - AWGBackKeyX2.Value), 2));
-                    double b = ((Application.Current as App).BounceRadius);
+                    double b = 6;// ((Application.Current as App).BounceRadius);
                     double BackEaseV = (1 * Math.Sqrt(Math.Pow(e.Velocities.Linear.Y, 2) + Math.Pow(e.Velocities.Linear.X, 2))) * 10;
                     double BackEaseRound = (b * (-1 / (Math.Abs(BackEaseV - 0) / b + 1) + 1)) + 0;
                     AWAGstBackKeyX1.Value = (AWABackKeyX.Value - AWGBackKeyX2.Value) * (distance + BackEaseRound) / distance;
@@ -1323,6 +1426,40 @@ namespace CurveDemo
                     }
                     else if (AppWindowMain_Target >= 0) //卡片
                     {
+                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 15.5 / 16.0;
+                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 15.5 / 16.0;
+                    }
+                    else
+                    {
+                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 0.01;
+                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 0.01;
+                    }
+                    AWAGstBackKeyScaleX2.Value = AWABackKeyScaleX.Value;
+                    AWAGstBackKeyScaleY2.Value = AWABackKeyScaleY.Value;
+
+
+
+                    AWAGestureBackStoryBoard.Begin();
+                }
+                else if ((Application.Current as App).CurveStyle == 2)
+                {
+                    double distance = Math.Sqrt(Math.Pow((AWABackKeyY.Value - AWGBackKeyY2.Value), 2) + Math.Pow((AWABackKeyX.Value - AWGBackKeyX2.Value), 2));
+                    double b = 0;// ((Application.Current as App).BounceRadius);
+                    double BackEaseV = (1 * Math.Sqrt(Math.Pow(e.Velocities.Linear.Y, 2) + Math.Pow(e.Velocities.Linear.X, 2))) * 10;
+                    double BackEaseRound = (b * (-1 / (Math.Abs(BackEaseV - 0) / b + 1) + 1)) + 0;
+                    AWAGstBackKeyX1.Value = (AWABackKeyX.Value - AWGBackKeyX2.Value) * (distance + 0*BackEaseRound) / distance;
+                    AWAGstBackKeyY1.Value = (AWABackKeyY.Value - AWGBackKeyY2.Value) * (distance + 0*BackEaseRound) / distance;
+                    AWAGstBackKeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
+                    AWAGstBackKeyY2.Value = AWABackKeyY.Value - AWGBackKeyY2.Value;
+                    AWAGstBackKeyH2.Value = AWABackKeyH.Value;
+                    AWAGstBackKeyW2.Value = AWABackKeyW.Value;
+                    if (AppWindowMain_Target >= 0 && b > 4 && (DesktopGrid.Children[AppWindowMain_Target].GetType() == typeof(Grid) && (DesktopGrid.Children[AppWindowMain_Target] as Grid).BorderThickness == new Windows.UI.Xaml.Thickness(0.5)))
+                    {
+                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 16 / 16.0;
+                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 16 / 16.0;
+                    }
+                    else if (AppWindowMain_Target >= 0) //卡片
+                    {
                         AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 16 / 16.0;
                         AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 16 / 16.0;
                     }
@@ -1335,8 +1472,55 @@ namespace CurveDemo
                     AWAGstBackKeyScaleY2.Value = AWABackKeyScaleY.Value;
                     AWAGestureBackStoryBoard.Begin();
                 }
+                else if ((Application.Current as App).CurveStyle == 3)
+                {
 
-                AWABackStoryBoard.Stop();
+                    AWAGstBack2KeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
+                    AWAGstBack2KeyY2.Value = AWABackKeyY.Value - AWGBackKeyY2.Value;
+                    AWAGstBack2KeyH2.Value = AWABackKeyH.Value;
+                    AWAGstBack2KeyW2.Value = AWABackKeyW.Value;
+
+                    if (AppWindowMain_Target >= 0 && (DesktopGrid.Children[AppWindowMain_Target].GetType() == typeof(Grid) && (DesktopGrid.Children[AppWindowMain_Target] as Grid).BorderThickness == new Windows.UI.Xaml.Thickness(0.5)))
+                    {
+                        AWAGstBack2KeyX2BackEase.Amplitude = AWAGstBack2KeyY2BackEase.Amplitude = 0.15;
+                    }
+                    else if (AppWindowMain_Target >= 0) //卡片
+                    {
+                        AWAGstBack2KeyX2BackEase.Amplitude = AWAGstBack2KeyY2BackEase.Amplitude = 0.15;
+                    }
+                    else
+                    {
+                        AWAGstBack2KeyX2BackEase.Amplitude = AWAGstBack2KeyY2BackEase.Amplitude = 0.01;
+                    }
+                    AWAGstBack2KeyScaleX2.Value = AWABackKeyScaleX.Value;
+                    AWAGstBack2KeyScaleY2.Value = AWABackKeyScaleY.Value;
+                    AWAGestureBack2StoryBoard.Begin();
+                }
+                else if ((Application.Current as App).CurveStyle == 4)
+                {
+                    AWAGstBack2KeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
+                    AWAGstBack2KeyY2.Value = AWABackKeyY.Value - AWGBackKeyY2.Value;
+                    AWAGstBack2KeyH2.Value = AWABackKeyH.Value;
+                    AWAGstBack2KeyW2.Value = AWABackKeyW.Value;
+
+                    if (AppWindowMain_Target >= 0 && (DesktopGrid.Children[AppWindowMain_Target].GetType() == typeof(Grid) && (DesktopGrid.Children[AppWindowMain_Target] as Grid).BorderThickness == new Windows.UI.Xaml.Thickness(0.5)))
+                    {
+                        AWAGstBack2KeyX2BackEase.Amplitude = AWAGstBack2KeyY2BackEase.Amplitude = 0.15;
+                    }
+                    else if (AppWindowMain_Target >= 0) //卡片
+                    {
+                        AWAGstBack2KeyX2BackEase.Amplitude = AWAGstBack2KeyY2BackEase.Amplitude = 0.15;
+                    }
+                    else
+                    {
+                        AWAGstBack2KeyX2BackEase.Amplitude = AWAGstBack2KeyY2BackEase.Amplitude = 0.01;
+                    }
+                    AWAGstBack2KeyScaleX2.Value = AWABackKeyScaleX.Value;
+                    AWAGstBack2KeyScaleY2.Value = AWABackKeyScaleY.Value;
+                    AWAGestureBack2StoryBoard.Begin();
+                }
+
+                    AWABackStoryBoard.Stop();
 
                 StartSideAnimation(1);
             }
