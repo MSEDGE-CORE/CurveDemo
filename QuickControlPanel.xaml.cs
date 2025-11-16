@@ -231,11 +231,16 @@ namespace CurveDemo
         }
 
 
-        private void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        private async void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
             if(isControlPanelOpen == 0)
             {
                 ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ControlHorizontalScrollViewer.ScrollableWidth);
+                if(ControlHorizontalScrollViewer.ScrollableWidth == 0)
+                {
+                    await Task.Delay(10);
+                    ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ControlHorizontalScrollViewer.ScrollableWidth);
+                }
             }
             MouseX = e.Position.X;
             MouseY = e.Position.Y;
@@ -343,7 +348,9 @@ namespace CurveDemo
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if(ActualWidth > 0)
+            {
                 GridCP1.Width = GridCP2.Width = ActualWidth;
+            }
         }
     }
 }

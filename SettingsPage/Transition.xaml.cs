@@ -39,7 +39,7 @@ namespace CurveDemo.SettingsPage
             BgScale_Switch.IsOn = (Application.Current as App).EnableBgScale == 1 ? true : false;
             ScrCornerRadius_Switch.IsOn = (Application.Current as App).ScreenCornerRadius == 100.0 / 1920 ? true : false;
             SideWindowAnimation_Switch.IsOn = (Application.Current as App).EnableSideWindowAnimation == 1 ? true : false;
-            CurveStyleSelection.SelectedIndex = (Application.Current as App).CurveStyle <= 1 ? (Application.Current as App).CurveStyle : 0;
+            CurveStyleSelection.SelectedIndex = (Application.Current as App).CurveStyle <= 4 ? (Application.Current as App).CurveStyle : 0;
             CtrlPnCurveSelection.SelectedIndex = (Application.Current as App).CtrPnelCurveStyle <= 1 ? (Application.Current as App).CtrPnelCurveStyle : 0;
             if ((Application.Current as App).TransitionDurationTime < 0.1)
             {

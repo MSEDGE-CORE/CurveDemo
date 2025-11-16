@@ -189,14 +189,14 @@
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyX2" Value="0" KeyTime="{x:Bind TrDur085}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase  x:Name="AW2AGstBackKeyY1PowerEase"  EasingMode="EaseOut" Power="4"/>
+                                        <PowerEase   EasingMode="EaseOut" Power="4"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AW2ATransform" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur085}" EnableDependentAnimation="True">
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyY1" Value="0" KeyTime="{x:Bind TrDur06}" >
                                     <EasingDoubleKeyFrame.EasingFunction>
-                                        <PowerEase EasingMode="EaseOut" Power="3"/>
+                                        <PowerEase x:Name="AW2AGstBackKeyY1PowerEase"  EasingMode="EaseOut" Power="3"/>
                                     </EasingDoubleKeyFrame.EasingFunction>
                                 </EasingDoubleKeyFrame>
                                 <EasingDoubleKeyFrame x:Name="AW2AGstBackKeyY2" Value="0" KeyTime="{x:Bind TrDur085}" >
