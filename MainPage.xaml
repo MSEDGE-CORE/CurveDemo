@@ -885,7 +885,10 @@
 
             </Grid>
 
-            <Grid Name="DesktopIconGridWhenClosingApp" Visibility="Collapsed" Opacity="0.01">
+            <Grid Name="DesktopIconGridWhenClosingApp" Visibility="Visible" Opacity="0.01">
+                <Grid.RenderTransform>
+                    <ScaleTransform x:Name="DesktopIconGridWhenClosingAppScale" ScaleX="0" ScaleY="1"/>
+                </Grid.RenderTransform>
                 <ScrollViewer x:Name="DesktopGridScrollViewer2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" CanContentRenderOutsideBounds="True" ViewChanged="DesktopGridScrollViewer_ViewChanged" >
                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <VariableSizedWrapGrid  Orientation="Horizontal" MaximumRowsOrColumns="10000" Name="TouchIconGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch">

@@ -99,7 +99,7 @@ namespace CurveDemo
                 ControlsScrollViewer.ScrollToVerticalOffset(0);
                 GridControlPanel.Visibility = Visibility.Visible;
                 BackBoard.Visibility = Visibility.Visible;
-                StatusBar.RequestedTheme = ElementTheme.Dark;
+                StatusBar.RequestedTheme = BackBoard.ActualTheme == ElementTheme.Dark ? ElementTheme.Light : ElementTheme.Dark;
 
                 if (isPointerMoving == 0)
                 {
@@ -172,7 +172,7 @@ namespace CurveDemo
             BlurPointerTransform.Y = (dY / maxDY) * maxBlur;
             BlurAnSet.From = BlurPointerTransform.Y;
             BlurAnSet.To = BlurPointerTransform.Y;
-            BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
+            BlurAnSet.Duration = TimeSpan.FromMilliseconds(500);
             BlurAnimation.Start();
 
             if ((dY >= 0.55 * maxDY && isControlPanelOpen == 0))
@@ -219,7 +219,7 @@ namespace CurveDemo
             else
             {
                 StartControlAnimation(0);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y -50;
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = CG0Translate.Y -0;
                 MoveBackControlCardsStoryBoard.Begin();
             }
         }
@@ -233,13 +233,13 @@ namespace CurveDemo
 
         private async void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
-            if(isControlPanelOpen == 0)
+            if(isControlPanelOpen == 0 || true)
             {
-                ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ControlHorizontalScrollViewer.ScrollableWidth);
-                if(ControlHorizontalScrollViewer.ScrollableWidth == 0)
+                ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ActualWidth);
+                while (ControlHorizontalScrollViewer.ScrollableWidth != ActualWidth || ControlHorizontalScrollViewer.HorizontalOffset != ActualWidth)
                 {
                     await Task.Delay(10);
-                    ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ControlHorizontalScrollViewer.ScrollableWidth);
+                    ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ActualWidth);
                 }
             }
             MouseX = e.Position.X;
@@ -262,7 +262,7 @@ namespace CurveDemo
 
         private void NotificationBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
-            if (isControlPanelOpen == 0)
+            if (isControlPanelOpen == 0 || true)
             {
                 ControlHorizontalScrollViewer.ScrollToHorizontalOffset(0);
             }

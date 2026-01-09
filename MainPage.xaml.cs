@@ -79,7 +79,7 @@ namespace CurveDemo
 
             if(isOnLaunching == -1)
             {
-                DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
+                DesktopIconGridWhenClosingAppScale.ScaleX = 0;
                 if (AppWindowMain_Target >= 0)
                 {
                     AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -97,10 +97,16 @@ namespace CurveDemo
                     AWGTransform.X = AWGTransform.Y = 0;
                     AWGScale.ScaleX = AWGScale.ScaleY = 1.0;
                 }
+                if (AppWindow2_Target >= 0)
+                {
+                    AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    DesktopIconGridWhenClosingAppScale.ScaleX = 0;
+                    (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
+                }
             }
             else if (isOnLaunching == 1)
             {
-                DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
+                DesktopIconGridWhenClosingAppScale.ScaleX = 0;
                 GstBut.Visibility = Visibility.Visible;
                 AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 AppWindowGesture.Opacity = 1;
@@ -341,7 +347,7 @@ namespace CurveDemo
             }
             else if(isOnLaunching == 0)
             {
-                DesktopIconGridWhenClosingApp.Visibility = Visibility.Visible;
+                DesktopIconGridWhenClosingAppScale.ScaleX = 1;
                 DesktopGridScrollViewer2.ScrollToVerticalOffset(DesktopGridScrollViewer.VerticalOffset);
 
                 AW2ABackStoryBoard.Stop();
@@ -752,7 +758,7 @@ namespace CurveDemo
             StartWindowAnimation(1, /*-1*/target);
             StartBackgroundAnimation(1);
 
-            DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
+            DesktopIconGridWhenClosingAppScale.ScaleX = 0;
         }
 
         private void DesktopGrid_Loaded(object sender, RoutedEventArgs e) // 放置桌面图标
@@ -811,8 +817,8 @@ namespace CurveDemo
                 {
                     BgSource = "",
                     FgSource = "ms-appx:///Assets/CardRes/03_gettyimages-591774121_super_resized.jpg",
-                    ColumnSpan = 2,
-                    RowSpan = 1
+                    ColumnSpan = 4,
+                    RowSpan = 2
                 },
                 new DesktopIconInfo { BgSource = "ms-appx:///Assets/IconRes/com.android.soundrecorder/background.png", FgSource = "ms-appx:///Assets/IconRes/com.android.soundrecorder/foreground.png" },
                 new DesktopIconInfo { BgSource = "ms-appx:///Assets/IconRes/com.huawei.android.thememanager/background.png", FgSource = "ms-appx:///Assets/IconRes/com.huawei.android.thememanager/foreground.png" },
@@ -1002,6 +1008,17 @@ namespace CurveDemo
                     AW2GScaleFallBehind.CenterY = ActualHeight * 0.5;
                 }
             }
+
+            if(ActualWidth != 0 && ActualWidth <= 720)
+            {
+                DesktopGrid.MaximumRowsOrColumns = 4;
+                TouchIconGrid.MaximumRowsOrColumns = 4;
+            }
+            else
+            {
+                DesktopGrid.MaximumRowsOrColumns = -1;
+                TouchIconGrid.MaximumRowsOrColumns = -1;
+            }
         }
 
         public void StartBackgroundAnimation(int isOnLaunching = 0)
@@ -1143,7 +1160,7 @@ namespace CurveDemo
             if (AppWindow2_Target >= 0)
             {
                 AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                DesktopIconGridWhenClosingApp.Visibility = Visibility.Collapsed;
+                DesktopIconGridWhenClosingAppScale.ScaleX = 0;
                 (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
             }
         }
@@ -1176,6 +1193,13 @@ namespace CurveDemo
             {
                 DesktopGridScrollViewer.ScrollToVerticalOffset(DesktopGridScrollViewer2.VerticalOffset);
             }
+
+            if (AppWindow2_Target >= 0)
+            {
+                AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                DesktopIconGridWhenClosingAppScale.ScaleX = 0;
+                (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
+            }
             AppWindow2Gesture.Visibility = Visibility.Collapsed;
         }
 
@@ -1187,7 +1211,7 @@ namespace CurveDemo
                 return;
             }
 
-            FarPoint = 0.15;
+            FarPoint = 0.2;
             if (true)
             {
                 AWGScale.CenterX = ActualWidth / 2.0;
@@ -1415,21 +1439,21 @@ namespace CurveDemo
                     double b = 6;// ((Application.Current as App).BounceRadius);
                     double BackEaseV = (1 * Math.Sqrt(Math.Pow(e.Velocities.Linear.Y, 2) + Math.Pow(e.Velocities.Linear.X, 2))) * 10;
                     double BackEaseRound = (b * (-1 / (Math.Abs(BackEaseV - 0) / b + 1) + 1)) + 0;
-                    AWAGstBackKeyX1.Value = (AWABackKeyX.Value - AWGBackKeyX2.Value) * (distance + BackEaseRound) / distance;
-                    AWAGstBackKeyY1.Value = (AWABackKeyY.Value - AWGBackKeyY2.Value) * (distance + BackEaseRound) / distance;
+                    AWAGstBackKeyX1.Value = (AWABackKeyX.Value - AWGBackKeyX2.Value) * (distance * 1.02) / distance;
+                    AWAGstBackKeyY1.Value = (AWABackKeyY.Value - AWGBackKeyY2.Value) * (distance * 1.02/* + BackEaseRound*/) / distance;
                     AWAGstBackKeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
                     AWAGstBackKeyY2.Value = AWABackKeyY.Value - AWGBackKeyY2.Value;
                     AWAGstBackKeyH2.Value = AWABackKeyH.Value;
                     AWAGstBackKeyW2.Value = AWABackKeyW.Value;
                     if (AppWindowMain_Target >= 0 && b > 4 && (DesktopGrid.Children[AppWindowMain_Target].GetType() == typeof(Grid) && (DesktopGrid.Children[AppWindowMain_Target] as Grid).BorderThickness == new Windows.UI.Xaml.Thickness(0.5)))
                     {
-                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 15 / 16.0;
-                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 15 / 16.0;
+                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 15.4 / 16.0;
+                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 15.4 / 16.0;
                     }
                     else if (AppWindowMain_Target >= 0) //卡片
                     {
-                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 15.5 / 16.0;
-                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 15.5 / 16.0;
+                        AWAGstBackKeyScaleX1.Value = AWABackKeyScaleX.Value * 15.6 / 16.0;
+                        AWAGstBackKeyScaleY1.Value = AWABackKeyScaleY.Value * 15.6 / 16.0;
                     }
                     else
                     {
