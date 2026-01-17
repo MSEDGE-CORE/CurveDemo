@@ -155,7 +155,11 @@ namespace CurveDemo
                 {
                     HideControlsStoryBoard.Begin();
                 }
-                isControlPanelOpen = 0;
+                else if (GridControlPanel.Visibility == Visibility.Visible)
+                {
+                    GridControlPanel.Visibility = Visibility.Collapsed;
+                }
+                    isControlPanelOpen = 0;
 
             }
         }
@@ -167,6 +171,8 @@ namespace CurveDemo
         double firstBlur = 0;
         private void StartDownPull(double eY, int currentPanel = 0)
         {
+
+            GridControlPanel.Visibility = Visibility.Visible;
             MouseDownY = eY;
             BlurAnSet.Duration = TimeSpan.FromMilliseconds(100);
             firstBlur = BlurPointerTransform.Y;
@@ -204,8 +210,8 @@ namespace CurveDemo
 
                 if(GridStatusClockOpenStoryBoard.GetCurrentState() == Windows.UI.Xaml.Media.Animation.ClockState.Active)
                 {
-                    //GridStatusClockOpenStoryBoard.Begin();
-                    //GridStatusClockOpenStoryBoard.Stop();
+                    GridStatusClockOpenStoryBoard.Begin();
+                    GridStatusClockOpenStoryBoard.Stop();
                 }
                 else if (GridStatusClockCloseStoryBoard.GetCurrentState() == Windows.UI.Xaml.Media.Animation.ClockState.Active)
                 {
@@ -215,13 +221,11 @@ namespace CurveDemo
 
                 double SCMHeight = ((dY * 1.0 / maxDY) * (GridClockToH - GridClockFromH) + GridClockFromH);
                 if(SCMHeight < GridClockFromH)
-                    GSCOpenDAHeight.Value = GridClockFromH;
+                    GridStatusClockMotion.Height = GridClockFromH;
                 else if(SCMHeight > GridClockToH)
-                    GSCOpenDAHeight.Value = GridClockToH;
+                    GridStatusClockMotion.Height = GridClockToH;
                 else
-                    GSCOpenDAHeight.Value = SCMHeight;
-                GSCOpenDAHeight.KeyTime = TimeSpan.FromMilliseconds(50);
-                GridStatusClockOpenStoryBoard.Begin();
+                    GridStatusClockMotion.Height = SCMHeight;
 
                 if (dY <= 1 * maxDY)
                 {

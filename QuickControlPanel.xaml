@@ -94,7 +94,7 @@
                                                 <TranslateTransform x:Name="NG1Translate" />
                                             </TransformGroup>
                                         </Grid.RenderTransform>
-                                        <VariableSizedWrapGrid ItemHeight="112" ItemWidth="1" Orientation="Horizontal" MaximumRowsOrColumns="-1" Name="NotificationsGrid1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
+                                        <VariableSizedWrapGrid Opacity="0" ItemHeight="112" ItemWidth="1" Orientation="Horizontal" MaximumRowsOrColumns="-1" Name="NotificationsGrid1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
                                             <VariableSizedWrapGrid.RenderTransform>
                                                 <TransformGroup>
                                                     <ScaleTransform x:Name="NG1Scale" CenterX="000" CenterY="0" />
@@ -119,7 +119,7 @@
                                                 <TranslateTransform x:Name="NG2Translate" />
                                             </TransformGroup>
                                         </Grid.RenderTransform>
-                                        <VariableSizedWrapGrid ItemHeight="112" ItemWidth="1" Orientation="Horizontal" MaximumRowsOrColumns="-1" Name="NotificationsGrid2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
+                                        <VariableSizedWrapGrid Opacity="0" ItemHeight="112" ItemWidth="1" Orientation="Horizontal" MaximumRowsOrColumns="-1" Name="NotificationsGrid2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Loaded="ControlsGrid_Loaded">
                                             <VariableSizedWrapGrid.RenderTransform>
                                                 <TransformGroup>
                                                     <ScaleTransform x:Name="NG2Scale" CenterX="000" CenterY="0" />
