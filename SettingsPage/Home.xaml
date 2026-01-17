@@ -37,6 +37,13 @@
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE771;" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="27,2,0,0" FontSize="20"/>
                         <Button Name="ApperancePage" Click="ApperancePage_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"/>
                     </Grid>
+                    <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                        <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <TextBlock FontSize = "16" Text = "通知和控制中心" Margin = "60,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE0E3;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,26,0" FontSize="12"/>
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE134;" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="27,2,0,0" FontSize="20"/>
+                        <Button Name="CtrlPnelPage" Click="CtrlPnelPage_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" BorderBrush="Transparent"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

@@ -1114,7 +1114,7 @@ namespace CurveDemo
         {
             if(AWAScale.ScaleX != 1.0)
                 AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
-            else
+            else if(AWAScale.ScaleX == 1.0 && AWGScale.ScaleX == 1.0)
                 AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(1);
 
             if((Application.Current as App).EnableSideWindowAnimation == 1)
@@ -1127,7 +1127,8 @@ namespace CurveDemo
         {
             if(AppWindowState == 1)
             {
-                AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(1);
+                if(AWAScale.ScaleX == 1.0 && AWGScale.ScaleX == 1.0)
+                    AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(1);
                 RoundCornerTimer.Stop();
                 if (AWCardFrame.Content == null || AWCardFrame.Content.GetType() != typeof(DesktopCard))
                     AWCardFrame.Navigate(typeof(DesktopCard), null, new SuppressNavigationTransitionInfo());
@@ -1289,7 +1290,7 @@ namespace CurveDemo
                     }
                     else
                     {
-                        FarPoint = 0.1;
+                        FarPoint = 0.2;
                     }
                     AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = AWGScale.ScaleX * (dH / mH) * (dH / mH) * (dH / mH) * (dH / mH) * (dH / mH);
                         if (AWGBackKeyScaleX1.Value < 0.01 && AppWindowMain_Target != -1)

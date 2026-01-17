@@ -54,6 +54,8 @@ namespace CurveDemo
         public bool iUseCustomBackground = false;
         public int CurveStyle = 0;
         public int CtrPnelCurveStyle = 0;
+        public int NotificationCenterAlignment = 0;
+        public bool CombineControlCenterWhenWide = false;
 
 
         public App()
@@ -176,6 +178,15 @@ namespace CurveDemo
             if (LocalSettings.Values["CtrPnelCurveStyle"] != null && ((int)LocalSettings.Values["CtrPnelCurveStyle"] >= 0))
             {
                 CtrPnelCurveStyle = (int)LocalSettings.Values["CtrPnelCurveStyle"];
+            }
+
+            if (LocalSettings.Values["NotificationCenterAlignment"] != null && ((int)LocalSettings.Values["NotificationCenterAlignment"] >= 0))
+            {
+                NotificationCenterAlignment = (int)LocalSettings.Values["NotificationCenterAlignment"];
+            }
+            if (LocalSettings.Values["CombineControlCenterWhenWide"] != null)
+            {
+                CombineControlCenterWhenWide = (bool)LocalSettings.Values["CombineControlCenterWhenWide"];
             }
         }
 

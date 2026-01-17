@@ -41,5 +41,10 @@ namespace CurveDemo.SettingsPage
         {
             Frame.Navigate(typeof(SettingsPage.Transition), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
+
+        private void CtrlPnelPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage.ControlCenter), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+        }
     }
 }
