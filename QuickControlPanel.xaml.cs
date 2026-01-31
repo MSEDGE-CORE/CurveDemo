@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace CurveDemo
@@ -101,6 +102,7 @@ namespace CurveDemo
 
             if (isOpening == 1)
             {
+                NotificationsScrollViewer.ScrollToVerticalOffset(0);
                 ControlsScrollViewer.ScrollToVerticalOffset(0);
                 GridControlPanel.Visibility = Visibility.Visible;
                 BackBoard.Visibility = Visibility.Visible;
@@ -126,6 +128,7 @@ namespace CurveDemo
                 }
                 if(isControlPanelOpen == 0)
                 {
+                    AWAControlScale.ScaleX = AWAControlScale.ScaleY = 6.0;
                     ShowControlsStoryBoard.Begin();
                 }
                 isControlPanelOpen = 1;
@@ -155,9 +158,10 @@ namespace CurveDemo
                 {
                     HideControlsStoryBoard.Begin();
                 }
-                else if (GridControlPanel.Visibility == Visibility.Visible)
+                else if (ControlsGrid0.Opacity < 0.1 && MouseX == -100000 && isPointerMoving == 0)
                 {
                     GridControlPanel.Visibility = Visibility.Collapsed;
+                    BackBoard.Visibility = Visibility.Collapsed;
                 }
                     isControlPanelOpen = 0;
 
@@ -165,7 +169,7 @@ namespace CurveDemo
         }
 
         double MouseDownX = -1, MouseDownY = -1;
-        double MouseX = -1, MouseY = -1;
+        double MouseX = -100000, MouseY = -1;
         int maxBlur = 40, maxDY = 100;
         int GridClockFromH = 48, GridClockToH = 128;
         double firstBlur = 0;
@@ -207,7 +211,7 @@ namespace CurveDemo
             if (true) //卡片间距
             {
                 dY = MouseY - MouseDownY + (firstBlur / maxBlur) * maxDY;
-
+                
                 if(GridStatusClockOpenStoryBoard.GetCurrentState() == Windows.UI.Xaml.Media.Animation.ClockState.Active)
                 {
                     GridStatusClockOpenStoryBoard.Begin();
@@ -254,7 +258,7 @@ namespace CurveDemo
         }
         private void StartDownPulled(double vY,int sender = 0)
         {
-            MouseX = -1;
+            MouseX = -100000;
             MouseY = -1;
             if ((BlurPointerTransform.Y >= 0 * maxBlur && vY >= 0 && sender == 0) || (BlurPointerTransform.Y >= 0 * maxBlur && vY >= 1 && sender == 1))
             {
@@ -279,10 +283,11 @@ namespace CurveDemo
 
         private async void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
-            if(isControlPanelOpen == 0 || true)
+            GridControlPanel.Visibility = Visibility.Visible;
+            if (isControlPanelOpen == 0 || true)
             {
                 ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ActualWidth);
-                while (ControlHorizontalScrollViewer.ScrollableWidth != ActualWidth && ControlHorizontalScrollViewer.HorizontalOffset != ControlHorizontalScrollViewer.ScrollableWidth)
+                while (!(Application.Current as App).CombineControlCenterWhenWide && (ControlHorizontalScrollViewer.ScrollableWidth != ActualWidth || ControlHorizontalScrollViewer.HorizontalOffset != ControlHorizontalScrollViewer.ScrollableWidth))
                 {
                     await Task.Delay(10);
                     ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ActualWidth);
@@ -368,8 +373,9 @@ namespace CurveDemo
 
         private void HideControlsStoryBoard_Completed(object sender, object e)
         {
-            if(ControlsGrid0.Opacity == 0 && MouseY == -1)
+            if(ControlsGrid0.Opacity < 0.1 && ShowControlsStoryBoard.GetCurrentState() != ClockState.Active && MouseX == -100000)
             {
+                AWAControlScale.ScaleX = AWAControlScale.ScaleY = 6.0;
                 GridControlPanel.Visibility = Visibility.Collapsed;
                 BackBoard.Visibility = Visibility.Collapsed;
             }
@@ -383,12 +389,32 @@ namespace CurveDemo
         private void ControlHorizontalScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             MoveStatusClock();
+
+            if(ControlHorizontalScrollViewer.HorizontalOffset == 0)
+            {
+                ControlsScrollViewer.ScrollToVerticalOffset(0);
+            }
+            else if(ControlHorizontalScrollViewer.HorizontalOffset == ControlHorizontalScrollViewer.ScrollableWidth)
+            {
+                NotificationsScrollViewer.ScrollToVerticalOffset(0);
+            }
         }
 
         //已定义GridClockFromH
         double NotificationScrollFromOf = 100, NotificationScrollToOf = 0;
         double HorizontalScrollFromOf = 10, HorizontalScrollToOf = 0;
         double FontSizeFrom = 22, FontSizeTo = 80;
+
+
+
+        private void CP_SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            (((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartBackgroundAnimation(1);
+            if ((((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).AppLauncher("com.android.settings") != -4)
+                (((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartWindowAnimation(1, -3, [GridCP20.ActualOffset.X + ControlsGrid0.ActualOffset.X + ControlsScrollViewer.ActualOffset.X + (ControlsGrid0.Children[1] as Grid).ActualOffset.X + 24 , GridCP20.ActualOffset.Y + ControlsScrollViewer.ActualOffset.Y - ControlsScrollViewer.VerticalOffset + ControlsGrid0.ActualOffset.Y + (ControlsGrid0.Children[1] as Grid).ActualOffset.Y + CG0Translate.Y + 24 + 52, 48,48]);
+            //(((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartWindowAnimation(1, -3, [ActualWidth / 2.0, 0, 48, 48]);
+            StartControlAnimation(0);
+        }
 
         double ClockXFrom = 0, ClockXTo = 1, ClockYFrom = 0, ClockYTo = 32;
         public void MoveStatusClock()
@@ -410,7 +436,7 @@ namespace CurveDemo
             }
             if ((Application.Current as App).NotificationCenterAlignment == 1 || ActualWidth >= 1000 && (Application.Current as App).CombineControlCenterWhenWide)
             {
-                ClockXTo = 20;
+                ClockXTo = 32;
                 ClockYTo = 20;
                 (NotificationsScrollViewer.Content as StackPanel).HorizontalAlignment = HorizontalAlignment.Left;
 
@@ -492,8 +518,16 @@ namespace CurveDemo
                     GridCP20.HorizontalAlignment = HorizontalAlignment.Right;
                     CGSScale.CenterX = 460;
                     NGSScale.CenterX = 20;
-                    HorizontalScrollFromOf = ActualWidth / 2.0 + 360;
-                    HorizontalScrollToOf = ActualWidth / 2.0 - 360;
+                    if((Application.Current as App).NotificationCenterAlignment == 0)
+                    {
+                        HorizontalScrollFromOf = ActualWidth / 2.0 + 360;
+                        HorizontalScrollToOf = ActualWidth / 2.0 - 360;
+                    }
+                    else if((Application.Current as App).NotificationCenterAlignment == 1)
+                    {
+                        HorizontalScrollFromOf = 720;
+                        HorizontalScrollToOf = 0;
+                    }
                 }
             }
 

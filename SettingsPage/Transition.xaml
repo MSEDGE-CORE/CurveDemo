@@ -17,7 +17,7 @@
         </Grid>
         <ScrollViewer Name="ScrollViewer" IsTabStop="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="0,116,0,0">
             <Grid>
-                <StackPanel Name="SPanel" MaxWidth="720" Margin="40,0,40,32">
+                <StackPanel Name="SPanel" MaxWidth="720" Margin="40,0,40,132">
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBlock FontSize = "16" Text = "动效速率" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />

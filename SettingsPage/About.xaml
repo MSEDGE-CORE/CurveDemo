@@ -17,7 +17,7 @@
         </Grid>
         <ScrollViewer Name="ScrollViewer" IsTabStop="False" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Margin="0,116,0,0">
             <Grid>
-                <StackPanel MaxWidth="720" Margin="40,0,40,32">
+                <StackPanel MaxWidth="720" Margin="40,0,40,132">
                     <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "90" MaxHeight = "90" Height = "90">
                         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsTabStop="False"/>
                         <Image Source="/Assets/WindowIcon.png" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="24,0,0,0" Height="40" Width="40" Stretch="UniformToFill"/>

@@ -73,7 +73,7 @@ namespace CurveDemo
 
 
         public int AppWindowMain_Target = -2, AppWindowMain_mIndex = -2, AppWindowState = 0, AppWindow2_Target = -2;
-        private async void StartWindowAnimation(int isOnLaunching = 0, int AppTarget = -2)
+        public async void StartWindowAnimation(int isOnLaunching = 0, int AppTarget = -2, double[] WindowPositionFrom = null) // X Y 宽 高
         {
             AppWindowGesture.Visibility = Visibility.Visible; 
 
@@ -128,10 +128,23 @@ namespace CurveDemo
                         {
                             AW2GFallBehindStoryBoard.Begin();
                         }
+
+                        /*
+                        BlurPointerStoryBoard.Stop();
+                        BlurPointerAnimation.From = BlurPointerTransform.X = 1;
+                        StartBackgroundAnimation(1);*/
                     }
-                    else
+                    else if (AppWindowMain_Target == -3)
                     {
-                        Trace.WriteLine(1);
+                        AppWindow2Gesture.Opacity = 0.01;
+                        AppWindow2Gesture.Visibility = Visibility.Collapsed;
+                        if (AppWindow2_Target >= 0)
+                            (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
+                        if (AppWindowMain_Target >= 0)
+                            (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;
+                    }
+                    else 
+                    {
                         AppWindow2Gesture.Opacity = 0.01;
                         AppWindow2Gesture.Visibility = Visibility.Collapsed;
                         if (AppWindow2_Target >= 0)
@@ -141,7 +154,7 @@ namespace CurveDemo
                     }
                 }
 
-                if (AppTarget != -2 && AppTarget != -1)
+                if (AppTarget != -2 && AppTarget != -1 && AppTarget != -3)
                 {
                     /*if (AppWindowMain_Target >= 0)
                         (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;*/
@@ -285,7 +298,86 @@ namespace CurveDemo
                     (DesktopGrid.Children[AppTarget] as Grid).Opacity = 0.01;
 
                 }
-                else if (AppTarget == -1)
+                else if(AppTarget == -3 && WindowPositionFrom != null)
+                {
+                    AWAScale.CenterX = ActualWidth * 0.5;
+                    AWAScale.CenterY = ActualHeight * 0.5;
+                    AWGGestureFlyStoryBoard.Stop();
+                    AWAGestureBackStoryBoard.Stop();
+                    AWAGestureBack2StoryBoard.Stop();
+                    AWABackStoryBoard.Stop();
+                    AWGTransform.X = AWGTransform.Y = 0;
+                    AWGScale.ScaleX = AWGScale.ScaleY = 1.0;
+
+                    AWAScale.ScaleX = AWAScale.ScaleY = 0.01;
+                    AWATransform.X = 0;
+                    AWATransform.Y = ActualHeight * FarPoint - ActualHeight * 0.4;
+
+                    if (AWCardFrame.Content == null || AWCardFrame.Content.GetType() != typeof(DesktopCard))
+                        AWCardFrame.Navigate(typeof(DesktopCard), null, new SuppressNavigationTransitionInfo());
+                    (AWCardFrame.Content as DesktopCard).GetCardInfo = "null";
+
+                    AWBackgIcon.Source = null;
+                    AWFrontIcon.Source = null;
+                    
+
+                    if ((WindowPositionFrom[2] / WindowPositionFrom[3]) <= (ActualWidth / ActualHeight))
+                    {
+                        AppHeightAnimation.Height = ActualHeight;
+                        AppHeightAnimation.Width = WindowPositionFrom[2] / WindowPositionFrom[3] * AppHeightAnimation.Height;
+
+                        AWAScale.ScaleX = AWAScale.ScaleY = WindowPositionFrom[3] / ActualHeight;
+                    }
+                    else
+                    {
+                        AppHeightAnimation.Width = ActualWidth;
+                        AppHeightAnimation.Height = WindowPositionFrom[3] / WindowPositionFrom[2] * AppHeightAnimation.Width;
+
+                        AWAScale.ScaleX = AWAScale.ScaleY = WindowPositionFrom[2] / ActualWidth;
+                    }
+
+                    AWFrontIcon.Opacity = 0;
+                    AWBackgIcon.Opacity = 0;
+                    AWBackIconScale.ScaleX = AWBackIconScale.ScaleY = AWFrontIconScale.ScaleX = AWFrontIconScale.ScaleY = 1.5;
+                    AWBackIconScale.CenterX = AWFrontIconScale.CenterX = ActualHeight * 0.5;
+                    AWBackIconScale.CenterY = AWFrontIconScale.CenterY = ActualHeight * 0.5;
+
+                    AWAFrameOpacityDoubleAnimation.From = 0;
+                    AWAFrameOpacityDoubleAnimation.To = 1;
+                    AWAFrameOpacityDoubleAnimation.Duration = TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
+                    AWAFrameOpacityDoubleAnimation.BeginTime = TimeSpan.FromSeconds(0.0);
+
+                    AWAScale.CenterX = ActualWidth * 0.5;
+                    AWAScale.CenterY = ActualHeight * 0.5;
+                    AWATransform.X = -(ActualWidth) * 0.5 + WindowPositionFrom[0] - 0 * WindowPositionFrom[2];
+                    AWATransform.Y = -(ActualHeight) * 0.5 + WindowPositionFrom[1] - 0 * WindowPositionFrom[3];
+                    RoundCornerPointerAnimation.From = 500 * 100 / 1920 * 3 * 0.16 / (WindowPositionFrom[2] / ActualWidth);
+                    RoundCornerPointerTransform.X = 500 * 100 / 1920 * 3 * 0.16 / (WindowPositionFrom[2] / ActualWidth);
+
+                    AWMultiTaskGrid.Opacity = 0;
+                    AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    AppWindowState = 1;
+                    AppWindowMain_Target = AppTarget;
+
+                    AWAOpenKeyScaleX.Value = AWAOpenKeyScaleY.Value = 1.0;
+                    AWAOpenKeyH.Value = ActualHeight;
+                    AWAOpenKeyW.Value = ActualWidth;
+                    AWAOpenKeyX.Value = 0;
+                    AWAOpenKeyY.Value = 0;
+                    //RoundCornerPointerTransform.X = 500 * 100 / 1920 * 3 * 0.16;
+                    RoundCornerPointerAnimation.From = 500 * (Application.Current as App).ScreenCornerRadius;
+                    RoundCornerPointerAnimation.To = 500 * (Application.Current as App).ScreenCornerRadius;
+                    AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
+
+
+
+                    //await Task.Delay(0);
+                    AWALaunchingStoryBoard.Begin();
+                    AWAFrameOpacity.Begin();
+                    RoundCornerPointerStBo.Begin();
+                    RoundCornerTimer.Start();
+                }
+                else if (AppTarget == -1 || true)
                 {
 
                     AWABackStoryBoard.Stop();
@@ -340,7 +432,7 @@ namespace CurveDemo
                     RoundCornerTimer.Start();
                     AppWindowState = 1;
                 }
-                AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 AppWindowGesture.Opacity = 1;
 
 
@@ -356,7 +448,7 @@ namespace CurveDemo
                 AW2GGestureFlyStoryBoard.Stop();
                 AppWindowState = 2;
 
-                if (AppTarget != -1 && AppTarget != -2)
+                if (AppTarget != -1 && AppTarget != -2 && AppTarget != -3)
                 {
                     AWBackgIcon.Opacity = 1; AWFrontIcon.Opacity = 1;
                     AWAScale.CenterX = ActualWidth * 0.5;
@@ -450,7 +542,7 @@ namespace CurveDemo
 
 
                 }
-                else if (AppTarget == -1)
+                else if (AppTarget == -1 || AppTarget == -3)
                 {
 
                     if (AppWindow2_Target != AppWindowMain_Target && AppWindow2_Target >= 0)
@@ -701,25 +793,18 @@ namespace CurveDemo
             }
         }
 
-        private void AppIcon_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) //图标按下
-        {
-            if (AppWindowState == 1)
-            {
-                return;
-            }
-
-            while (AWMultiTaskGrid.Children.Count > 0)
-            {
-                var OnBackgroundingApp = (AWMultiTaskGrid.Children[0] as Frame);
-                AWMultiTaskGrid.Children.RemoveAt(0);
-            }/*
+        public int AppLauncher(string PackageName = "", int target = -1)
+        {/*
             (Application.Current as App).MultiAppInfos[AppWindowMain_mIndex].AppFrame.Content = null;
             (Application.Current as App).MultiAppInfos[AppWindowMain_mIndex].AppFrame = null;
             (Application.Current as App).MultiAppInfos.RemoveAt(AppWindowMain_mIndex);
             AppWindowMain_mIndex = -1;*/
 
-            int target = DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid)) != -1 ? DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid)) : TouchIconGrid.Children.IndexOf(((sender as Button).Parent as Grid));
-            OnRunningAppInfo ToRunAppInfo = new OnRunningAppInfo { AppFrame = null, AppIconPos = target, AppPackageName = ((DesktopGrid.Children[target] as Grid)).Tag != null ? ((DesktopGrid.Children[target] as Grid)).Tag.ToString() : (DateTime.Now.ToString()) };
+            if(PackageName == "" && target != -1)
+            {
+                PackageName = ((DesktopGrid.Children[target] as Grid)).Tag != null ? ((DesktopGrid.Children[target] as Grid)).Tag.ToString() : (DateTime.Now.ToString());
+            }
+            OnRunningAppInfo ToRunAppInfo = new OnRunningAppInfo { AppFrame = null, AppIconPos = target, AppPackageName = PackageName };
             int ToRunAppIndex = -1, AppWindowMain_ToIndex = 0;
             foreach (var RunningApp in (Application.Current as App).MultiAppInfos)
             {
@@ -730,14 +815,14 @@ namespace CurveDemo
                     break;
                 }
             }
-            if(ToRunAppIndex == -1)
+            if (ToRunAppIndex == -1)
             {
                 ToRunAppInfo.AppFrame = new Frame();
-                if (((DesktopGrid.Children[target] as Grid)).Tag != null && ((DesktopGrid.Children[target] as Grid)).Tag.ToString().Contains("com.android.settings"))
+                if (PackageName.Contains("com.android.settings"))
                 {
                     ToRunAppInfo.AppFrame.Navigate(typeof(SettingsApp), null, new SuppressNavigationTransitionInfo());
                 }
-                else if (((DesktopGrid.Children[target] as Grid)).Tag != null && ((DesktopGrid.Children[target] as Grid)).Tag.ToString().Contains("com.android.camera"))
+                else if (PackageName.Contains("com.android.camera"))
                 {
                     ToRunAppInfo.AppFrame.Navigate(typeof(CameraApp), null, new SuppressNavigationTransitionInfo());
                 }
@@ -747,18 +832,43 @@ namespace CurveDemo
                 }
                 (Application.Current as App).MultiAppInfos.Add(ToRunAppInfo);
                 AppWindowMain_ToIndex = (Application.Current as App).MultiAppInfos.IndexOf(ToRunAppInfo);
+
+
             }
             AppWindowMain_mIndex = AppWindowMain_ToIndex;
 
+            int toShowAnimation = 1;
+            while (AWMultiTaskGrid.Children.Count > 0)
+            {
+                var OnBackgroundingApp = (AWMultiTaskGrid.Children[0] as Frame);
+                if (ToRunAppIndex != -1 && (AWMultiTaskGrid.Children[0] as Frame).Content.GetType() == (Application.Current as App).MultiAppInfos[ToRunAppIndex].AppFrame.Content.GetType())
+                    toShowAnimation = 0;
+                AWMultiTaskGrid.Children.RemoveAt(0);
+            }
             AWMultiTaskGrid.Children.Add(ToRunAppIndex == -1 ? ToRunAppInfo.AppFrame : (Application.Current as App).MultiAppInfos[ToRunAppIndex].AppFrame);
 
             if (target == 8)
-                target = -1 ;
+                target = -1;
 
-            StartWindowAnimation(1, /*-1*/target);
+
+            return (toShowAnimation == 1 || AppWindowState != 1) ? target : -4;
+        }
+
+        private void AppIcon_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) //图标按下
+        {
+            if (AppWindowState == 1)
+            {
+                return;
+            }
+
+            int target = DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid)) != -1 ? DesktopGrid.Children.IndexOf(((sender as Button).Parent as Grid)) : TouchIconGrid.Children.IndexOf(((sender as Button).Parent as Grid));
+            target = AppLauncher("", target);
+
+            if(target != -4)
+                StartWindowAnimation(1, target);
             StartBackgroundAnimation(1);
-
             DesktopIconGridWhenClosingAppScale.ScaleX = 0;
+
         }
 
         private void DesktopGrid_Loaded(object sender, RoutedEventArgs e) // 放置桌面图标
@@ -1135,6 +1245,8 @@ namespace CurveDemo
                 (AWCardFrame.Content as DesktopCard).GetCardInfo = "null";
                 AWBackgIcon.Opacity = 0;
                 AWFrontIcon.Opacity = 0;
+                if(AppWindowMain_Target >= 0)
+                    (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;
             }
         }
 

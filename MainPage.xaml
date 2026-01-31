@@ -898,7 +898,7 @@
                 </ScrollViewer>
             </Grid>
 
-            <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="48">
+            <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="100">
             <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" PointerMoved="GstBut_PointerMoved" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Escape"></KeyboardAccelerator>
