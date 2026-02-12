@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Composition;
+using Windows.UI.Input;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -1188,16 +1189,24 @@ namespace CurveDemo
 
         private void GstBut_Click(object sender, RoutedEventArgs e)
         {
-            if (AppWindowState == 2 || AppWindowState == 0)
+
+        }
+
+        public void GstBut_Holding(object sender, Windows.UI.Xaml.Input.HoldingRoutedEventArgs e)
+        {
+            if((e == null || e.HoldingState == HoldingState.Started))
             {
+                if (AppWindowState == 2 || AppWindowState == 0)
+                {
+                    return;
+                }
+
+                StartWindowAnimation(0, AppWindowMain_Target);
+                AWGGestureFillStoryBoard.Begin();
+                StartBackgroundAnimation(0);
+                SetSwipeBarColor(0);
                 return;
             }
-
-            StartWindowAnimation(0, AppWindowMain_Target);
-            AWGGestureFillStoryBoard.Begin();
-            StartBackgroundAnimation(0);
-            SetSwipeBarColor(0);
-            return;
         }
 
         public async void SetSwipeBarColor(int i = 0) //0def 1white 2black
@@ -1428,7 +1437,7 @@ namespace CurveDemo
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
                     {
-                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 0.8) * (Application.Current as App).FlyFar * 8);
                     }
                     catch { }
                     AWGBackKeyY2PowerEase.Power = 50;
@@ -1444,7 +1453,7 @@ namespace CurveDemo
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
                     {
-                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 0.8) * (Application.Current as App).FlyFar * 8);
                     }
                     catch { }
 
@@ -1466,7 +1475,7 @@ namespace CurveDemo
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
                     {
-                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 0.8) * (Application.Current as App).FlyFar * 8);
                     }
                     catch { }
                     AWGBackKeyY2PowerEase.Power = 30;
@@ -1488,7 +1497,7 @@ namespace CurveDemo
                     AWGBackKeyY2.Value = AWAScale.ScaleY * (AWGTransform.Y + e.Velocities.Linear.Y / Math.Abs(e.Velocities.Linear.Y) * Math.Pow(Math.Abs(e.Velocities.Linear.Y), 0.8) * (Application.Current as App).FlyFar * 8);
                     try
                     {
-                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 0.8) * (Application.Current as App).FlyFar * 8);
                     }
                     catch { }
                     AWGBackKeyY2PowerEase.Power = 20;
@@ -1505,7 +1514,7 @@ namespace CurveDemo
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
                     {
-                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 1 / 2) * (Application.Current as App).FlyFar * 8);
+                        AWGBackKeyX2.Value = AWAScale.ScaleY * (AWGTransform.X + e.Velocities.Linear.X / Math.Abs(e.Velocities.Linear.X) * Math.Pow(Math.Abs(e.Velocities.Linear.X), 0.8) * (Application.Current as App).FlyFar * 8);
                     }
                     catch { }
                     AWGBackKeyY2PowerEase.Power = 20;

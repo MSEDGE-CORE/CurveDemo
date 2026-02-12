@@ -44,5 +44,17 @@ namespace CurveDemo
             }
             DesktopFrame.CornerRadius = new CornerRadius(1);*/
         }
+
+        private void GstBut_Click(object sender, RoutedEventArgs e)
+        {
+            if((StatusBarFrame.Content as QuickControlPanel).isControlPanelOpen == 1)
+            {
+                (StatusBarFrame.Content as QuickControlPanel).GstBut_Holding(null, null);
+            }
+            else
+            {
+                (DesktopFrame.Content as MainPage).GstBut_Holding(null, null);
+            }
+        }
     }
 }

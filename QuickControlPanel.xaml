@@ -80,6 +80,9 @@
             <ScrollViewer Loaded="ControlHorizontalScrollViewer_Loaded" IsHorizontalRailEnabled="True" x:Name="ControlHorizontalScrollViewer" HorizontalSnapPointsAlignment="Near" HorizontalSnapPointsType="MandatorySingle" VerticalScrollBarVisibility="Disabled" ViewChanged="ControlHorizontalScrollViewer_ViewChanged" ManipulationMode="None" ManipulationStarted="GstBut_ManipulationStarted" ManipulationDelta="GstBut_ManipulationDelta" ManipulationCompleted="GstBut_ManipulationCompleted" HorizontalScrollBarVisibility="Hidden">
                 <StackPanel Orientation="Horizontal">
                     <Grid x:Name="GridCP1" VerticalAlignment="Stretch" >
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="AWAControl1Scale" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
+                        </Grid.RenderTransform>
                         <Grid Name="GridNP10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                             <Grid.RenderTransform>
@@ -184,12 +187,15 @@
 
                         </Grid>
                     </Grid>
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
                     <Grid x:Name="GridCP2" VerticalAlignment="Stretch">
+                        <Grid.RenderTransform>
+                            <ScaleTransform x:Name="AWAControl2Scale" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
+                        </Grid.RenderTransform>
                         <Grid Name="GridCP20" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="500">
                             <Grid.Resources>
                                 <Storyboard x:Name="ShowControlsStoryBoard">
@@ -201,6 +207,34 @@
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControlScale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl1Scale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl1Scale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl2Scale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl2Scale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="5.5"/>
@@ -389,6 +423,34 @@
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControlScale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl1Scale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl1Scale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl2Scale" Storyboard.TargetProperty="ScaleX" Duration="0:0:0.01" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5.5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="AWAControl2Scale" Storyboard.TargetProperty="ScaleY" Duration="0:0:0.01" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame Value="1" KeyTime="0:0:0.01" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="5.5"/>
@@ -879,7 +941,7 @@
             </ScrollViewer>
 
             <Grid x:Name="GstGrid" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="100">
-                <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" ManipulationStarted="GstBut_ManipulationStarted" Click="GstBut_Click">
+                <Button Name="GstBut" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" ManipulationDelta="GstBut_ManipulationDelta" ManipulationMode="TranslateY" ManipulationCompleted="GstBut_ManipulationCompleted" ManipulationStarted="GstBut_ManipulationStarted" IsHoldingEnabled="True" Holding="GstBut_Holding">
                     <Button.KeyboardAccelerators>
 
                     </Button.KeyboardAccelerators>

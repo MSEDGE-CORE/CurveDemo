@@ -15,7 +15,12 @@
             
         </Frame>
         <Frame x:Name="StatusBarFrame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            
+
         </Frame>
+        <Button x:Name="GstBut" Click="GstBut_Click" Opacity="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button.KeyboardAccelerators>
+                <KeyboardAccelerator Key="Escape"/>
+            </Button.KeyboardAccelerators>
+        </Button>
     </Grid>
 </Page>

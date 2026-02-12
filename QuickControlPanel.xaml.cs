@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,7 +28,7 @@ namespace CurveDemo
         }
 
         DispatcherTimer Timer;
-        int isControlPanelOpen = 0;
+        public int isControlPanelOpen = 0;
 
         public System.TimeSpan TrDur01 = System.TimeSpan.FromSeconds(0.10 * (Application.Current as App).TransitionDurationTime);
         public System.TimeSpan TrDur02 = System.TimeSpan.FromSeconds(0.20 * (Application.Current as App).TransitionDurationTime);
@@ -129,6 +130,8 @@ namespace CurveDemo
                 if(isControlPanelOpen == 0)
                 {
                     AWAControlScale.ScaleX = AWAControlScale.ScaleY = 6.0;
+                    AWAControl1Scale.ScaleX = AWAControl1Scale.ScaleY = 6.0;
+                    AWAControl2Scale.ScaleX = AWAControl2Scale.ScaleY = 6.0;
                     ShowControlsStoryBoard.Begin();
                 }
                 isControlPanelOpen = 1;
@@ -363,7 +366,11 @@ namespace CurveDemo
 
         private async void GstBut_Click(object sender, RoutedEventArgs e)
         {
-            if (CG0Translate.Y <= 0)
+        }
+
+        public void GstBut_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            if ((e == null || e.HoldingState == HoldingState.Started) && CG0Translate.Y <= 0)
             {
                 StartControlAnimation(0);
                 MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = -100;
@@ -415,6 +422,7 @@ namespace CurveDemo
             //(((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartWindowAnimation(1, -3, [ActualWidth / 2.0, 0, 48, 48]);
             StartControlAnimation(0);
         }
+
 
         double ClockXFrom = 0, ClockXTo = 1, ClockYFrom = 0, ClockYTo = 32;
         public void MoveStatusClock()
