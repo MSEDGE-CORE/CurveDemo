@@ -44,13 +44,17 @@ namespace CurveDemo
             this.InitializeComponent();
 
             ClockTime.Text = DateTime.Now.ToString("H:mm");
+            NotificationClock.Text = DateTime.Now.ToString("H:mm");
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
             Timer.Tick += Timer_Tick;
             Timer.Start();
 
             CG0Scale.ScaleX = CG0Scale.ScaleY = CG1Scale.ScaleX = CG1Scale.ScaleY = CG2Scale.ScaleX = CG2Scale.ScaleY = CG3Scale.ScaleX = CG3Scale.ScaleY = 0.8;
+            NG0Scale.ScaleY = NG1Scale.ScaleX = NG1Scale.ScaleY = NG2Scale.ScaleX = NG2Scale.ScaleY = 0.8;
+            NG0Scale.ScaleX = 00.8;
             ControlsGrid0.Opacity = ControlsGrid1.Opacity = ControlsGrid2.Opacity = ControlsGrid3.Opacity = 0;
+            NotificationsGrid1.Opacity = NotificationsGrid2.Opacity = 0;
         }
 
         ElementTheme statusBarColor = ElementTheme.Default;
@@ -60,14 +64,14 @@ namespace CurveDemo
             if(isControlPanelOpen == 0)
             {
                 StatusBar.RequestedTheme = statusBarColor;
-                GridStatusClockMotion.RequestedTheme = StatusBar.RequestedTheme;
             }
         }
 
         private void Timer_Tick(object? sender, object e)
         {
             ClockTime.Text = DateTime.Now.ToString("H:mm");
-
+            NotificationClock.Text = DateTime.Now.ToString("H:mm");
+            Page_SizeChanged(null, null);
         }
 
         private async void StartControlAnimation(int isOpening, int isPointerMoving = 0)
@@ -76,7 +80,7 @@ namespace CurveDemo
             {
                 CG0Scale.CenterX = 210;
                 CG1Scale.CenterX = CG2Scale.CenterX = CG3Scale.CenterX = 250;
-                NG1Scale.CenterX = NG2Scale.CenterX = 250;
+                NG1Scale.CenterX = NG2Scale.CenterX = NotificationsGrid1.ActualWidth / 2.0;
                 CGSScaleKeyScaleX.Value = CGSScaleKeyScaleY.Value = 1;
                 NGSScaleKeyScaleX.Value = NGSScaleKeyScaleY.Value = 1;
                 if (CGSScale.ScaleX != 1)
@@ -89,9 +93,10 @@ namespace CurveDemo
             {/*
                 CG0Scale.CenterX = 400;
                 CG1Scale.CenterX = CG2Scale.CenterX = CG3Scale.CenterX = 400;*/
+
                 CG0Scale.CenterX = 210;
                 CG1Scale.CenterX = CG2Scale.CenterX = CG3Scale.CenterX = 250;
-                NG1Scale.CenterX = NG2Scale.CenterX = 250;
+                NG1Scale.CenterX = NG2Scale.CenterX = NotificationsGrid1.ActualWidth / 2.0;
                 CGSScaleKeyScaleX.Value = CGSScaleKeyScaleY.Value = 0.2;
                 NGSScaleKeyScaleX.Value = NGSScaleKeyScaleY.Value = 0.2;
                 if (CGSScale.ScaleX == 1 && CG0Scale.ScaleX == 0.8)
@@ -103,28 +108,27 @@ namespace CurveDemo
 
             if (isOpening == 1)
             {
+                ClockTime.Visibility = Visibility.Collapsed;
                 NotificationsScrollViewer.ScrollToVerticalOffset(0);
                 ControlsScrollViewer.ScrollToVerticalOffset(0);
                 GridControlPanel.Visibility = Visibility.Visible;
                 BackBoard.Visibility = Visibility.Visible;
                 StatusBar.RequestedTheme = BackBoard.ActualTheme == ElementTheme.Dark ? ElementTheme.Light : ElementTheme.Dark;
-                GridStatusClockMotion.RequestedTheme = StatusBar.RequestedTheme;
+
+                NotificationClock.RequestedTheme = StatusBar.RequestedTheme;
 
                 if (isPointerMoving == 0)
                 {
-                    //BlurAnSet.To = maxBlur;
+                    BlurAnSet.To = maxBlur;
                     BlurPointerAnimation.To = maxBlur;
 
-                    //BlurAnSet.From = BlurPointerTransform.Y;
+                    BlurAnSet.From = BlurPointerTransform.Y;
                     BlurPointerAnimation.From = BlurPointerTransform.Y;
-                    //BlurAnSet.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
+                    BlurAnSet.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
                     BlurPointerAnimation.Duration = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
-                    //BlurAnimation.Start();
+                    BlurAnimation.Start();
                     BlurPointerStoryBoard.Begin();
 
-                    GSCOpenDAHeight.Value = GridClockToH;
-                    GSCOpenDAHeight.KeyTime = TimeSpan.FromSeconds((Application.Current as App).TransitionDurationTime * 0.5);
-                    GridStatusClockOpenStoryBoard.Begin();
 
                 }
                 if(isControlPanelOpen == 0)
@@ -139,7 +143,7 @@ namespace CurveDemo
             else if (isOpening == 0)
             {
                 StatusBar.RequestedTheme = statusBarColor;
-                GridStatusClockMotion.RequestedTheme = StatusBar.RequestedTheme;
+                ClockTime.Visibility = Visibility.Visible;
 
                 if (isPointerMoving == 0)
                 {
@@ -154,7 +158,6 @@ namespace CurveDemo
                     BlurPointerStoryBoard.Begin();
 
                     GSCOpenDAHeight.Value = GridClockToH;
-                    GridStatusClockCloseStoryBoard.Begin();
                 }
 
                 if (isControlPanelOpen == 1)
@@ -225,14 +228,19 @@ namespace CurveDemo
                     GridStatusClockCloseStoryBoard.Begin();
                     GridStatusClockCloseStoryBoard.Stop();
                 }
-
+                /*
                 double SCMHeight = ((dY * 1.0 / maxDY) * (GridClockToH - GridClockFromH) + GridClockFromH);
                 if(SCMHeight < GridClockFromH)
                     GridStatusClockMotion.Height = GridClockFromH;
                 else if(SCMHeight > GridClockToH)
                     GridStatusClockMotion.Height = GridClockToH;
                 else
-                    GridStatusClockMotion.Height = SCMHeight;
+                    GridStatusClockMotion.Height = SCMHeight;*/
+                MoveStatusClock();
+                BlurAnSet.From = BlurPointerTransform.Y;
+                BlurAnSet.To = BlurPointerTransform.Y;
+                BlurAnSet.Duration = TimeSpan.FromMilliseconds(50);
+                BlurAnimation.Start();
 
                 if (dY <= 1 * maxDY)
                 {
@@ -241,9 +249,9 @@ namespace CurveDemo
                     CG1Translate.Y = -GetSpaceDeltaY(ddY, 100);
                     CG2Translate.Y = -GetSpaceDeltaY(ddY, 100);
                     CG3Translate.Y = -GetSpaceDeltaY(ddY, 100);
+                    NG0Translate.Y = -GetSpaceDeltaY(ddY, 100);
                     NG1Translate.Y = -GetSpaceDeltaY(ddY, 100);
                     NG2Translate.Y = -GetSpaceDeltaY(ddY, 100);
-                    ClockTimeDownPullTranslate.Y = 0;
 
                 }
                 else if (dY > maxDY * 1)
@@ -253,7 +261,8 @@ namespace CurveDemo
                     CG1Translate.Y = GetSpaceDeltaY(ddY, 250);
                     CG2Translate.Y = GetSpaceDeltaY(ddY, 350);
                     CG3Translate.Y = GetSpaceDeltaY(ddY, 450);
-                    ClockTimeDownPullTranslate.Y = ControlHorizontalScrollViewer.HorizontalOffset == 0 ? GetSpaceDeltaY(ddY, 150) : 0;
+                    //ClockTimeDownPullTranslate.Y = ControlHorizontalScrollViewer.HorizontalOffset == 0 ? GetSpaceDeltaY(ddY, 150) : 0;
+                    NG0Translate.Y = GetSpaceDeltaY(ddY, 150);
                     NG1Translate.Y = GetSpaceDeltaY(ddY, 250);
                     NG2Translate.Y = GetSpaceDeltaY(ddY, 350);
                 }
@@ -266,13 +275,13 @@ namespace CurveDemo
             if ((BlurPointerTransform.Y >= 0 * maxBlur && vY >= 0 && sender == 0) || (BlurPointerTransform.Y >= 0 * maxBlur && vY >= 1 && sender == 1))
             {
                 StartControlAnimation(1);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = MBCC4KeyY.Value = MBCC5KeyY.Value = 0;
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = MBCC4KeyY.Value = MBCC5KeyY.Value = MBCC6KeyY.Value = 0;
                 MoveBackControlCardsStoryBoard.Begin();
             }
             else
             {
                 StartControlAnimation(0);
-                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = MBCC4KeyY.Value = MBCC5KeyY.Value = CG0Translate.Y -0;
+                MBCC0KeyY.Value = MBCC1KeyY.Value = MBCC2KeyY.Value = MBCC3KeyY.Value = MBCC4KeyY.Value = MBCC5KeyY.Value = MBCC6KeyY.Value = CG0Translate.Y -0;
                 MoveBackControlCardsStoryBoard.Begin();
             }
         }
@@ -287,7 +296,7 @@ namespace CurveDemo
         private async void ControlBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
             GridControlPanel.Visibility = Visibility.Visible;
-            if (isControlPanelOpen == 0 || true)
+            if (isControlPanelOpen == 0)
             {
                 ControlHorizontalScrollViewer.ScrollToHorizontalOffset(ActualWidth);
                 while (!(Application.Current as App).CombineControlCenterWhenWide && (ControlHorizontalScrollViewer.ScrollableWidth != ActualWidth || ControlHorizontalScrollViewer.HorizontalOffset != ControlHorizontalScrollViewer.ScrollableWidth))
@@ -316,7 +325,7 @@ namespace CurveDemo
 
         private void NotificationBar_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {
-            if (isControlPanelOpen == 0 || true)
+            if (isControlPanelOpen == 0)
             {
                 ControlHorizontalScrollViewer.ScrollToHorizontalOffset(0);
             }
@@ -403,7 +412,7 @@ namespace CurveDemo
             }
             else if(ControlHorizontalScrollViewer.HorizontalOffset == ControlHorizontalScrollViewer.ScrollableWidth)
             {
-                NotificationsScrollViewer.ScrollToVerticalOffset(0);
+                NotificationsScrollViewer.ScrollToVerticalOffset(0); ;
             }
         }
 
@@ -418,7 +427,7 @@ namespace CurveDemo
         {
             (((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartBackgroundAnimation(1);
             if ((((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).AppLauncher("com.android.settings") != -4)
-                (((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartWindowAnimation(1, -3, [GridCP20.ActualOffset.X + ControlsGrid0.ActualOffset.X + ControlsScrollViewer.ActualOffset.X + (ControlsGrid0.Children[1] as Grid).ActualOffset.X + 24 , GridCP20.ActualOffset.Y + ControlsScrollViewer.ActualOffset.Y - ControlsScrollViewer.VerticalOffset + ControlsGrid0.ActualOffset.Y + (ControlsGrid0.Children[1] as Grid).ActualOffset.Y + CG0Translate.Y + 24 + 52, 48,48]);
+                (((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartWindowAnimation(1, -3, [ActualWidth - GridCP20.ActualWidth + GridCP20.ActualOffset.X + ControlsGrid0.ActualOffset.X + ControlsScrollViewer.ActualOffset.X + (ControlsGrid0.Children[1] as Grid).ActualOffset.X + 24 , GridCP20.ActualOffset.Y + ControlsScrollViewer.ActualOffset.Y - ControlsScrollViewer.VerticalOffset + ControlsGrid0.ActualOffset.Y + (ControlsGrid0.Children[1] as Grid).ActualOffset.Y + CG0Translate.Y + 24 + 52, 48,48]);
             //(((SYS.Content as Grid).Children[0] as Frame).Content as MainPage).StartWindowAnimation(1, -3, [ActualWidth / 2.0, 0, 48, 48]);
             StartControlAnimation(0);
         }
@@ -427,12 +436,11 @@ namespace CurveDemo
         double ClockXFrom = 0, ClockXTo = 1, ClockYFrom = 0, ClockYTo = 32;
         public void MoveStatusClock()
         {
-            double Pointer1 = Math.Max(Math.Min(((GridStatusClockMotion.Height - GridClockFromH) * 1.0 / (GridClockToH - GridClockFromH)), 1), 0);
+            double Pointer1 = 1;
             double Pointer2 = Math.Max(Math.Min(((ControlHorizontalScrollViewer.HorizontalOffset - HorizontalScrollFromOf) * 1.0 / (HorizontalScrollToOf - HorizontalScrollFromOf)), 1), 0);
             double Pointer3 = Math.Max(Math.Min(((NotificationsScrollViewer.VerticalOffset - NotificationScrollFromOf) * 1.0 / (NotificationScrollToOf - NotificationScrollFromOf)), 1), 0);
             double FinalPointer = Math.Min(Math.Min(Pointer2, Pointer3), Pointer1);
 
-            FontSizeTo = 80;
             if (ActualWidth >= 1000 && (Application.Current as App).CombineControlCenterWhenWide)
             {
                 GridCP1.Width = ActualWidth - 500;
@@ -444,21 +452,22 @@ namespace CurveDemo
             }
             if ((Application.Current as App).NotificationCenterAlignment == 1 || ActualWidth >= 1000 && (Application.Current as App).CombineControlCenterWhenWide)
             {
-                ClockXTo = 32;
-                ClockYTo = 20;
                 (NotificationsScrollViewer.Content as StackPanel).HorizontalAlignment = HorizontalAlignment.Left;
+
+                NotificationClock.HorizontalAlignment = HorizontalAlignment.Left;
+                NG0Scale.CenterX = NotificationsGrid1.ActualWidth / 2.0;
 
             }
             else if ((Application.Current as App).NotificationCenterAlignment == 0)
             {
-                ClockXTo = ActualWidth / 2.0 - 110 - 14;
-                ClockYTo = 20;
                 (NotificationsScrollViewer.Content as StackPanel).HorizontalAlignment = HorizontalAlignment.Center;
+                NotificationClock.HorizontalAlignment = HorizontalAlignment.Center;
+                NG0Scale.CenterX = NotificationClock.ActualWidth / 2.0;
 
             }
 
 
-
+            /*
             ClockTime.FontSize = FinalPointer * (FontSizeTo - FontSizeFrom) + FontSizeFrom;
             if(ClockTime.FontSize >= 40)
             {
@@ -467,18 +476,11 @@ namespace CurveDemo
             else
             {
                 ClockTime.FontWeight = Windows.UI.Text.FontWeights.Medium;
-            }
-                ClockTimeTranslate.X = FinalPointer * (ClockXTo - ClockXFrom) + ClockXFrom;
-            ClockTimeTranslate.Y = FinalPointer * (ClockYTo - ClockYFrom) + ClockYFrom;
-        }
+            }*/
+                //ClockTimeTranslate.X = FinalPointer * (ClockXTo - ClockXFrom) + ClockXFrom;
+            //ClockTimeTranslate.Y = FinalPointer * (ClockYTo - ClockYFrom) + ClockYFrom;
 
-        private void GridStatusClockMotion_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            MoveStatusClock();
-            BlurAnSet.From = BlurPointerTransform.Y;
-            BlurAnSet.To = BlurPointerTransform.Y;
-            BlurAnSet.Duration = TimeSpan.FromMilliseconds(50);
-            BlurAnimation.Start();
+
         }
 
         private void ControlHorizontalScrollViewer_Loaded(object sender, RoutedEventArgs e)
@@ -498,7 +500,7 @@ namespace CurveDemo
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (ActualWidth >= 1000 && (Application.Current as App).CombineControlCenterWhenWide)
+            if (ActualWidth >= 1000 && (Application.Current as App).CombineControlCenterWhenWide) // 合并
             {
                 GridCP1.Width = ActualWidth - 500;
                 GridCP2.Width = 500;
@@ -508,6 +510,8 @@ namespace CurveDemo
                 HorizontalScrollFromOf = 10;
                 HorizontalScrollToOf = 00;
                 ClockXTo = 1;
+                NotificationClock.HorizontalAlignment = HorizontalAlignment.Left;
+                NG0Scale.CenterX = NotificationsGrid1.ActualWidth / 2.0;
             }
             else if (ActualWidth > 0)
             {
@@ -520,21 +524,35 @@ namespace CurveDemo
                     NGSScale.CenterX = 20;
                     HorizontalScrollFromOf = ActualWidth;
                     HorizontalScrollToOf = 0;
+                    if ((Application.Current as App).NotificationCenterAlignment == 0) // 居中
+                    {
+                        NotificationClock.HorizontalAlignment = HorizontalAlignment.Center;
+                        NG0Scale.CenterX = NotificationClock.ActualWidth / 2.0;
+                    }
+                    else if ((Application.Current as App).NotificationCenterAlignment == 1) // 左
+                    {
+                        NotificationClock.HorizontalAlignment = HorizontalAlignment.Left;
+                        NG0Scale.CenterX = NotificationsGrid1.ActualWidth / 2.0;
+                    }
                 }
                 else
                 {
                     GridCP20.HorizontalAlignment = HorizontalAlignment.Right;
                     CGSScale.CenterX = 460;
                     NGSScale.CenterX = 20;
-                    if((Application.Current as App).NotificationCenterAlignment == 0)
+                    if((Application.Current as App).NotificationCenterAlignment == 0) // 居中
                     {
                         HorizontalScrollFromOf = ActualWidth / 2.0 + 360;
                         HorizontalScrollToOf = ActualWidth / 2.0 - 360;
+                        NotificationClock.HorizontalAlignment = HorizontalAlignment.Center;
+                        NG0Scale.CenterX = NotificationClock.ActualWidth / 2.0;
                     }
-                    else if((Application.Current as App).NotificationCenterAlignment == 1)
+                    else if((Application.Current as App).NotificationCenterAlignment == 1) // 左
                     {
                         HorizontalScrollFromOf = 720;
                         HorizontalScrollToOf = 0;
+                        NotificationClock.HorizontalAlignment = HorizontalAlignment.Left;
+                        NG0Scale.CenterX = NotificationsGrid1.ActualWidth / 2.0;
                     }
                 }
             }

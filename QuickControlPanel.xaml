@@ -61,18 +61,6 @@
             </Grid.RenderTransform>
         </Grid>
 
-
-        <Grid x:Name="GridStatusClockMotion" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="48" SizeChanged="GridStatusClockMotion_SizeChanged">
-            <TextBlock Name="ClockTime" FontFamily="HarmonyOS Sans SC" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,10,0,0">
-                <TextBlock.RenderTransform>
-                    <TransformGroup>
-                        <TranslateTransform x:Name="ClockTimeTranslate" X="0" Y="0" />
-                        <TranslateTransform x:Name="ClockTimeDownPullTranslate" X="0" Y="0" />
-                    </TransformGroup>
-                </TextBlock.RenderTransform>
-            </TextBlock>
-        </Grid>
-
         <Grid x:Name="GridControlPanel" Visibility="Collapsed">
             <Grid.RenderTransform>
                 <ScaleTransform x:Name="AWAControlScale" CenterX="0" CenterY="0" ScaleX="1.0" ScaleY="1.0"/>
@@ -92,8 +80,20 @@
                                 </TransformGroup>
                             </Grid.RenderTransform>
                             <ScrollViewer CanContentRenderOutsideBounds="True" HorizontalAlignment="Stretch" x:Name="NotificationsScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" ViewChanged="NotificationsScrollViewer_ViewChanged">
-                                <StackPanel Margin="20,150,20,72" Orientation="Vertical"  MaxWidth="720" HorizontalAlignment="Stretch">
+                                <StackPanel Margin="20,32,20,72" Orientation="Vertical"  MaxWidth="720" HorizontalAlignment="Stretch">
                                     <Grid Width="720"/>
+                                    <Grid>
+                                        <Grid.RenderTransform>
+                                            <TranslateTransform x:Name="NG0Translate" />
+                                        </Grid.RenderTransform>
+                                        <TextBlock Name="NotificationClock" FontFamily="HarmonyOS Sans SC" FontWeight="Black" FontSize="80" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20,3,20,3">
+                                            <TextBlock.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform x:Name="NG0Scale" CenterX="000" CenterY="0" />
+                                                </TransformGroup>
+                                            </TextBlock.RenderTransform>
+                                        </TextBlock>
+                                    </Grid>
                                     <Grid HorizontalAlignment="Stretch">
                                         <Grid.RenderTransform>
                                             <TransformGroup>
@@ -326,21 +326,44 @@
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
 
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG0Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="5"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG1Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG0Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="5"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NotificationsGrid1" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NotificationClock" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame  Value="00.75" KeyTime="{x:Bind TrDur04}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="10"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur01}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG1Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur01}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NotificationsGrid1" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur01}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="10"/>
@@ -370,21 +393,21 @@
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
 
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG2Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur01}" EnableDependentAnimation="True">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG2Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur02}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="5"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG2Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur01}" EnableDependentAnimation="True">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG2Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur02}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="5"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NotificationsGrid2" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur01}" EnableDependentAnimation="True">
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NotificationsGrid2" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur04}" BeginTime="{x:Bind TrDur02}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="1" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
                                                 <PowerEase EasingMode="EaseOut" Power="10"/>
@@ -537,6 +560,28 @@
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
 
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG0Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur04}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG0Scale" Storyboard.TargetProperty="ScaleY" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur04}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NotificationClock" Storyboard.TargetProperty="Opacity" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame  Value="0" KeyTime="{x:Bind TrDur04}" >
+                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                <PowerEase EasingMode="EaseOut" Power="5"/>
+                                            </EasingDoubleKeyFrame.EasingFunction>
+                                        </EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG1Scale" Storyboard.TargetProperty="ScaleX" Duration="{x:Bind TrDur04}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame  Value="0.8" KeyTime="{x:Bind TrDur04}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
@@ -630,49 +675,49 @@
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG0Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame x:Name="MBCC0KeyY" Value="0" KeyTime="{x:Bind TrDur05}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.25"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG1Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame x:Name="MBCC1KeyY" Value="0" KeyTime="{x:Bind TrDur05}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.2"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG2Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame x:Name="MBCC2KeyY" Value="0" KeyTime="{x:Bind TrDur06}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.15"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="CG3Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame x:Name="MBCC3KeyY" Value="0" KeyTime="{x:Bind TrDur07}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.11"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG1Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame x:Name="MBCC4KeyY" Value="0" KeyTime="{x:Bind TrDur05}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.2"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
                                     <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG2Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
                                         <EasingDoubleKeyFrame x:Name="MBCC5KeyY" Value="0" KeyTime="{x:Bind TrDur06}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.15"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ClockTimeDownPullTranslate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
-                                        <EasingDoubleKeyFrame x:Name="MBCC6KeyY" Value="0" KeyTime="{x:Bind TrDur06}" >
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NG0Translate" Storyboard.TargetProperty="Y" Duration="{x:Bind TrDur07}" EnableDependentAnimation="True">
+                                        <EasingDoubleKeyFrame x:Name="MBCC6KeyY" Value="0" KeyTime="{x:Bind TrDur05}" >
                                             <EasingDoubleKeyFrame.EasingFunction>
-                                                <BackEase EasingMode="EaseOut" Amplitude="0.25"/>
+                                                <BackEase EasingMode="EaseOut" Amplitude="0.1"/>
                                             </EasingDoubleKeyFrame.EasingFunction>
                                         </EasingDoubleKeyFrame>
                                     </DoubleAnimationUsingKeyFrames>
@@ -950,16 +995,18 @@
         </Grid>
 
         <Grid Name="StatusBar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="48">
-            
+            <TextBlock Name="ClockTime" FontFamily="HarmonyOS Sans SC" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,10,0,0"/>
+
             <StackPanel Name="StatusArea" HorizontalAlignment="Right" VerticalAlignment="Stretch" Orientation="Horizontal">
                 <StackPanel.TranslationTransition>
                     <Vector3Transition />
                 </StackPanel.TranslationTransition>
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE701;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="22" />
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE870;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="22" />
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE83F;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,13,0" FontSize="34" />
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE701;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="22" />
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE870;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="22" />
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE83F;" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,13,0" FontSize="34" />
 
             </StackPanel>
+
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
