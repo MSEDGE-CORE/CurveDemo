@@ -28,6 +28,53 @@ namespace CurveDemo
     /// </summary>
     /// 
 
+    class AppAnimationRectProperties
+    {
+        public bool anStatus { get; set; } = false;
+        public int anDirection { get; set; } = 1;
+        public double XDamping { get; set; } = 1.0;
+        public double YDamping { get; set; } = 1.0;
+        public double WidthDamping { get; set; } = 1;
+        public double HeightDamping { get; set; } = 1;
+        public double ScaleDamping { get; set; } = 1.0;
+        public double OpacityDamping { get; set; } = 1.0;
+        public double RotationDamping { get; set; } = 1.0;
+
+        public long startTick { get; set; } = 0;
+        public long durationTick { get; set; } = 1;
+        public long OpacityBeginTick { get; set; } = 0;
+        public long OpacityDurationTick { get; set; } = 1;
+
+        public long VisibleDurationTick { get; set; } = 1;
+
+        public double FromX { get; set; } = 0;
+        public double FromY { get; set; } = 0;
+        public double FromWidth { get; set; } = 0;
+        public double FromHeight { get; set; } = 0;
+        public double FromScale { get; set; } = 0;
+        public double FromOpacity { get; set; } = 0;
+        public double FromRotaion { get; set; } = 0;
+        public double FromCornerRadius { get; set; } = 0;
+
+        public double ToX { get; set; } = 0;
+        public double ToY { get; set; } = 0;
+        public double ToWidth { get; set; } = 0;
+        public double ToHeight { get; set; } = 0;
+        public double ToScale { get; set; } = 0;
+        public double ToOpacity { get; set; } = 0;
+        public double ToRotaion { get; set; } = 0;
+        public double ToCornerRadius { get; set; } = 0;
+
+        public double VX { get; set; } = 0;
+        public double VY { get; set; } = 0;
+        public double VWidth { get; set; } = 0;
+        public double VHeight { get; set; } = 0;
+        public double VScale { get; set; } = 0;
+        public double VOpacity { get; set; } = 0;
+        public double VRotaion { get; set; } = 0;
+        public double VCornerRadius { get; set; } = 0;
+    }
+
     public sealed partial class MainPage : Page
     {
         DispatcherTimer RoundCornerTimer;
@@ -64,6 +111,345 @@ namespace CurveDemo
             Timer.Tick += Timer_Tick;
             Timer.Start();
 
+
+        }
+
+        int SpringCurveStyleCount = 1;
+
+        public double SpringAnimationInterpolator(double damping, long durationTick, double velocity0, double value0, double value1, long nowTick)
+        {
+            double amplitude = value1 - value0, w = 4 * Math.PI / durationTick;
+            if (damping <= 0)
+            {
+                return 0;
+            }
+            if(amplitude == 0)
+            {
+                return value1;
+            }
+            if(nowTick < 0)
+            {
+                return value0;
+            }
+            
+            if (damping < 1) // 欠阻尼
+            {
+                double wd = w * Math.Sqrt((1 - damping * damping));
+                return value0 + amplitude * (1 - Math.Exp(-damping * w * nowTick) * (Math.Cos(wd * nowTick) + damping * (w / wd * Math.Sin(wd * nowTick)))) + velocity0 / wd * Math.Exp(-damping * w * nowTick) * Math.Sin(wd * nowTick);
+            }
+            else if (damping == 1) // 临界阻尼
+            {
+                return value0 + amplitude * (1 - Math.Exp(-w * nowTick) * (1 + w * nowTick)) + velocity0 * nowTick * Math.Exp(-w * nowTick);
+            }
+            else if (damping > 1) //过阻尼
+            {
+                double l1 = w * (damping - Math.Sqrt(damping * damping - 1));
+                double l2 = w * (damping + Math.Sqrt(damping * damping - 1));
+                return value0 + amplitude * (1 + (l1 * Math.Exp(-l2 * nowTick) - l2 * Math.Exp(-l1 * nowTick)) / (l2 - l1)) + (velocity0 / (l2 - l1)) * (Math.Exp(-l1 * nowTick) - Math.Exp(-l2 * nowTick));
+            }
+            return 0;
+        }
+
+        public double GetSpringAnimationVisibleTick(double damping, long durationTick, double velocity0, double value0, double value1, double thresholdPercent = 0.001)
+        {
+            if (damping <= 0)
+            {
+                return 0;
+            }
+            double amplitude = value1 - value0;
+            double w = 4 * Math.PI / durationTick;
+
+            // 如果幅度为0且速度为0，瞬间结束
+            if (Math.Abs(amplitude) < 1e-12 && Math.Abs(velocity0) < 1e-12)
+                return 0;
+
+            // 计算等效初始振幅（更精确）
+            double A0;
+            if (damping < 1) // 欠阻尼
+            {
+                double wd = w * Math.Sqrt(1 - damping * damping);
+                // 初始包络幅度（初位移和初速度的综合影响）
+                double x0 = amplitude; // 实际初始位移偏移
+                double v0 = velocity0;
+                // 包络幅度 = sqrt( x0^2 + ((v0 + damping*w*x0)/wd)^2 )，这是欠阻尼系统初态下的振幅
+                double b = v0 + damping * w * x0;
+                A0 = Math.Sqrt(x0 * x0 + (b * b) / (wd * wd));
+                // 如果 amplitude 为0，但速度不为0，则 A0 = |v0|/wd
+                if (Math.Abs(amplitude) < 1e-12) A0 = Math.Abs(v0) / wd;
+            }
+            else if (damping >= 1) // 临界或过阻尼
+            {
+                // 过阻尼无振荡，包络不是纯指数，但通常衰减很快
+                // 可以近似用阻尼比=1时的包络，或者直接取 1 / (damping*w) 的倍数
+                // 这里用临界阻尼的衰减时间常数: 1/w
+                A0 = Math.Abs(amplitude) + Math.Abs(velocity0) / w; // 粗略估计
+                                                                    // 对于过阻尼，衰减主导项是 exp(-w*(damping - sqrt(damping^2-1))*t)
+                                                                    // 我们取较小的时间常数
+                double lambda1 = w * (damping - Math.Sqrt(damping * damping - 1));
+                // 如果 lambda1 很小（接近0），则衰减很慢，但通常 lambda1 > 0
+                // 对于临界阻尼，lambda = w
+                double effectiveW = (damping > 1) ? lambda1 : w;
+                // 使用指数衰减计算
+                if (effectiveW > 1e-12)
+                {
+                    double t = -Math.Log(thresholdPercent) / effectiveW;
+                    // 但还要考虑初始速度，简单加一个安全系数
+                    return t * 1.5; // 保守估算
+                }
+                else
+                    return durationTick * 2; // 后备
+            }
+            else
+                return 0;
+
+            // 欠阻尼：包络衰减到 thresholdPercent 所需时间
+            double dampingW = damping * w;
+            if (dampingW < 1e-12) return durationTick * 10; // 无阻尼，永不停止
+
+            double tVisible = -Math.Log(thresholdPercent) / dampingW;
+            // 如果 A0 比 |amplitude| 大，说明速度贡献使振幅增大，可适当增加时间
+            // 但为了简洁，直接返回 tVisible
+            return tVisible;
+        }
+
+        private long ComputeVisibleDurationTick(AppAnimationRectProperties rect)
+        {
+            if (rect == null) return 0;
+            double maxTick = 0;
+
+            // X, Y, Scale, Width, Height, Rotation, CornerRadius
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.XDamping, rect.durationTick, rect.VX, rect.FromX, rect.ToX));
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.YDamping, rect.durationTick, rect.VY, rect.FromY, rect.ToY));
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.ScaleDamping, rect.durationTick, rect.VScale, rect.FromScale, rect.ToScale));
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.WidthDamping, rect.durationTick, rect.VWidth, rect.FromWidth, rect.ToWidth));
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.HeightDamping, rect.durationTick, rect.VHeight, rect.FromHeight, rect.ToHeight));
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.RotationDamping, rect.durationTick, rect.VRotaion, rect.FromRotaion, rect.ToRotaion));
+            maxTick = Math.Max(maxTick, GetSpringAnimationVisibleTick(rect.RotationDamping, rect.durationTick, rect.VCornerRadius, rect.FromCornerRadius, rect.ToCornerRadius));
+
+            // opacity may have its own duration and begin offset
+            double opTick = GetSpringAnimationVisibleTick(rect.OpacityDamping, rect.OpacityDurationTick, rect.VOpacity, rect.FromOpacity, rect.ToOpacity);
+            opTick += rect.OpacityBeginTick; // account for delayed start
+            maxTick = Math.Max(maxTick, opTick);
+
+            if (maxTick < 0) maxTick = 0;
+            return (long)Math.Ceiling(maxTick);
+        }
+
+
+        AppAnimationRectProperties MainAppRect = new AppAnimationRectProperties();
+        AppAnimationRectProperties FallBehindAppRect = new AppAnimationRectProperties();
+
+
+        //打开1，关闭2
+        private void StartWindowSpringAnimation(int anDirection, AppAnimationRectProperties comingAppRect)
+        {
+            //X,Y,Scale,Height/Width,Opacity,Rotation以及并行
+
+            MainAppRect.anStatus = true;
+            MainAppRect.anDirection = anDirection;
+
+
+            MainAppRect.FromX = AWATransform.X + AWGTransform.X;
+            MainAppRect.FromY = AWATransform.Y + AWGTransform.Y;
+            MainAppRect.FromScale = AWAScale.ScaleX * AWGScale.ScaleX;
+            MainAppRect.FromWidth = AppHeightAnimation.Width;
+            MainAppRect.FromHeight = AppHeightAnimation.Height;
+            MainAppRect.FromOpacity = AWMultiTaskGrid.Opacity;
+            MainAppRect.FromRotaion = AWARotate.Angle;
+            MainAppRect.FromCornerRadius = AppHeightAnimation.CornerRadius.TopLeft;
+
+            MainAppRect.durationTick = comingAppRect.durationTick;
+            MainAppRect.VX = comingAppRect.VX;
+            MainAppRect.VY = comingAppRect.VY;
+            MainAppRect.VScale = comingAppRect.VScale;
+            MainAppRect.ToX = comingAppRect.ToX;
+            MainAppRect.ToY = comingAppRect.ToY;
+            MainAppRect.ToWidth = comingAppRect.ToWidth;
+            MainAppRect.ToHeight = comingAppRect.ToHeight;
+            MainAppRect.ToScale = comingAppRect.ToScale;
+            MainAppRect.ToOpacity = comingAppRect.ToOpacity;
+            MainAppRect.ToRotaion = comingAppRect.ToRotaion;
+            MainAppRect.ToCornerRadius = comingAppRect.ToCornerRadius;
+
+            MainAppRect.XDamping = comingAppRect.XDamping;
+            MainAppRect.YDamping = comingAppRect.YDamping;
+            MainAppRect.ScaleDamping = comingAppRect.ScaleDamping;
+            MainAppRect.WidthDamping = comingAppRect.WidthDamping;
+            MainAppRect.HeightDamping = comingAppRect.HeightDamping;
+
+            MainAppRect.OpacityBeginTick = comingAppRect.OpacityBeginTick;
+            MainAppRect.OpacityDurationTick = comingAppRect.OpacityDurationTick;
+            // 计算可视化持续时间（ticks），用于判断何时认为动画已停止
+            MainAppRect.VisibleDurationTick = ComputeVisibleDurationTick(MainAppRect);
+            MainAppRect.startTick = DateTime.Now.Ticks;
+
+            if (anDirection == 2)
+            {
+
+                FallBehindAppRect.anStatus = true;
+                FallBehindAppRect.anDirection = 2;
+
+                FallBehindAppRect.FromX = AWATransform.X + AWGTransform.X;
+                FallBehindAppRect.FromY = AWATransform.Y + AWGTransform.Y;
+                FallBehindAppRect.FromScale = AWAScale.ScaleX * AWGScale.ScaleX;
+                FallBehindAppRect.FromWidth = AppHeightAnimation.Width;
+                FallBehindAppRect.FromHeight = AppHeightAnimation.Height;
+                FallBehindAppRect.FromOpacity = AWMultiTaskGrid.Opacity;
+                FallBehindAppRect.FromRotaion = AWARotate.Angle;
+
+                FallBehindAppRect.FromCornerRadius = AppHeightAnimation.CornerRadius.TopLeft;
+                FallBehindAppRect.durationTick = comingAppRect.durationTick;
+                FallBehindAppRect.VX = comingAppRect.VX;
+                FallBehindAppRect.VY = comingAppRect.VY;
+                FallBehindAppRect.VScale = comingAppRect.VScale;
+                FallBehindAppRect.ToX = comingAppRect.ToX;
+                FallBehindAppRect.ToY = comingAppRect.ToY;
+                FallBehindAppRect.ToWidth = comingAppRect.ToWidth;
+                FallBehindAppRect.ToHeight = comingAppRect.ToHeight;
+                FallBehindAppRect.ToScale = comingAppRect.ToScale;
+                FallBehindAppRect.ToOpacity = comingAppRect.ToOpacity;
+                FallBehindAppRect.ToRotaion = comingAppRect.ToRotaion;
+                FallBehindAppRect.ToCornerRadius = comingAppRect.ToCornerRadius;
+                
+                FallBehindAppRect.XDamping = comingAppRect.XDamping;
+                FallBehindAppRect.YDamping = comingAppRect.YDamping;
+                FallBehindAppRect.ScaleDamping = comingAppRect.ScaleDamping;
+                FallBehindAppRect.WidthDamping = comingAppRect.WidthDamping;
+                FallBehindAppRect.HeightDamping = comingAppRect.HeightDamping;
+
+                FallBehindAppRect.OpacityBeginTick = comingAppRect.OpacityBeginTick;
+                FallBehindAppRect.OpacityDurationTick = comingAppRect.OpacityDurationTick;
+                FallBehindAppRect.VisibleDurationTick = ComputeVisibleDurationTick(FallBehindAppRect);
+                FallBehindAppRect.startTick = DateTime.Now.Ticks;
+
+
+            }
+
+            Windows.UI.Xaml.Media.CompositionTarget.Rendering -= CompositionTarget_RenderingSpringAnimation;
+            Windows.UI.Xaml.Media.CompositionTarget.Rendering += CompositionTarget_RenderingSpringAnimation;
+        }
+
+        public void WindowSpringAnimationEnding()
+        {
+            //Trace.WriteLine(2);
+            // 清理并确保取消订阅渲染回调
+            MainAppRect.anStatus = false;
+            FallBehindAppRect.anStatus = false;
+            Windows.UI.Xaml.Media.CompositionTarget.Rendering -= CompositionTarget_RenderingSpringAnimation;
+        }
+
+
+
+        private void CompositionTarget_RenderingSpringAnimation(object? sender, object e)
+        {
+            //X,Y,Scale,Height/Width,Opacity,Rotation以及并行
+
+            long nowTick = DateTime.Now.Ticks;
+
+            // 根据可视化持续时间判断每个 rect 是否已停止（使用 GetSpringAnimationVisibleTick 计算）
+            if (MainAppRect.anStatus)
+            {
+                if (nowTick - MainAppRect.startTick >= MainAppRect.VisibleDurationTick)
+                {
+                    // 标记已结束并把最终值应用到 UI（执行原来 if 分支的结尾处理）
+                    MainAppRect.anStatus = false;
+                    // 确保最终状态为目标值
+                    AWATransform.X = MainAppRect.ToX;
+                    AWATransform.Y = MainAppRect.ToY;
+                    AWAScale.ScaleX = AWAScale.ScaleY = MainAppRect.ToScale;
+                    AWMultiTaskGrid.Opacity = MainAppRect.ToOpacity;
+                    AWARotate.Angle = MainAppRect.ToRotaion;
+                    AppHeightAnimation.Width = MainAppRect.ToWidth;
+                    AppHeightAnimation.Height = MainAppRect.ToHeight;
+                    AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(MainAppRect.ToCornerRadius);
+
+                    if (MainAppRect.anDirection == 1)
+                    {
+                        AWALaunchingStoryBoard_Completed(null, null);
+                    }
+                    else if(MainAppRect.anDirection == 2)
+                    {
+                        AWABackStoryBoard_Completed(null, null);
+                    }
+
+                }
+                else if(MainAppRect.anDirection == 1 && nowTick - MainAppRect.startTick >= MainAppRect.VisibleDurationTick * 0.2)
+                {
+                    AWReturnToApp.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (FallBehindAppRect.anStatus)
+            {
+                if (nowTick - FallBehindAppRect.startTick >= FallBehindAppRect.VisibleDurationTick)
+                {
+                    FallBehindAppRect.anStatus = false;
+                    AW2GTransform.X = FallBehindAppRect.ToX;
+                    AW2GTransform.Y = FallBehindAppRect.ToY;
+                    AW2GScale.ScaleX = AW2GScale.ScaleY = FallBehindAppRect.ToScale;
+                    AW2ARotate.Angle = FallBehindAppRect.ToRotaion;
+                    AppHeight2Animation.Width = FallBehindAppRect.ToWidth;
+                    AppHeight2Animation.Height = FallBehindAppRect.ToHeight;
+                    AppHeight2Animation.CornerRadius = new Windows.UI.Xaml.CornerRadius(FallBehindAppRect.ToCornerRadius);
+
+                    AW2ABackStoryBoard_Completed(null, null);
+                }
+            }
+
+            // 如果两个都结束则结束整个动画并取消订阅
+            if (!MainAppRect.anStatus && !FallBehindAppRect.anStatus)
+            {
+                WindowSpringAnimationEnding();
+                MainAppRect.anStatus = false;
+                FallBehindAppRect.anStatus = false;
+                Windows.UI.Xaml.Media.CompositionTarget.Rendering -= CompositionTarget_RenderingSpringAnimation;
+            }
+
+            //Trace.WriteLine((nowTick - MainAppRect.startTick).ToString());
+            //Trace.WriteLine((AWATransform.X, AWAScale.ScaleX, AppHeightAnimation.ActualWidth, AppHeightAnimation.ActualHeight, AWMultiTaskGrid.Opacity));
+            //Trace.WriteLine( nowTick-MainAppRect.OpacityBeginTick - MainAppRect.startTick);
+
+            AWATransform.X = SpringAnimationInterpolator(MainAppRect.XDamping, MainAppRect.durationTick, MainAppRect.VX, MainAppRect.FromX, MainAppRect.ToX, nowTick - MainAppRect.startTick);
+            AWATransform.Y = SpringAnimationInterpolator(MainAppRect.YDamping, MainAppRect.durationTick, MainAppRect.VY, MainAppRect.FromY, MainAppRect.ToY, nowTick - MainAppRect.startTick);
+            double preparingScale = SpringAnimationInterpolator(MainAppRect.ScaleDamping, MainAppRect.durationTick, MainAppRect.VScale, MainAppRect.FromScale, MainAppRect.ToScale, nowTick - MainAppRect.startTick);
+            //Trace.WriteLine(preparingScale);
+            double minScale = MainAppRect.ToScale == 0 ? 0.2 : (MainAppRect.ToScale < MainAppRect.FromScale ? MainAppRect.ToScale : MainAppRect.FromScale);
+            if (MainAppRect.anDirection == 2 && preparingScale < minScale)
+            {
+                double a = minScale;
+                preparingScale = -(a * (-1 / (Math.Abs(preparingScale - minScale) / a + 1) + 1)) + minScale;
+            }
+            AWAScale.ScaleX = AWAScale.ScaleY = preparingScale;
+            AWSwipeBar.Opacity = AWMultiTaskGrid.Opacity = SpringAnimationInterpolator(MainAppRect.OpacityDamping, MainAppRect.OpacityDurationTick, MainAppRect.VOpacity, MainAppRect.FromOpacity, MainAppRect.ToOpacity, nowTick - MainAppRect.OpacityBeginTick - MainAppRect.startTick < 0 ? 0 : nowTick - MainAppRect.OpacityBeginTick - MainAppRect.startTick);
+            AWARotate.Angle = SpringAnimationInterpolator(MainAppRect.RotationDamping, MainAppRect.durationTick, MainAppRect.VRotaion, MainAppRect.FromRotaion, MainAppRect.ToRotaion, nowTick - MainAppRect.startTick);
+            AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(SpringAnimationInterpolator(MainAppRect.RotationDamping, MainAppRect.durationTick, MainAppRect.VCornerRadius, MainAppRect.FromCornerRadius, MainAppRect.ToCornerRadius, nowTick - MainAppRect.startTick));
+            AppHeightAnimation.Width = SpringAnimationInterpolator(MainAppRect.WidthDamping, MainAppRect.durationTick, MainAppRect.VWidth, MainAppRect.FromWidth, MainAppRect.ToWidth, nowTick - MainAppRect.startTick);
+            AppHeightAnimation.Height = SpringAnimationInterpolator(MainAppRect.HeightDamping, MainAppRect.durationTick, MainAppRect.VHeight, MainAppRect.FromHeight, MainAppRect.ToHeight, nowTick - MainAppRect.startTick);
+            RoundCornerPointerTransform.X = AppHeightAnimation.CornerRadius.TopLeft;
+            
+
+            if (FallBehindAppRect.anStatus)
+            {
+
+                AW2ATransform.X = SpringAnimationInterpolator(FallBehindAppRect.XDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VX, FallBehindAppRect.FromX, FallBehindAppRect.ToX, nowTick - FallBehindAppRect.startTick);
+                AW2ATransform.Y = SpringAnimationInterpolator(FallBehindAppRect.YDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VY, FallBehindAppRect.FromY, FallBehindAppRect.ToY, nowTick - FallBehindAppRect.startTick);
+                
+                preparingScale = SpringAnimationInterpolator(FallBehindAppRect.ScaleDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VScale, FallBehindAppRect.FromScale, FallBehindAppRect.ToScale, nowTick - FallBehindAppRect.startTick);
+                minScale = FallBehindAppRect.ToScale == 0 ? 0.2 : (FallBehindAppRect.ToScale < FallBehindAppRect.FromScale ? FallBehindAppRect.ToScale : FallBehindAppRect.FromScale);
+                if (preparingScale < minScale)
+                {
+                    double a = minScale;
+                    preparingScale = -(a * (-1 / (Math.Abs(preparingScale - minScale) / a + 1) + 1)) + minScale;
+                }
+                AW2AScale.ScaleX = AW2AScale.ScaleY = preparingScale;
+
+                AW2ARotate.Angle = SpringAnimationInterpolator(FallBehindAppRect.RotationDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VRotaion, FallBehindAppRect.FromRotaion, FallBehindAppRect.ToRotaion, nowTick - FallBehindAppRect.startTick);
+                AppHeight2Animation.CornerRadius = new Windows.UI.Xaml.CornerRadius(SpringAnimationInterpolator(FallBehindAppRect.RotationDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VCornerRadius, FallBehindAppRect.FromCornerRadius, FallBehindAppRect.ToCornerRadius, nowTick - FallBehindAppRect.startTick));
+                AppHeight2Animation.Width = SpringAnimationInterpolator(FallBehindAppRect.WidthDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VWidth, FallBehindAppRect.FromWidth, FallBehindAppRect.ToWidth, nowTick - FallBehindAppRect.startTick);
+                AppHeight2Animation.Height = SpringAnimationInterpolator(FallBehindAppRect.HeightDamping, FallBehindAppRect.durationTick, FallBehindAppRect.VHeight, FallBehindAppRect.FromHeight, FallBehindAppRect.ToHeight, nowTick - FallBehindAppRect.startTick);
+                RoundCornerPointer2Transform.X = AppHeightAnimation.CornerRadius.TopLeft;
+            }
+
         }
 
         private void Timer_Tick(object? sender, object e)
@@ -74,13 +460,16 @@ namespace CurveDemo
 
 
         public int AppWindowMain_Target = -2, AppWindowMain_mIndex = -2, AppWindowState = 0, AppWindow2_Target = -2;
+        double RvX = 0, RvY = 0, RvScale = 0;//swipingVelocity 
         public async void StartWindowAnimation(int isOnLaunching = 0, int AppTarget = -2, double[] WindowPositionFrom = null) // X Y 宽 高
         {
-            AppWindowGesture.Visibility = Visibility.Visible; 
+            AppWindowGesture.Visibility = Visibility.Visible;
+            AppAnimationRectProperties comingAppRect = new AppAnimationRectProperties();
 
-            if(isOnLaunching == -1)
+            if (isOnLaunching == -1)
             {
                 DesktopIconGridWhenClosingAppScale.ScaleX = 0;
+                Windows.UI.Xaml.Media.CompositionTarget.Rendering -= CompositionTarget_RenderingSpringAnimation;
                 if (AppWindowMain_Target >= 0)
                 {
                     AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -155,11 +544,14 @@ namespace CurveDemo
                     }
                 }
 
+                comingAppRect.anDirection = 1;
+
                 if (AppTarget != -2 && AppTarget != -1 && AppTarget != -3 && AppTarget != -4)
                 {
                     /*if (AppWindowMain_Target >= 0)
                         (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;*/
                     //AWABackStoryBoard.Stop();
+                    
 
                     AWBackgIcon.Opacity = 1; AWFrontIcon.Opacity = 1;
                     AWAScale.CenterX = ActualWidth * 0.5;
@@ -167,16 +559,17 @@ namespace CurveDemo
 
                     if (AppTarget != AppWindowMain_Target || AppWindowState == 0)
                     {
+
                         AWGGestureFlyStoryBoard.Stop();
+                        AWABackStoryBoard.Stop();
                         AWAGestureBackStoryBoard.Stop();
                         AWAGestureBack2StoryBoard.Stop();
-                        AWABackStoryBoard.Stop();
                         AWGTransform.X = AWGTransform.Y = 0;
                         AWGScale.ScaleX = AWGScale.ScaleY = 1.0;
 
                         AWAScale.ScaleX = AWAScale.ScaleY = 0.01;
                         AWATransform.X = 0;
-                        AWATransform.Y = ActualHeight * FarPoint - ActualHeight * 0.4;
+                        AWATransform.Y = 0;
 
                         if (AWCardFrame.Content == null || AWCardFrame.Content.GetType() != typeof(DesktopCard))
                             AWCardFrame.Navigate(typeof(DesktopCard), null, new SuppressNavigationTransitionInfo());
@@ -215,6 +608,7 @@ namespace CurveDemo
                             AWBackIconScale.CenterY = AWFrontIconScale.CenterY = ActualWidth * 0.5;
                             AppHeightAnimation.Width = ActualWidth;
                             AppHeightAnimation.Height = (DesktopGrid.Children[AppTarget] as Grid).ActualHeight / (DesktopGrid.Children[AppTarget] as Grid).ActualWidth * AppHeightAnimation.Width;
+                            
 
                             AWAScale.ScaleX = AWAScale.ScaleY = (DesktopGrid.Children[AppTarget] as Grid).ActualWidth / ActualWidth;
                         }
@@ -227,12 +621,20 @@ namespace CurveDemo
                         RoundCornerPointerTransform.X = 500 * 100 / 1920 * 3 * 0.16 / ((DesktopGrid.Children[AppTarget] as Grid).ActualWidth / ActualWidth);
 
                         AWMultiTaskGrid.Opacity = 0;
-                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                        if((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                        {
+                            AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                        }
+                        else
+                        {
+                            AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                        }
                     }
                     else
                     {
                         //AWGGestureFillStoryBoard.Begin();
                         double tX = (AWATransform.X + AWGTransform.X), tY = (AWATransform.Y + AWGTransform.Y), tS = AWAScale.ScaleX * AWGScale.ScaleX, tH = AppHeightAnimation.Height, tW = AppHeightAnimation.Width;
+
                         AWGGestureFlyStoryBoard.Stop();
                         AWABackStoryBoard.Stop();
                         AWAGestureBackStoryBoard.Stop();
@@ -240,6 +642,7 @@ namespace CurveDemo
                         AWATransform.X = tX;
                         AWATransform.Y = tY;
                         AWAScale.ScaleX = AWAScale.ScaleY = tS;
+
                         AppHeightAnimation.Height = tH;
                         AppHeightAnimation.Width = tW;
 
@@ -284,17 +687,37 @@ namespace CurveDemo
                     RoundCornerPointerAnimation.To = 500 * (Application.Current as App).ScreenCornerRadius;
                     AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
 
+                    comingAppRect.ToHeight = ActualHeight;
+                    comingAppRect.ToWidth = ActualWidth;
+                    comingAppRect.ToX = 0;
+                    comingAppRect.ToY = 0;
+                    comingAppRect.ToOpacity = 1.0;
+                    comingAppRect.ToRotaion = 0;
+                    comingAppRect.ToScale = 1.0;
+                    comingAppRect.ToCornerRadius = 500 * (Application.Current as App).ScreenCornerRadius;
+                    comingAppRect.durationTick = (long)(0.7 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityBeginTick = (long)(0.0 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityDurationTick = (long)(0.2 * (Application.Current as App).TransitionDurationTime * 10000000);
 
                     AWAFrameOpacityDoubleAnimation.From = AWMultiTaskGrid.Opacity;
                     AWAFrameOpacityDoubleAnimation.To = 1;
                     AWAFrameOpacityDoubleAnimation.Duration = TimeSpan.FromSeconds(0.15 * (Application.Current as App).TransitionDurationTime);
                     AWAFrameOpacityDoubleAnimation.BeginTime = TimeSpan.FromSeconds(0.0);
 
-                    //await Task.Delay(0);
-                    AWALaunchingStoryBoard.Begin();
-                    AWAFrameOpacity.Begin();
-                    RoundCornerPointerStBo.Begin();
-                    RoundCornerTimer.Start();
+
+
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        StartWindowSpringAnimation(1,comingAppRect);
+                    }
+                    else
+                    {
+                        //await Task.Delay(0);
+                        AWALaunchingStoryBoard.Begin();
+                        AWAFrameOpacity.Begin();
+                        RoundCornerPointerStBo.Begin();
+                        RoundCornerTimer.Start();
+                    }
 
                     (DesktopGrid.Children[AppTarget] as Grid).Opacity = 0.01;
 
@@ -352,11 +775,18 @@ namespace CurveDemo
                     AWAScale.CenterY = ActualHeight * 0.5;
                     AWATransform.X = -(ActualWidth) * 0.5 + WindowPositionFrom[0] - 0 * WindowPositionFrom[2];
                     AWATransform.Y = -(ActualHeight) * 0.5 + WindowPositionFrom[1] - 0 * WindowPositionFrom[3];
-                    RoundCornerPointerAnimation.From = 500 * 100 / 1920 * 3 * 0.16 / (WindowPositionFrom[2] / ActualWidth);
+                    /*RoundCornerPointerAnimation.From = 500 * 100 / 1920 * 3 * 0.16 / (WindowPositionFrom[2] / ActualWidth);
                     RoundCornerPointerTransform.X = 500 * 100 / 1920 * 3 * 0.16 / (WindowPositionFrom[2] / ActualWidth);
-
+                    */
                     AWMultiTaskGrid.Opacity = 0;
-                    AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                    }
+                    else
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    }
                     AppWindowState = 1;
                     AppWindowMain_Target = AppTarget;
 
@@ -370,13 +800,31 @@ namespace CurveDemo
                     RoundCornerPointerAnimation.To = 500 * (Application.Current as App).ScreenCornerRadius;
                     AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
 
+                    comingAppRect.ToHeight = ActualHeight;
+                    comingAppRect.ToWidth = ActualWidth;
+                    comingAppRect.ToX = 0;
+                    comingAppRect.ToY = 0;
+                    comingAppRect.ToOpacity = 1.0;
+                    comingAppRect.ToRotaion = 0;
+                    comingAppRect.ToScale = 1.0;
+                    comingAppRect.ToCornerRadius = 500 * (Application.Current as App).ScreenCornerRadius;
+                    comingAppRect.durationTick = (long)(0.7 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityBeginTick = (long)(0.0 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
 
 
                     //await Task.Delay(0);
-                    AWALaunchingStoryBoard.Begin();
-                    AWAFrameOpacity.Begin();
-                    RoundCornerPointerStBo.Begin();
-                    RoundCornerTimer.Start();
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        StartWindowSpringAnimation(1, comingAppRect);
+                    }
+                    else
+                    {
+                        AWALaunchingStoryBoard.Begin();
+                        AWAFrameOpacity.Begin();
+                        RoundCornerPointerStBo.Begin();
+                        RoundCornerTimer.Start();
+                    }
                 }
                 else if (AppTarget == -4 && WindowPositionFrom != null)
                 {
@@ -435,7 +883,14 @@ namespace CurveDemo
                     RoundCornerPointerTransform.X = 500 * 100 / 1920 * 3 * 0.16 / (WindowPositionFrom[2] / ActualWidth);
 
                     AWMultiTaskGrid.Opacity = 0;
-                    AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                    }
+                    else
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    }
                     AppWindowState = 1;
                     AppWindowMain_Target = AppTarget;
 
@@ -450,12 +905,32 @@ namespace CurveDemo
                     AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
 
 
+                    comingAppRect.ToHeight = ActualHeight;
+                    comingAppRect.ToWidth = ActualWidth;
+                    comingAppRect.ToX = 0;
+                    comingAppRect.ToY = 0;
+                    comingAppRect.ToOpacity = 1.0;
+                    comingAppRect.ToRotaion = 0;
+                    comingAppRect.ToScale = 1.0;
+                    comingAppRect.ToCornerRadius = 500 * (Application.Current as App).ScreenCornerRadius;
+                    comingAppRect.durationTick = (long)(0.7 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityBeginTick = (long)(0.0 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityDurationTick = (long)(0.2 * (Application.Current as App).TransitionDurationTime * 10000000);
+
 
                     //await Task.Delay(0);
-                    AWALaunchingStoryBoard.Begin();
-                    AWAFrameOpacity.Begin();
-                    RoundCornerPointerStBo.Begin();
-                    RoundCornerTimer.Start();
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        StartWindowSpringAnimation(1, comingAppRect);
+                    }
+                    else
+                    {
+                        //await Task.Delay(0);
+                        AWALaunchingStoryBoard.Begin();
+                        AWAFrameOpacity.Begin();
+                        RoundCornerPointerStBo.Begin();
+                        RoundCornerTimer.Start();
+                    }
                 }
                 else if (AppTarget == -1 || true)
                 {
@@ -477,10 +952,16 @@ namespace CurveDemo
                     AWAScale.ScaleX = AWAScale.ScaleY = 0.01;
                     AWATransform.X = 0;
                     AWATransform.Y = ActualHeight * -0.25;// FarPoint - ActualHeight * 0.4;
-                    //Trace.WriteLine(AppRectGrid1Transform.Y);
+                                                          //Trace.WriteLine(AppRectGrid1Transform.Y);
 
-                    AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
-
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                    }
+                    else
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    }
                     AppWindowMain_Target = AppTarget;
 
                     AWAOpenKeyScaleX.Value = AWAOpenKeyScaleY.Value = 1.0;
@@ -504,12 +985,32 @@ namespace CurveDemo
                     AWAFrameOpacityDoubleAnimation.Duration = TimeSpan.FromSeconds(0.3 * (Application.Current as App).TransitionDurationTime);
                     AWAFrameOpacityDoubleAnimation.BeginTime = TimeSpan.FromSeconds(0.0);
 
-                    //AWSwipeBar.Opacity = 1;
 
-                    AWALaunchingStoryBoard.Begin();
-                    AWAFrameOpacity.Begin();
-                    RoundCornerPointerStBo.Begin();
-                    RoundCornerTimer.Start();
+                    comingAppRect.ToHeight = ActualHeight;
+                    comingAppRect.ToWidth = ActualWidth;
+                    comingAppRect.ToX = 0;
+                    comingAppRect.ToY = 0;
+                    comingAppRect.ToOpacity = 1.0;
+                    comingAppRect.ToRotaion = 0;
+                    comingAppRect.ToScale = 1.0;
+                    comingAppRect.ToCornerRadius = 500 * (Application.Current as App).ScreenCornerRadius;
+                    comingAppRect.durationTick = (long)(0.7 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityBeginTick = (long)(0.0 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
+
+
+                    //AWSwipeBar.Opacity = 1;
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        StartWindowSpringAnimation(1, comingAppRect);
+                    }
+                    else
+                    {
+                        AWALaunchingStoryBoard.Begin();
+                        AWAFrameOpacity.Begin();
+                        RoundCornerPointerStBo.Begin();
+                        RoundCornerTimer.Start();
+                    }
                     AppWindowState = 1;
                 }
                     AppWindowGesture.Visibility = Windows.UI.Xaml.Visibility.Visible;
@@ -519,6 +1020,11 @@ namespace CurveDemo
             }
             else if(isOnLaunching == 0)
             {
+                comingAppRect.anDirection = 2;
+                comingAppRect.VX = RvX;
+                comingAppRect.VY = RvY;
+                comingAppRect.VScale = RvScale;
+
                 AppTarget = FindAppTarget(AppTarget);
                 DesktopIconGridWhenClosingAppScale.ScaleX = 1;
                 DesktopGridScrollViewer2.ScrollToVerticalOffset(DesktopGridScrollViewer.VerticalOffset);
@@ -535,7 +1041,14 @@ namespace CurveDemo
                     AWAScale.CenterX = ActualWidth * 0.5;
                     AWAScale.CenterY = ActualHeight * 0.5;
 
-                    AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                    }
+                    else
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    }
 
                     //主
                     if (AWCardFrame.Content == null || AWCardFrame.Content.GetType() != typeof(DesktopCard))
@@ -595,11 +1108,47 @@ namespace CurveDemo
                     AWAFrameOpacityDoubleAnimation.Duration = TimeSpan.FromSeconds(0.2 * (Application.Current as App).TransitionDurationTime);
                     AWAFrameOpacityDoubleAnimation.BeginTime = TimeSpan.FromSeconds(0.1 * (Application.Current as App).TransitionDurationTime);
 
-                    //await Task.Delay(0);
-                    AWABackStoryBoard.Begin();
-                    AWAFrameOpacity.Begin();
-                    RoundCornerPointerStBo.Begin();
-                    RoundCornerTimer.Start();
+
+                    comingAppRect.ToHeight = AWABackKeyH.Value;
+                    comingAppRect.ToWidth = AWABackKeyW.Value;
+                    comingAppRect.ToX = AWABackKeyX.Value;
+                    comingAppRect.ToY = AWABackKeyY.Value;
+                    comingAppRect.ToOpacity = 0;
+                    comingAppRect.ToRotaion = 0;
+                    comingAppRect.ToScale = AWABackKeyScaleX.Value;
+                    comingAppRect.ToCornerRadius = 500 * 100 / 1920 * 0.8 / AWABackKeyScaleX.Value;
+                    comingAppRect.durationTick = (long)(0.7 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityBeginTick = (long)(0.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
+
+                    if(RvScale != 0)
+                    {
+                        if((Application.Current as App).CurveStyle == 0)
+                        {
+
+                            comingAppRect.durationTick = (long)(1.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.OpacityBeginTick = (long)(0.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.ScaleDamping = 0.81;
+                            comingAppRect.XDamping = 0.82;
+                            comingAppRect.YDamping = 0.82;
+                            comingAppRect.WidthDamping = 0.9;
+                            comingAppRect.HeightDamping = 0.9;
+                        }
+                        else if((Application.Current as App).CurveStyle == 1)
+                        {
+
+                            comingAppRect.durationTick = (long)(1.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.OpacityBeginTick = (long)(0.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.ScaleDamping = 1.0 - comingAppRect.ToY / ActualHeight * 0.3;
+                            comingAppRect.XDamping = 0.82;
+                            comingAppRect.YDamping = 0.82;
+                            comingAppRect.WidthDamping = 0.9;
+                            comingAppRect.HeightDamping = 0.9;
+                        }
+                    }
+                    
 
                     AWReturnToApp.Visibility = Visibility.Visible;
                     (DesktopGrid.Children[AppTarget] as Grid).Opacity = 0.01;
@@ -620,6 +1169,20 @@ namespace CurveDemo
                     }
 
 
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        StartWindowSpringAnimation(2, comingAppRect);
+                    }
+                    else
+                    {
+
+                        AWABackStoryBoard.Begin();
+                        AWAFrameOpacity.Begin();
+                        RoundCornerPointerStBo.Begin();
+                        RoundCornerTimer.Start();
+
+
+                    }
 
 
                 }
@@ -645,8 +1208,14 @@ namespace CurveDemo
                     //AWATransform.Y = ActualHeight * FarPoint - ActualHeight * 0.4;
                     //Trace.WriteLine(AppRectGrid1Transform.Y);
 
-                    AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1;
-
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.0;
+                    }
+                    else
+                    {
+                        AWAMultiTaskScale.ScaleX = AWAMultiTaskScale.ScaleY = 1.2 / AWAScale.ScaleX;
+                    }
                     AppWindowMain_Target = AppTarget;
 
                     AWABackKeyScaleX.Value = AWABackKeyScaleY.Value = 0.001;
@@ -668,14 +1237,43 @@ namespace CurveDemo
                     AWAFrameOpacityDoubleAnimation.To = 0;
                     AWAFrameOpacityDoubleAnimation.Duration = TimeSpan.FromSeconds(0.4 * (Application.Current as App).TransitionDurationTime);
                     AWAFrameOpacityDoubleAnimation.BeginTime = TimeSpan.FromSeconds(0.05 * (Application.Current as App).TransitionDurationTime);
+                    
+                    comingAppRect.ToHeight = AWABackKeyH.Value;
+                    comingAppRect.ToWidth = AWABackKeyW.Value;
+                    comingAppRect.ToX = AWABackKeyX.Value;
+                    comingAppRect.ToY = AWABackKeyY.Value;
+                    comingAppRect.ToOpacity = 0;
+                    comingAppRect.ToRotaion = 0;
+                    comingAppRect.ToScale = AWABackKeyScaleX.Value;
+                    comingAppRect.ToCornerRadius = 500 * (Application.Current as App).ScreenCornerRadius;
+                    comingAppRect.durationTick = (long)(0.7 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityBeginTick = (long)(0.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    comingAppRect.OpacityDurationTick = (long)(0.6 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    if (RvScale != 0)
+                    {
+                        comingAppRect.durationTick = (long)(1.1 * (Application.Current as App).TransitionDurationTime * 10000000);
+                        comingAppRect.OpacityBeginTick = (long)(0.0 * (Application.Current as App).TransitionDurationTime * 10000000);
+                        comingAppRect.OpacityDurationTick = (long)(0.6 * (Application.Current as App).TransitionDurationTime * 10000000);
+                    }
 
                     //AWSwipeBar.Opacity = 1;
+                    if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                    {
+                        StartWindowSpringAnimation(2, comingAppRect);
+                    }
+                    else
+                    {
 
-                    AWABackStoryBoard.Begin();
-                    AWAFrameOpacity.Begin();
-                    RoundCornerPointerStBo.Begin();
-                    RoundCornerTimer.Start();
+                        AWABackStoryBoard.Begin();
+                        AWAFrameOpacity.Begin();
+                        RoundCornerPointerStBo.Begin();
+                        RoundCornerTimer.Start();
+
+
+                    }
                 }
+
+                RvX = RvY = RvScale = 0;
             }
         }
 
@@ -701,7 +1299,8 @@ namespace CurveDemo
             if (isGst == 1)
             {
                 AppWindow2Gesture.Visibility = Visibility.Visible;
-                AppWindow2Gesture.Opacity = 0.011;
+                AppWindow2Gesture.Opacity = 0.001;
+                //AppWindowGesture.Opacity = 0.001;
                 AW2ATransform.X = AWATransform.X;
                 AW2ATransform.Y = AWATransform.Y;
                 AW2AScale.ScaleX = AWAScale.ScaleX;
@@ -786,31 +1385,36 @@ namespace CurveDemo
                 AW2GBackKeyScaleY2.KeyTime = AWGBackKeyScaleY2.KeyTime;
 
 
-                if ((Application.Current as App).CurveStyle == 0)
+                if((Application.Current as App).CurveStyle <= SpringCurveStyleCount) //SpringAnimation
+                {
+                    AW2GTransform.X = AW2GTransform.Y = 0;
+                    AW2GScale.ScaleX = AW2GScale.ScaleY = 1;
+                }
+                else if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount + SpringCurveStyleCount)
                 {
                     AW2GGestureFlyStoryBoard.Begin();
                     AW2AGestureBack2StoryBoard.Begin();
                     RoundCornerPointer2StBo.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 1)
+                else if ((Application.Current as App).CurveStyle == 1 + SpringCurveStyleCount)
                 {
                     AW2GGestureFlyStoryBoard.Begin();
                     AW2AGestureBackStoryBoard.Begin();
                     RoundCornerPointer2StBo.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 2)
+                else if ((Application.Current as App).CurveStyle == 2 + SpringCurveStyleCount)
                 {
                     AW2GGestureFlyStoryBoard.Begin();
                     AW2AGestureBackStoryBoard.Begin();
                     RoundCornerPointer2StBo.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 3)
+                else if ((Application.Current as App).CurveStyle == 3 + SpringCurveStyleCount)
                 {
                     AW2GGestureFlyStoryBoard.Begin();
                     AW2AGestureBack2StoryBoard.Begin();
                     RoundCornerPointer2StBo.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 4)
+                else if ((Application.Current as App).CurveStyle == 4 + SpringCurveStyleCount)
                 {
                     AW2GGestureFlyStoryBoard.Begin();
                     AW2AGestureBack2StoryBoard.Begin();
@@ -820,7 +1424,8 @@ namespace CurveDemo
             else
             {
                 AppWindow2Gesture.Visibility = Visibility.Visible;
-                AppWindow2Gesture.Opacity = 0.01;
+                AppWindow2Gesture.Opacity = 0.001;
+                //AppWindowGesture.Opacity = 0.001;
                 AW2ATransform.X = AWATransform.X;
                 AW2ATransform.Y = AWATransform.Y;
                 AW2AScale.ScaleX = AWAScale.ScaleX;
@@ -869,8 +1474,16 @@ namespace CurveDemo
 
                 AppWindow2_Target = AppWindowMain_Target;
 
-                AW2ABackStoryBoard.Begin();
-                RoundCornerPointer2StBo.Begin();
+                if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount) //SpringAnimation
+                {
+
+                }
+                else
+                {
+
+                    AW2ABackStoryBoard.Begin();
+                    RoundCornerPointer2StBo.Begin();
+                }
             }
         }
 
@@ -1320,6 +1933,10 @@ namespace CurveDemo
 
         private void RoundCornerTick(object? sender, object e)
         {
+            if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+            {
+                return;
+            }
             if(AWAScale.ScaleX != 1.0)
                 AppHeightAnimation.CornerRadius = new Windows.UI.Xaml.CornerRadius(RoundCornerPointerTransform.X);
             else if(AWAScale.ScaleX == 1.0 && AWGScale.ScaleX == 1.0)
@@ -1333,6 +1950,7 @@ namespace CurveDemo
 
         private void AWALaunchingStoryBoard_Completed(object sender, object e)
         {
+
             if(AppWindowState == 1)
             {
                 if(AWAScale.ScaleX == 1.0 && AWGScale.ScaleX == 1.0)
@@ -1494,7 +2112,7 @@ namespace CurveDemo
                             dH = ActualHeight * 1.1;
                         }
                     //FarPoint = -0.2;
-                    if ((Application.Current as App).CurveStyle == 4)
+                    if ((Application.Current as App).CurveStyle == 4 + 1)
                     {
                         FarPoint = -0.1;
                     }
@@ -1519,9 +2137,12 @@ namespace CurveDemo
 
                 AWGBackKeyScaleX2.Value = AWGBackKeyScaleY2.Value = 1.0;
 
-                
 
-                if ((Application.Current as App).CurveStyle == 0)
+                if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                {
+
+                }
+                else if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount + 1)
                 {
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
@@ -1537,7 +2158,7 @@ namespace CurveDemo
                     AWGBackKeyScaleX1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
                     AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
                 }
-                else if ((Application.Current as App).CurveStyle == 1)
+                else if ((Application.Current as App).CurveStyle == 1 + SpringCurveStyleCount)
                 {
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
@@ -1559,7 +2180,7 @@ namespace CurveDemo
                     AWAGstBackKeyX1.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
                     AWAGstBackKeyY1.KeyTime = TimeSpan.FromSeconds(0.6 * (Application.Current as App).TransitionDurationTime);
                 }
-                else if ((Application.Current as App).CurveStyle == 2)
+                else if ((Application.Current as App).CurveStyle == 2 + SpringCurveStyleCount)
                 {
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
@@ -1580,7 +2201,7 @@ namespace CurveDemo
                     AWAGstBackKeyX1.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
                     AWAGstBackKeyY1.KeyTime = TimeSpan.FromSeconds(0.75 * (Application.Current as App).TransitionDurationTime);
                 }
-                else if ((Application.Current as App).CurveStyle == 3)
+                else if ((Application.Current as App).CurveStyle == 3 + SpringCurveStyleCount)
                 {
                     AWGBackKeyScaleX1.Value = AWGBackKeyScaleY1.Value = AWGScale.ScaleX * 1;
                     AWGBackKeyY2.Value = AWAScale.ScaleY * (AWGTransform.Y + e.Velocities.Linear.Y / Math.Abs(e.Velocities.Linear.Y) * Math.Pow(Math.Abs(e.Velocities.Linear.Y), 0.8) * (Application.Current as App).FlyFar * 8);
@@ -1598,7 +2219,7 @@ namespace CurveDemo
                     AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.00 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
 
                 }
-                else if ((Application.Current as App).CurveStyle == 4)
+                else if ((Application.Current as App).CurveStyle == 4 + SpringCurveStyleCount)
                 {
                     AWGBackKeyY2.Value = 0 - ActualHeight * (0.5 - FarPoint) + ActualHeight * AWGBackKeyScaleY1.Value * (0.5 - FarPoint) * AWAScale.ScaleY;
                     try
@@ -1615,13 +2236,31 @@ namespace CurveDemo
                     AWGBackKeyScaleY1.KeyTime = TimeSpan.FromSeconds(0.08 * (Application.Current as App).TransitionDurationTime * Math.Pow((Application.Current as App).FlyFar, 1 / 6));
 
                 }
-                AWGGestureFlyStoryBoard.Begin();
 
+                if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                {
+                    RvX = e.Velocities.Linear.X / 10000 / 20.0 * (Application.Current as App).FlyFar;
+                    RvY = (e.Velocities.Linear.Y / 10000) / (1 - FarPoint) * (0.5 - FarPoint) / 30.0 * (Application.Current as App).FlyFar;
+                    RvScale = (e.Velocities.Linear.Y / 10000) * (1 - FarPoint) / (ActualHeight * AWGScale.ScaleY) / 30.0 * (Application.Current as App).FlyFar;
 
-                StartWindowAnimation(0, AppWindowMain_Target);
-                StartBackgroundAnimation(0);
+                    StartWindowAnimation(0, AppWindowMain_Target);
+                    AWGScale.ScaleX = AWGScale.ScaleY = 1;
+                    AWGTransform.X = AWGTransform.Y = 0;
+                    StartBackgroundAnimation(0);
+                }
+                else
+                {
 
-                if ((Application.Current as App).CurveStyle == 0)
+                    AWGGestureFlyStoryBoard.Begin();
+                    StartWindowAnimation(0, AppWindowMain_Target);
+                    StartBackgroundAnimation(0);
+                }
+
+                if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                {
+                    
+                }
+                else if ((Application.Current as App).CurveStyle == SpringCurveStyleCount)
                 {
                     AWAGstBack2KeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
                     AWAGstBack2KeyY2.Value = AWABackKeyY.Value - AWGBackKeyY2.Value;
@@ -1644,7 +2283,7 @@ namespace CurveDemo
                     AWAGstBack2KeyScaleY2.Value = AWABackKeyScaleY.Value;
                     AWAGestureBack2StoryBoard.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 1)
+                else if ((Application.Current as App).CurveStyle == 1 + SpringCurveStyleCount)
                 {
                     double distance = Math.Sqrt(Math.Pow((AWABackKeyY.Value - AWGBackKeyY2.Value), 2) + Math.Pow((AWABackKeyX.Value - AWGBackKeyX2.Value), 2));
                     double b = 6;// ((Application.Current as App).BounceRadius);
@@ -1678,7 +2317,7 @@ namespace CurveDemo
 
                     AWAGestureBackStoryBoard.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 2)
+                else if ((Application.Current as App).CurveStyle == 2 + SpringCurveStyleCount)
                 {
                     double distance = Math.Sqrt(Math.Pow((AWABackKeyY.Value - AWGBackKeyY2.Value), 2) + Math.Pow((AWABackKeyX.Value - AWGBackKeyX2.Value), 2));
                     double b = 0;// ((Application.Current as App).BounceRadius);
@@ -1709,7 +2348,7 @@ namespace CurveDemo
                     AWAGstBackKeyScaleY2.Value = AWABackKeyScaleY.Value;
                     AWAGestureBackStoryBoard.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 3)
+                else if ((Application.Current as App).CurveStyle == 3 + SpringCurveStyleCount)
                 {
 
                     AWAGstBack2KeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
@@ -1733,7 +2372,7 @@ namespace CurveDemo
                     AWAGstBack2KeyScaleY2.Value = AWABackKeyScaleY.Value;
                     AWAGestureBack2StoryBoard.Begin();
                 }
-                else if ((Application.Current as App).CurveStyle == 4)
+                else if ((Application.Current as App).CurveStyle == 4 + SpringCurveStyleCount)
                 {
                     AWAGstBack2KeyX2.Value = AWABackKeyX.Value - AWGBackKeyX2.Value;
                     AWAGstBack2KeyY2.Value = AWABackKeyY.Value - AWGBackKeyY2.Value;
@@ -1766,10 +2405,34 @@ namespace CurveDemo
                 GstBut.Visibility = Visibility.Visible;
                 AWGScale.CenterX = ActualWidth * 0.5;
                 AWGScale.CenterY = ActualHeight * 0.5;
-                AWGGestureFillStoryBoard.Begin();
+                if ((Application.Current as App).CurveStyle <= SpringCurveStyleCount)
+                {
+                    AppAnimationRectProperties comingAppRect = new AppAnimationRectProperties();
+                    comingAppRect.ToHeight = ActualHeight;
+                    comingAppRect.ToWidth = ActualWidth;
+                    comingAppRect.ToX = 0;
+                    comingAppRect.ToY = 0;
+                    comingAppRect.ToScale = 1.0;
+                    comingAppRect.ToOpacity = 1;
+                    comingAppRect.ToCornerRadius = 500 * (Application.Current as App).ScreenCornerRadius;
+                    comingAppRect.XDamping = 0.8;
+                    comingAppRect.YDamping = 0.8;
+                    comingAppRect.ScaleDamping = 0.8;
+                    comingAppRect.VX = e.Velocities.Linear.X / 10000 / 20.0 * (Application.Current as App).FlyFar;
+                    comingAppRect.VY = (e.Velocities.Linear.Y / 10000) / (1 - FarPoint) * (0.5 - FarPoint) / 30.0 * (Application.Current as App).FlyFar;
+                    comingAppRect.VScale = (e.Velocities.Linear.Y / 10000) * (1 - FarPoint) / (ActualHeight * AWGScale.ScaleY) / 30.0 * (Application.Current as App).FlyFar;
+                    
+                    comingAppRect.durationTick = (long)(0.5 * 10000000);
+                    StartWindowSpringAnimation(1, comingAppRect);
+                    AWGTransform.X = AWGTransform.Y = 0;
+                    AWGScale.ScaleX = AWGScale.ScaleY = 1;
+                }
+                else
+                {
+                    AWGGestureFillStoryBoard.Begin();
+                }
             }
         }
-
 
         private void GstBut_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
         {

@@ -302,6 +302,7 @@
                         <TransformGroup>
                             <ScaleTransform x:Name="AW2AScale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
                             <ScaleTransform x:Name="AW2GScale" ScaleX="1" ScaleY="1"/>
+                            <RotateTransform x:Name="AW2ARotate" Angle="0"/>
                         </TransformGroup>
                     </Grid.RenderTransform>
                     <Grid x:Name="AppHeight2Animation" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -840,6 +841,7 @@
                     </Grid.Resources>
                     <Grid.RenderTransform>
                         <TransformGroup>
+                            <RotateTransform x:Name="AWARotate" Angle="0"/>
                             <ScaleTransform x:Name="AWGScale" ScaleX="1" ScaleY="1"/>
                             <ScaleTransform x:Name="AWAScale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
                         </TransformGroup>

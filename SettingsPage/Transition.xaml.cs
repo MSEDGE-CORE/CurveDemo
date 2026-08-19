@@ -39,7 +39,7 @@ namespace CurveDemo.SettingsPage
             BgScale_Switch.IsOn = (Application.Current as App).EnableBgScale == 1 ? true : false;
             ScrCornerRadius_Switch.IsOn = (Application.Current as App).ScreenCornerRadius == 100.0 / 1920 ? true : false;
             SideWindowAnimation_Switch.IsOn = (Application.Current as App).EnableSideWindowAnimation == 1 ? true : false;
-            CurveStyleSelection.SelectedIndex = (Application.Current as App).CurveStyle <= 4 ? (Application.Current as App).CurveStyle : 0;
+            CurveStyleSelection.SelectedIndex = (Application.Current as App).CurveStyle <= 5 ? (Application.Current as App).CurveStyle : 0;
             CtrlPnCurveSelection.SelectedIndex = (Application.Current as App).CtrPnelCurveStyle <= 1 ? (Application.Current as App).CtrPnelCurveStyle : 0;
             if ((Application.Current as App).TransitionDurationTime < 0.1)
             {
@@ -286,14 +286,19 @@ namespace CurveDemo.SettingsPage
         {
             (Application.Current as App).CurveStyle = (sender as ComboBox).SelectedIndex;
             (Application.Current as App).LocalSettings.Values["CurveStyle"] = (Application.Current as App).CurveStyle;
-            if ((Application.Current as App).CurveStyle == 0)
+            if ((Application.Current as App).CurveStyle <= 1)
             {
-                GridBounceRadius.Visibility = Visibility.Collapsed;
-            }
+                if (isLoaded)
+                {
+                    ((MP.Content as Grid).Children[0] as Frame).Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                    ((MP.Content as Grid).Children[1] as Frame).Navigate(typeof(QuickControlPanel), null, new SuppressNavigationTransitionInfo());
+
+                }
+            }/*
             else if ((Application.Current as App).CurveStyle == 1)
             {
                 //GridBounceRadius.Visibility = Visibility.Visible;
-            }
+            }*/
         }
 
         private void BgScale_Switch_Toggled(object sender, RoutedEventArgs e)

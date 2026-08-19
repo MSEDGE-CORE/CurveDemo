@@ -40,6 +40,8 @@
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ComboBox Name = "CurveStyleSelection" SelectionChanged="CurveStyleSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC"  >
                             <x:String>轻快</x:String>
+                            <x:String>漂浮</x:String>
+                            <x:String>柔和</x:String>
                             <x:String>劲度</x:String>
                             <x:String>稳定</x:String>
                             <x:String>平面</x:String>
