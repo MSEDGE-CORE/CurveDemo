@@ -361,7 +361,7 @@ namespace CurveDemo.SettingsPage
             (Application.Current as App).LocalSettings.Values["SpringSettings_WidthDamping"] = (Application.Current as App).WidthDamping;
 
             (Application.Current as App).HeightDamping = this.Slider_SpringSettings_WidthDamping.Value;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_HeightDamping"] = (Application.Current as App).WidthDamping;
+            (Application.Current as App).LocalSettings.Values["SpringSettings_HeightDamping"] = (Application.Current as App).HeightDamping;
 
             (Application.Current as App).ScaleDamping = this.Slider_SpringSettings_ScaleDamping.Value;
             (Application.Current as App).LocalSettings.Values["SpringSettings_ScaleDamping"] = (Application.Current as App).ScaleDamping;
@@ -384,64 +384,22 @@ namespace CurveDemo.SettingsPage
 
         private void SpringSettings_Reset_Button_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).DurationTime = 1.0;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_DurationTime"] = (Application.Current as App).DurationTime;
-
-            (Application.Current as App).XVelocity = 1;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_XVelocity"] = (Application.Current as App).XVelocity;
-
-            (Application.Current as App).YVelocity = 1;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_YVelocity"] = (Application.Current as App).YVelocity;
-
-            (Application.Current as App).ScaleVelocity = 1;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_ScaleVelocity"] = (Application.Current as App).ScaleVelocity;
+            
 
 
-            (Application.Current as App).XDamping = 0.82;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_XDamping"] = (Application.Current as App).XDamping;
-
-            (Application.Current as App).YDamping = 0.82;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_YDamping"] = (Application.Current as App).YDamping;
-
-            (Application.Current as App).WidthDamping = 0.9;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_WidthDamping"] = (Application.Current as App).WidthDamping;
-
-            (Application.Current as App).HeightDamping = 0.9;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_HeightDamping"] = (Application.Current as App).WidthDamping;
-
-            (Application.Current as App).ScaleDamping = 0.82;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_ScaleDamping"] = (Application.Current as App).ScaleDamping;
-
-            (Application.Current as App).OpacityDamping = 1.0;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_OpacityDamping"] = (Application.Current as App).OpacityDamping;
-
-            (Application.Current as App).RotationDamping = 0.9;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_RotationDamping"] = (Application.Current as App).RotationDamping;
-
-            (Application.Current as App).OpacityBeginTime = 0.1;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_OpacityBeginTime"] = (Application.Current as App).OpacityBeginTime;
-
-            (Application.Current as App).OpacityDurationTime = 0.3;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_OpacityDurationTime"] = (Application.Current as App).OpacityDurationTime;
-
-            (Application.Current as App).CornerRadiusDamping = 1.0;
-            (Application.Current as App).LocalSettings.Values["SpringSettings_CornerRadiusDamping"] = (Application.Current as App).CornerRadiusDamping;
-
-
-
-            this.Slider_SpringSettings_Duration.Value = (Application.Current as App).DurationTime;
-            this.Slider_SpringSettings_XVelocity.Value = (Application.Current as App).XVelocity;
-            this.Slider_SpringSettings_YVelocity.Value = (Application.Current as App).YVelocity;
-            this.Slider_SpringSettings_ScaleVelocity.Value = (Application.Current as App).ScaleVelocity;
-            this.Slider_SpringSettings_XDamping.Value = (Application.Current as App).XDamping;
-            this.Slider_SpringSettings_YDamping.Value = (Application.Current as App).YDamping;
-            this.Slider_SpringSettings_WidthDamping.Value = (Application.Current as App).WidthDamping;
-            this.Slider_SpringSettings_ScaleDamping.Value = (Application.Current as App).ScaleDamping;
-            this.Slider_SpringSettings_OpacityDamping.Value = (Application.Current as App).OpacityDamping;
-            this.Slider_SpringSettings_RotationDamping.Value = (Application.Current as App).RotationDamping;
-            this.Slider_SpringSettings_OpacityBeginTime.Value = (Application.Current as App).OpacityBeginTime;
-            this.Slider_SpringSettings_OpacityDurationTime.Value = (Application.Current as App).OpacityDurationTime;
-            this.Slider_SpringSettings_CornerRadiusDamping.Value = (Application.Current as App).CornerRadiusDamping;
+            this.Slider_SpringSettings_Duration.Value = 1.0;
+            this.Slider_SpringSettings_XVelocity.Value = 1.0;
+            this.Slider_SpringSettings_YVelocity.Value = 1.0;
+            this.Slider_SpringSettings_ScaleVelocity.Value = 1.0;
+            this.Slider_SpringSettings_XDamping.Value = 0.82;
+            this.Slider_SpringSettings_YDamping.Value = 0.82;
+            this.Slider_SpringSettings_WidthDamping.Value = 0.9;
+            this.Slider_SpringSettings_ScaleDamping.Value = 0.9;
+            this.Slider_SpringSettings_OpacityDamping.Value = 1.0;
+            this.Slider_SpringSettings_RotationDamping.Value = 0.9;
+            this.Slider_SpringSettings_OpacityBeginTime.Value = 0.1;
+            this.Slider_SpringSettings_OpacityDurationTime.Value = 0.3;
+            this.Slider_SpringSettings_CornerRadiusDamping.Value = 1.0;
         }
     }
 }
