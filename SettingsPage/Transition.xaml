@@ -41,6 +41,7 @@
                         <ComboBox Name = "CurveStyleSelection" SelectionChanged="CurveStyleSelection_SelectionChanged" Width="150" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC"  >
                             <x:String>轻快</x:String>
                             <x:String>漂浮</x:String>
+                            <x:String>弹簧</x:String>
                             <x:String>柔和</x:String>
                             <x:String>劲度</x:String>
                             <x:String>稳定</x:String>
@@ -101,6 +102,105 @@
                         <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <ToggleSwitch Name="SideWindowAnimation_Switch" Toggled="SideWindowAnimation_Switch_Toggled" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-60,0"/>
                     </Grid>
+                    <StackPanel x:Name="StackPanel_SpringSettings" Visibility="Collapsed">
+                        <TextBlock FontSize = "14" FontWeight = "Bold" Text = "弹簧曲线自定义" Margin = "6,12,0,0" FontFamily="HarmonyOS Sans SC" />
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "持续时长" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_Duration" SmallChange="0.1" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.0" StepFrequency="0.1" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "横向 速度传递" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_XVelocity" SmallChange="0.1"  ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="-2.0" StepFrequency="0.1" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "纵向 速度传递" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_YVelocity" SmallChange="0.1"  ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="-2.0" StepFrequency="0.1" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "缩放 速度传递" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_ScaleVelocity" SmallChange="0.1"  ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="-2.0" StepFrequency="0.1" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "横向 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_XDamping" SmallChange="0.01"  ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "纵向 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_YDamping" SmallChange="0.01" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "缩放 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_ScaleDamping" SmallChange="0.01" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "宽/高 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_WidthDamping" SmallChange="0.01" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "透明度 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_OpacityDamping" SmallChange="0.01" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "旋转 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_RotationDamping" SmallChange="0.01" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "圆角 弹性系数" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_CornerRadiusDamping" SmallChange="0.01" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.1" StepFrequency="0.01" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid> 
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "透明度 开始时刻" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_OpacityBeginTime" SmallChange="0.1" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.0" StepFrequency="0.1" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
+                            <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <TextBlock FontSize = "16" Text = "透明度 持续时长" Margin = "26,0,0,0" VerticalAlignment = "Center" HorizontalAlignment = "Left" FontFamily="HarmonyOS Sans SC" />
+                            <Grid Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+
+                            <Slider Width="200" Name="Slider_SpringSettings_OpacityDurationTime" SmallChange="0.1" ValueChanged="Slider_SpringSettings_ValueChanged" Maximum="2.0" Minimum="0.0" StepFrequency="0.1" Margin="0,0,26,0" VerticalAlignment = "Center" HorizontalAlignment = "Right" FontFamily="HarmonyOS Sans SC" />
+                        </Grid>
+                        <Grid HorizontalAlignment = "Stretch" Margin = "0,6,0,0">
+                            
+                            <Button Name="SpringSettings_Reset_Button"  Click="SpringSettings_Reset_Button_Click" Content="重置" FontFamily="HarmonyOS Sans SC" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+
                     <TextBlock FontSize = "14" FontWeight = "Bold" Text = "控制中心" Margin = "6,12,0,0" FontFamily="HarmonyOS Sans SC" />
                     <Grid Name="GridCtrlPnCurve" Visibility="Visible" HorizontalAlignment = "Stretch" Margin = "0,6,0,0" MinHeight = "68" MaxHeight = "68" Height = "68">
                         <Button IsTabStop="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

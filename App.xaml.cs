@@ -22,7 +22,53 @@ namespace CurveDemo
         /// </summary>
         /// 
 
+        public class AppAnimationRectProperties
+        {
+            public bool anStatus { get; set; } = false;
+            public int anDirection { get; set; } = 1;
+            public double XDamping { get; set; } = 1.0;
+            public double YDamping { get; set; } = 1.0;
+            public double WidthDamping { get; set; } = 1;
+            public double HeightDamping { get; set; } = 1;
+            public double ScaleDamping { get; set; } = 1.0;
+            public double OpacityDamping { get; set; } = 1.0;
+            public double RotationDamping { get; set; } = 1.0;
+            public double CornerRadiusDamping { get; set; } = 1.0;
 
+            public long startTick { get; set; } = 0;
+            public long durationTick { get; set; } = 1;
+            public long OpacityBeginTick { get; set; } = 0;
+            public long OpacityDurationTick { get; set; } = 1;
+
+            public long VisibleDurationTick { get; set; } = 1;
+
+            public double FromX { get; set; } = 0;
+            public double FromY { get; set; } = 0;
+            public double FromWidth { get; set; } = 0;
+            public double FromHeight { get; set; } = 0;
+            public double FromScale { get; set; } = 0;
+            public double FromOpacity { get; set; } = 0;
+            public double FromRotaion { get; set; } = 0;
+            public double FromCornerRadius { get; set; } = 0;
+
+            public double ToX { get; set; } = 0;
+            public double ToY { get; set; } = 0;
+            public double ToWidth { get; set; } = 0;
+            public double ToHeight { get; set; } = 0;
+            public double ToScale { get; set; } = 0;
+            public double ToOpacity { get; set; } = 0;
+            public double ToRotaion { get; set; } = 0;
+            public double ToCornerRadius { get; set; } = 0;
+
+            public double VX { get; set; } = 0;
+            public double VY { get; set; } = 0;
+            public double VWidth { get; set; } = 0;
+            public double VHeight { get; set; } = 0;
+            public double VScale { get; set; } = 0;
+            public double VOpacity { get; set; } = 0;
+            public double VRotaion { get; set; } = 0;
+            public double VCornerRadius { get; set; } = 0;
+        }
         public class DesktopIconInfo
         {
             public string Tag { get; set; }
@@ -57,6 +103,8 @@ namespace CurveDemo
         public int NotificationCenterAlignment = 0;
         public bool CombineControlCenterWhenWide = false;
 
+        public double DurationTime = 1.1, XDamping = 0.82, YDamping = 0.82, WidthDamping = 0.9, HeightDamping = 0.9, ScaleDamping = 0.82, OpacityDamping = 1.0, RotationDamping = 0.9, CornerRadiusDamping = 1.0, OpacityBeginTime = 0.1, OpacityDurationTime = 0.3;
+        public double XVelocity = 1, YVelocity = 1, ScaleVelocity = 1;
 
         public App()
         {
@@ -188,7 +236,61 @@ namespace CurveDemo
             {
                 CombineControlCenterWhenWide = (bool)LocalSettings.Values["CombineControlCenterWhenWide"];
             }
+
+            if (LocalSettings.Values["SpringSettings_DurationTime"] != null)
+            {
+                DurationTime = (double)LocalSettings.Values["SpringSettings_DurationTime"];
+            }
+            if (LocalSettings.Values["SpringSettings_XDamping"] != null)
+            {
+                XDamping = (double)LocalSettings.Values["SpringSettings_XDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_YDamping"] != null)
+            {
+                YDamping = (double)LocalSettings.Values["SpringSettings_YDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_WidthDamping"] != null)
+            {
+                WidthDamping = (double)LocalSettings.Values["SpringSettings_WidthDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_HeightDamping"] != null)
+            {
+                HeightDamping = (double)LocalSettings.Values["SpringSettings_HeightDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_ScaleDamping"] != null)
+            {
+                ScaleDamping = (double)LocalSettings.Values["SpringSettings_ScaleDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_OpacityDamping"] != null)
+            {
+                OpacityDamping = (double)LocalSettings.Values["SpringSettings_OpacityDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_RotationDamping"] != null)
+            {
+                RotationDamping = (double)LocalSettings.Values["SpringSettings_RotationDamping"];
+            }
+            if (LocalSettings.Values["SpringSettings_OpacityBeginTime"] != null)
+            {
+                OpacityBeginTime = (double)LocalSettings.Values["SpringSettings_OpacityBeginTime"];
+            }
+            if (LocalSettings.Values["SpringSettings_OpacityDurationTime"] != null)
+            {
+                OpacityDurationTime = (double)LocalSettings.Values["SpringSettings_OpacityDurationTime"];
+            }
+            if (LocalSettings.Values["SpringSettings_XVelocity"] != null)
+            {
+                XVelocity = (double)LocalSettings.Values["SpringSettings_XVelocity"];
+            }
+            if (LocalSettings.Values["SpringSettings_YVelocity"] != null)
+            {
+                YVelocity = (double)LocalSettings.Values["SpringSettings_YVelocity"];
+            }
+            if (LocalSettings.Values["SpringSettings_ScaleVelocity"] != null)
+            {
+                ScaleVelocity = (double)LocalSettings.Values["SpringSettings_ScaleVelocity"];
+            }
         }
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails.
