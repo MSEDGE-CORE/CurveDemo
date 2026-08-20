@@ -1559,6 +1559,12 @@ namespace CurveDemo
             }
             else
             {
+                AW2FrontIconRotate.Angle = AWFrontIconRotate.Angle;
+                AW2BackIconRotate.Angle = AWBackIconRotate.Angle;
+                AW2FrontIconRotate.CenterX = AWFrontIconRotate.CenterX;
+                AW2FrontIconRotate.CenterY = AWFrontIconRotate.CenterY;
+                AW2BackIconRotate.CenterX = AWBackIconRotate.CenterX;
+                AW2BackIconRotate.CenterY = AWBackIconRotate.CenterY;
                 AppWindow2Gesture.Visibility = Visibility.Visible;
                 AppWindow2Gesture.Opacity = 0.001;
                 //AppWindowGesture.Opacity = 0.001;
