@@ -23,8 +23,9 @@
     <PackageCertificateKeyFile>CurveDemo_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Uwp.Animations" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.Uwp.Media" Version="8.2.250402" />
+    <PackageReference Include="CommunityToolkit.Uwp.Animations" Version="8.2.251219" />
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.SettingsControls" Version="8.2.251219" />
+    <PackageReference Include="CommunityToolkit.Uwp.Media" Version="8.2.251219" />
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
   </ItemGroup>
 </Project>

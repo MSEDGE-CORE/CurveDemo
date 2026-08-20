@@ -315,12 +315,21 @@
                             </Frame>
                             <Image x:Name="AW2BackgIcon" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" Margin="1">
                                 <Image.RenderTransform>
-                                    <ScaleTransform x:Name="AW2BackIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+
+                                    <TransformGroup>
+
+                                        <RotateTransform x:Name="AW2BackIconRotate" Angle="0"/>
+                                        <ScaleTransform x:Name="AW2BackIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                    </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>
                             <Image x:Name="AW2FrontIcon" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="UniformToFill" Opacity="1" Margin="1">
                                 <Image.RenderTransform>
-                                    <ScaleTransform x:Name="AW2FrontIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                    <TransformGroup>
+
+                                        <RotateTransform x:Name="AW2FrontIconRotate" Angle="0"/>
+                                        <ScaleTransform x:Name="AW2FrontIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                    </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>
 
@@ -841,9 +850,9 @@
                     </Grid.Resources>
                     <Grid.RenderTransform>
                         <TransformGroup>
-                            <RotateTransform x:Name="AWARotate" Angle="0"/>
                             <ScaleTransform x:Name="AWGScale" ScaleX="1" ScaleY="1"/>
                             <ScaleTransform x:Name="AWAScale" CenterX="0" CenterY="0" ScaleX="1" ScaleY="1"/>
+                            <RotateTransform x:Name="AWARotate" Angle="0"/>
                         </TransformGroup>
                     </Grid.RenderTransform>
                     <Grid x:Name="AppHeightAnimation" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -856,12 +865,20 @@
                             </Frame>
                             <Image x:Name="AWBackgIcon" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="1" Margin="1">
                                 <Image.RenderTransform>
-                                    <ScaleTransform x:Name="AWBackIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                    <TransformGroup>
+                                        <RotateTransform x:Name="AWBackIconRotate" Angle="0"/>
+                                        <ScaleTransform x:Name="AWBackIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                    </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>
                             <Image x:Name="AWFrontIcon" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="UniformToFill" Opacity="1" Margin="1">
                                 <Image.RenderTransform>
-                                    <ScaleTransform x:Name="AWFrontIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+
+                                    <TransformGroup>
+
+                                        <RotateTransform x:Name="AWFrontIconRotate" Angle="0"/>
+                                        <ScaleTransform x:Name="AWFrontIconScale" CenterX="0" CenterY="0" ScaleX="1.2" ScaleY="1.2"/>
+                                    </TransformGroup>
                                 </Image.RenderTransform>
                             </Image>
                             <Frame x:Name="AWFrame" VerticalAlignment="Top" HorizontalAlignment="Center" Opacity="0" Margin="0">
