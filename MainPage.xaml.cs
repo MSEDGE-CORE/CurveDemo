@@ -151,7 +151,7 @@ namespace CurveDemo
             return 0;
         }
 
-        public double GetSpringAnimationVisibleTick(double damping, long durationTick, double velocity0, double value0, double value1, double thresholdPercent = 0.001)
+        public double GetSpringAnimationVisibleTick(double damping, long durationTick, double velocity0, double value0, double value1, double thresholdPercent = 0.0001)
         {
             if (damping <= 0)
             {
@@ -1244,43 +1244,51 @@ namespace CurveDemo
                     }
                     
 
-                    AWReturnToApp.Visibility = Visibility.Visible;
-                    (DesktopGrid.Children[AppTarget] as Grid).Opacity = 0.01;
 
-
-                    //准备并行
-                    if ((Application.Current as App).EnableSideWindowAnimation == 1)
+                    if(comingAppRect.ToY >= -ActualHeight * 0.5 && comingAppRect.ToY <= ActualHeight * 0.5 && comingAppRect.ToX >= -ActualWidth * 0.5 && comingAppRect.ToX <= ActualWidth * 0.5)
                     {
-                        if (AppWindow2_Target != AppWindowMain_Target && AppWindow2_Target >= 0)
-                            (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
+                        AWReturnToApp.Visibility = Visibility.Visible;
 
-                        StartSideAnimation();
+                        (DesktopGrid.Children[AppTarget] as Grid).Opacity = 0.01;
+                        //准备并行
+                        if ((Application.Current as App).EnableSideWindowAnimation == 1)
+                        {
+                            if (AppWindow2_Target != AppWindowMain_Target && AppWindow2_Target >= 0)
+                                (DesktopGrid.Children[AppWindow2_Target] as Grid).Opacity = 1;
+
+                            StartSideAnimation();
+                        }
+                        else
+                        {
+                            AppWindow2Gesture.Opacity = 0.01;
+                            AppWindow2Gesture.Visibility = Visibility.Collapsed;
+                        }
+
+
+                        if ((Application.Current as App).CurveStyle < SpringCurveStyleCount)
+                        {
+                            StartWindowSpringAnimation(2, comingAppRect);
+                        }
+                        else
+                        {
+
+                            AWABackStoryBoard.Begin();
+                            AWAFrameOpacity.Begin();
+                            RoundCornerPointerStBo.Begin();
+                            RoundCornerTimer.Start();
+
+
+                        }
                     }
                     else
                     {
-                        AppWindow2Gesture.Opacity = 0.01;
-                        AppWindow2Gesture.Visibility = Visibility.Collapsed;
+                        AppTarget = -1;
                     }
-
-
-                    if ((Application.Current as App).CurveStyle < SpringCurveStyleCount)
-                    {
-                        StartWindowSpringAnimation(2, comingAppRect);
-                    }
-                    else
-                    {
-
-                        AWABackStoryBoard.Begin();
-                        AWAFrameOpacity.Begin();
-                        RoundCornerPointerStBo.Begin();
-                        RoundCornerTimer.Start();
-
-
-                    }
+                    
 
 
                 }
-                else if (AppTarget == -1 || AppTarget == -3 || AppTarget == -4)
+                if (AppTarget == -1 || AppTarget == -3 || AppTarget == -4)
                 {
 
                     if (AppWindow2_Target != AppWindowMain_Target && AppWindow2_Target >= 0)
@@ -2109,7 +2117,7 @@ namespace CurveDemo
                 (AWCardFrame.Content as DesktopCard).GetCardInfo = "null";
                 AWBackgIcon.Opacity = 0;
                 AWFrontIcon.Opacity = 0;
-                if(AppWindowMain_Target >= 0)
+                if(AppWindowMain_Target >= 0 && AWAScale.ScaleX == 1.0 && AWATransform.X == 0 && AWATransform.Y == 0)
                     (DesktopGrid.Children[AppWindowMain_Target] as Grid).Opacity = 1;
             }
         }
