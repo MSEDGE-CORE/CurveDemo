@@ -1358,7 +1358,7 @@ namespace CurveDemo
 
                             comingAppRect.durationTick = (long)(1.1 * (Application.Current as App).TransitionDurationTime * 10000000);
                             comingAppRect.OpacityBeginTick = (long)(0.1 * (Application.Current as App).TransitionDurationTime * 10000000);
-                            comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.OpacityDurationTick = (long)(0.5 * (Application.Current as App).TransitionDurationTime * 10000000);
                             comingAppRect.ScaleDamping = 0.81;
                             comingAppRect.XDamping = 0.82;
                             comingAppRect.YDamping = 0.82;
@@ -1371,7 +1371,7 @@ namespace CurveDemo
 
                             comingAppRect.durationTick = (long)(1.0 * (Application.Current as App).TransitionDurationTime * 10000000);
                             comingAppRect.OpacityBeginTick = (long)(0.1 * (Application.Current as App).TransitionDurationTime * 10000000);
-                            comingAppRect.OpacityDurationTick = (long)(0.3 * (Application.Current as App).TransitionDurationTime * 10000000);
+                            comingAppRect.OpacityDurationTick = (long)(0.5 * (Application.Current as App).TransitionDurationTime * 10000000);
                             comingAppRect.ScaleDamping = 1.0 - comingAppRect.ToY / ActualHeight * 0.3;
                             comingAppRect.XDamping = 0.82;
                             comingAppRect.YDamping = 0.82;
