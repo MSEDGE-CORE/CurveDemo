@@ -2173,13 +2173,36 @@ namespace CurveDemo
         private void DesktopGridScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             if(AppWindowState == 2 && AppWindowMain_Target != -1 && DesktopGridScrollViewer.VerticalOffset != DesktopGridScrollViewer2.VerticalOffset)
-                StartWindowAnimation(-1);
+            {
+                if((Application.Current as App).CurveStyle < SpringCurveStyleCount)
+                {
+                    if(MainAppRect.anDirection == 2)
+                    {
+                    }
+                }
+                else
+                {
+                    StartWindowAnimation(-1);
+                }
+            }
             if((sender as ScrollViewer).Name == "DesktopGridScrollViewer2" && DesktopGridScrollViewer.VerticalOffset != DesktopGridScrollViewer2.VerticalOffset)
             {
+                if ((Application.Current as App).CurveStyle < SpringCurveStyleCount)
+                {
+                    Trace.WriteLine(DesktopGridScrollViewer2.VerticalOffset - DesktopGridScrollViewer.VerticalOffset);
+                    if (MainAppRect.anDirection == 2 && AppWindow2_Target >= 0)
+                    {
+                        MainAppRect.ToY -= DesktopGridScrollViewer2.VerticalOffset - DesktopGridScrollViewer.VerticalOffset;
+                    }
+                    FallBehindAppRect.ToY -= DesktopGridScrollViewer2.VerticalOffset - DesktopGridScrollViewer.VerticalOffset;
+
+                }
+                //MainAppRect.ToHeight += DesktopGridScrollViewer2.VerticalOffset - DesktopGridScrollViewer.ViewportHeight;
+                //Trace.WriteLine(MainAppRect.ToY);
                 DesktopGridScrollViewer.ScrollToVerticalOffset(DesktopGridScrollViewer2.VerticalOffset);
             }
 
-            if (AppWindow2_Target >= 0)
+            if (AppWindow2_Target >= 0 && !((Application.Current as App).CurveStyle < SpringCurveStyleCount))
             {
                 AppWindow2Gesture.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 DesktopIconGridWhenClosingAppScale.ScaleX = 0;
